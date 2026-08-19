@@ -210,8 +210,8 @@ func _play_stage_note() -> void:
 				_player_b.play()
 
 func _play_ambient() -> void:
-	# 바람 소리 절차적 생성
-	var stream = _create_noise_stream(3.0, 0.05)
+	# 바람 소리 절차적 생성 (짧은 버퍼로 즉시 생성 후 무한 루프)
+	var stream = _create_noise_stream(0.5, 0.05)
 	_ambient_player.stream = stream
 	_ambient_player.volume_db = _volume_to_db(GameState.sound_volume * 0.3)
 	_ambient_player.play()
