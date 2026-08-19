@@ -23,10 +23,28 @@ var _choice_callback: Callable
 # 전체 대사 데이터 캐시
 var _dialogue_data: Dictionary = {}
 
+var _auto_advance_timer: float = 0.0
+const AUTO_ADVANCE_TIME := 3.5
+
 func _ready() -> void:
 	_load_dialogue_data()
 	GameState.dialogue_started.connect(func(): _is_active = true)
 	GameState.dialogue_finished.connect(func(): _is_active = false)
+
+func _process(delta: float) -> void:
+	if _is_active and not _is_typing and _speaker_name.is_empty() and _pending_choices.is_empty():
+		_auto_advance_timer += delta
+		if _auto_advance_timer >= AUTO_ADVANCE_TIME:
+			_auto_advance_timer = 0.0
+			advance()
+	else:
+		_auto_advance_timer = 0.0
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not _is_active:
+		return
+	if (event is InputEventMouseButton and event.pressed) or event.is_action_just_pressed("interact"):
+		advance()
 
 func _load_dialogue_data() -> void:
 	var f := FileAccess.open("res://data/dialogues.json", FileAccess.READ)

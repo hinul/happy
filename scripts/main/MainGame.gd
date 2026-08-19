@@ -86,21 +86,15 @@ func set_player_position(pos: Vector2) -> void:
 # ─────────────────────────────────────────────
 
 func _play_intro_sequence() -> void:
-	GameState.lock_input()
 	SceneTransitionManager.set_fade(1.0)
 	await get_tree().create_timer(0.3).timeout
 	SceneTransitionManager.fade_in(1.0)
-	await get_tree().create_timer(1.5).timeout
-
-	# 주인공이 주변을 둘러보는 짧은 연출
-	if player and player.has_method("_update_idle_animation"):
-		pass  # 기본 이동 애니메이션 사용
-
-	# 첫 대사
 	await get_tree().create_timer(0.5).timeout
-	DialogueManager.start_lines(["여기가 어디지?", "왜 이렇게 조용하지?"], "")
-	await DialogueManager.dialogue_end
+
+	# 조작 즉시 허용
 	GameState.unlock_input()
+
+	DialogueManager.start_lines(["여기가 어디지?", "왜 이렇게 조용하지?"], "")
 
 	# 악보 힌트 (오브젝트 근처에 있으면)
 	# OldScore 오브젝트가 있으면 상호작용 유도
