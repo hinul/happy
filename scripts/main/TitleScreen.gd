@@ -56,12 +56,7 @@ func _on_settings() -> void:
 		settings_panel.visible = not settings_panel.visible
 
 func _start_game() -> void:
-	# 페이드아웃 후 메인 게임으로 전환
-	var tween = create_tween()
-	tween.tween_property(self, "modulate:a", 0.0, 0.6)
-	tween.tween_callback(func():
-		get_tree().change_scene_to_file("res://scenes/main/MainGame.tscn")
-	)
+	get_tree().change_scene_to_file("res://scenes/main/MainGame.tscn")
 
 func _check_storage_warning() -> void:
 	if not storage_warning:
