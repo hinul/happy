@@ -92,9 +92,8 @@ func _play_intro_sequence() -> void:
 	await get_tree().create_timer(0.5).timeout
 
 	# 조작 즉시 허용
-	GameState.unlock_input()
-
 	DialogueManager.start_lines(["여기가 어디지?", "왜 이렇게 조용하지?"], "")
+	GameState.unlock_input()
 
 	# 악보 힌트 (오브젝트 근처에 있으면)
 	# OldScore 오브젝트가 있으면 상호작용 유도

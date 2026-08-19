@@ -25,7 +25,7 @@ func _check_storage_persistence() -> void:
 		push_warning("[SaveManager] 저장 경로에 쓰기가 불가능합니다. (브라우저 환경 확인 필요)")
 	else:
 		f.close()
-		DirAccess.remove_absolute(ProjectSettings.globalize_path(test_path))
+		DirAccess.remove_absolute(test_path)
 
 # ─────────────────────────────────────────────
 # 공개 API
@@ -62,11 +62,8 @@ func save() -> bool:
 
 	# 3. 실제 저장 파일로 교체
 	if FileAccess.file_exists(SAVE_PATH):
-		DirAccess.remove_absolute(ProjectSettings.globalize_path(SAVE_PATH))
-	var rename_err = DirAccess.rename_absolute(
-		ProjectSettings.globalize_path(SAVE_TEMP_PATH),
-		ProjectSettings.globalize_path(SAVE_PATH)
-	)
+		DirAccess.remove_absolute(SAVE_PATH)
+	var rename_err = DirAccess.rename_absolute(SAVE_TEMP_PATH, SAVE_PATH)
 	if rename_err != OK:
 		# rename이 안 될 경우 copy 방식으로 대체
 		var src = FileAccess.open(SAVE_TEMP_PATH, FileAccess.READ)
@@ -75,6 +72,7 @@ func save() -> bool:
 			dst.store_string(src.get_as_text())
 			src.close()
 			dst.close()
+			DirAccess.remove_absolute(SAVE_TEMP_PATH)
 
 	_has_save_data = true
 	GameState.save_completed.emit()
@@ -108,7 +106,7 @@ func auto_save() -> void:
 
 func delete_save() -> void:
 	if FileAccess.file_exists(SAVE_PATH):
-		DirAccess.remove_absolute(ProjectSettings.globalize_path(SAVE_PATH))
+		DirAccess.remove_absolute(SAVE_PATH)
 	_has_save_data = false
 
 # ─────────────────────────────────────────────
