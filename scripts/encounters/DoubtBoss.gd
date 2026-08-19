@@ -107,7 +107,8 @@ func _get_phase_lines() -> Array[String]:
 
 func _create_shadow_frames() -> SpriteFrames:
 	var frames := SpriteFrames.new()
-	frames.remove_animation("default")
+	if frames.has_animation("default"):
+		frames.remove_animation("default")
 	frames.add_animation("idle")
 	frames.set_animation_loop("idle", true)
 	frames.set_animation_speed("idle", 4.0)

@@ -89,7 +89,8 @@ func _get_doubt_dialogue() -> Dictionary:
 
 func _create_shadow_frames() -> SpriteFrames:
 	var frames := SpriteFrames.new()
-	frames.remove_animation("default")
+	if frames.has_animation("default"):
+		frames.remove_animation("default")
 	frames.add_animation("float")
 	frames.set_animation_loop("float", true)
 	frames.set_animation_speed("float", 4.0)

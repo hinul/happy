@@ -123,7 +123,8 @@ func _create_dancer_node(npc_id: String, dance_type: String) -> Node2D:
 
 func _create_dancer_frames(npc_id: String, dance_type: String) -> SpriteFrames:
 	var frames := SpriteFrames.new()
-	frames.remove_animation("default")
+	if frames.has_animation("default"):
+		frames.remove_animation("default")
 	frames.add_animation("dance")
 	frames.set_animation_loop("dance", true)
 	var config := DANCE_CONFIGS.get(dance_type, DANCE_CONFIGS["side_step"])

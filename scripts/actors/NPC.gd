@@ -43,7 +43,8 @@ func _refresh_stage() -> void:
 ## 절차적 NPC 스프라이트 (16×24, 색상으로 구별)
 func _create_npc_frames() -> SpriteFrames:
 	var frames := SpriteFrames.new()
-	frames.remove_animation("default")
+	if frames.has_animation("default"):
+		frames.remove_animation("default")
 	var color := _get_npc_color()
 	for dir in ["down", "up", "left", "right"]:
 		var anim := "idle_" + dir

@@ -70,7 +70,8 @@ func _setup_animations() -> void:
 func _create_sprite_frames() -> SpriteFrames:
 	var frames := SpriteFrames.new()
 	# 애니메이션 목록 초기화 (기본 'default' 제거)
-	frames.remove_animation("default")
+	if frames.has_animation("default"):
+		frames.remove_animation("default")
 
 	var anims := ["walk_down", "walk_up", "walk_left", "walk_right",
 				  "idle_down", "idle_up", "idle_left", "idle_right",
