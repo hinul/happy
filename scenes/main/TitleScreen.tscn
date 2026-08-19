@@ -14,7 +14,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.05, 0.05, 0.08, 1)
+color = Color(0.10, 0.10, 0.14, 1)
 mouse_filter = 2
 
 [node name="VBox" type="VBoxContainer" parent="."]
@@ -25,9 +25,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -140.0
-offset_top = -80.0
+offset_top = -90.0
 offset_right = 140.0
-offset_bottom = 80.0
+offset_bottom = 90.0
 alignment = 1
 
 [node name="TitleLabel" type="Label" parent="VBox"]
@@ -41,39 +41,43 @@ theme_override_font_sizes/font_size = 22
 layout_mode = 2
 text = "하나씩 찾다 보니, 어느새 음악이 되었다."
 horizontal_alignment = 1
-theme_override_colors/font_color = Color(0.65, 0.63, 0.58, 1)
+theme_override_colors/font_color = Color(0.75, 0.73, 0.68, 1)
 theme_override_font_sizes/font_size = 11
 
 [node name="Spacer" type="Control" parent="VBox"]
 layout_mode = 2
-custom_minimum_size = Vector2(0, 20)
+custom_minimum_size = Vector2(0, 15)
 
 [node name="NewGameBtn" type="Button" parent="VBox"]
 layout_mode = 2
+custom_minimum_size = Vector2(180, 32)
 text = "새 게임"
 theme_override_font_sizes/font_size = 13
 
 [node name="ContinueBtn" type="Button" parent="VBox"]
 layout_mode = 2
+custom_minimum_size = Vector2(180, 32)
 text = "이어하기"
 disabled = true
 theme_override_font_sizes/font_size = 13
 
 [node name="SettingsBtn" type="Button" parent="VBox"]
 layout_mode = 2
+custom_minimum_size = Vector2(180, 32)
 text = "설정"
 theme_override_font_sizes/font_size = 13
 
 [node name="FloatingNote" type="Node2D" parent="."]
-position = Vector2(320, 40)
+position = Vector2(320, 35)
 
 [node name="NoteLabel" type="Label" parent="FloatingNote"]
 layout_mode = 0
 offset_left = -5.0
 offset_top = -8.0
 text = "♪"
-theme_override_colors/font_color = Color(0.7, 0.68, 0.55, 0.4)
-theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.95, 0.90, 0.60, 0.8)
+theme_override_font_sizes/font_size = 18
 
 [node name="StorageWarning" type="Label" parent="."]
 layout_mode = 1
@@ -85,7 +89,7 @@ anchor_bottom = 1.0
 offset_top = -24.0
 text = ""
 horizontal_alignment = 1
-theme_override_colors/font_color = Color(0.55, 0.52, 0.48, 1)
+theme_override_colors/font_color = Color(0.65, 0.62, 0.58, 1)
 theme_override_font_sizes/font_size = 9
 
 [node name="SettingsPanel" type="PanelContainer" parent="."]

@@ -27,11 +27,7 @@ func _ready() -> void:
 
 	# 브라우저 저장 경고 (필요 시)
 	_check_storage_warning()
-
-	# 페이드인
-	modulate.a = 0.0
-	var tween := create_tween()
-	tween.tween_property(self, "modulate:a", 1.0, 1.0)
+	modulate.a = 1.0
 
 func _process(delta: float) -> void:
 	# 음표 아이콘 부유 효과
