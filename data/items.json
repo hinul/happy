@@ -1,0 +1,112 @@
+{
+  "items": [
+    {
+      "id": "warm_tea",
+      "display_name": "따뜻한 차",
+      "description": "생각보다 따뜻하다.",
+      "region_id": "ash_forest",
+      "linked_note_id": "note_01",
+      "boss_response": "별건 아니었어. 그래도 따뜻했지.",
+      "thought_responses": {
+        "thought_late": "차가운 것보다는 따뜻한 게 낫지.",
+        "thought_failure": "마시고 나서 다시 생각해도 되겠지."
+      }
+    },
+    {
+      "id": "small_flower",
+      "display_name": "작은 꽃",
+      "description": "어디서 피었을까.",
+      "region_id": "ash_forest",
+      "linked_note_id": "note_02",
+      "boss_response": "이 정도면 충분하지 않을까.",
+      "thought_responses": {
+        "thought_late": "어디선가 피어났잖아.",
+        "thought_failure": "작더라도 여기 있잖아."
+      }
+    },
+    {
+      "id": "old_photo",
+      "display_name": "오래된 사진",
+      "description": "여기서 찍었던 건가.",
+      "region_id": "small_village",
+      "linked_note_id": "note_03",
+      "boss_response": "그때도 여기까지 올 줄은 몰랐어.",
+      "thought_responses": {
+        "thought_late": "그때도 그냥 있었던 거잖아.",
+        "thought_failure": "이미 여기까지 왔잖아."
+      }
+    },
+    {
+      "id": "short_letter",
+      "display_name": "짧은 편지",
+      "description": "읽는 데 오래 걸리지 않았다.",
+      "region_id": "small_village",
+      "linked_note_id": "note_04",
+      "boss_response": "길지 않아도 되는 말이 있어.",
+      "thought_responses": {
+        "thought_late": "짧아도 뭔가는 있잖아.",
+        "thought_failure": "나중에 다시 읽어봐도 되겠지."
+      }
+    },
+    {
+      "id": "clean_water",
+      "display_name": "깨끗한 물",
+      "description": "조용하게 흐른다.",
+      "region_id": "rain_lake",
+      "linked_note_id": "note_05",
+      "boss_response": "흐르긴 흐르더라.",
+      "thought_responses": {
+        "thought_late": "그래도 흐르고 있잖아.",
+        "thought_failure": "지금 여기 있으면 되지."
+      }
+    },
+    {
+      "id": "new_pencil",
+      "display_name": "새 연필",
+      "description": "아직 쓰지 않은 부분이 많다.",
+      "region_id": "memory_garden",
+      "linked_note_id": "note_06",
+      "boss_response": "아직 쓰지 않은 부분이 남아 있어.",
+      "thought_responses": {
+        "thought_late": "아직 남아 있잖아.",
+        "thought_failure": "다음에 써도 되지."
+      }
+    },
+    {
+      "id": "small_sprout",
+      "display_name": "작은 새싹",
+      "description": "언제 나온 건지 모르겠다.",
+      "region_id": "memory_garden",
+      "linked_note_id": "note_07",
+      "boss_response": "어디선가 나오긴 하더라.",
+      "thought_responses": {
+        "thought_late": "나오긴 나왔잖아.",
+        "thought_failure": "아직 여기 있잖아."
+      }
+    },
+    {
+      "id": "candle",
+      "display_name": "촛불",
+      "description": "바람에도 꺼지지 않았다.",
+      "region_id": "old_theater",
+      "linked_note_id": "note_08",
+      "boss_response": "꺼지지 않았어.",
+      "thought_responses": {
+        "thought_late": "꺼지지 않고 있잖아.",
+        "thought_failure": "아직 켜져 있어."
+      }
+    },
+    {
+      "id": "laughter_bottle",
+      "display_name": "웃음소리가 담긴 병",
+      "description": "열면 소리가 날 것 같았다.",
+      "region_id": "dawn_hill",
+      "linked_note_id": "note_09",
+      "boss_response": "소리는 남아 있더라.",
+      "thought_responses": {
+        "thought_late": "소리가 남아 있잖아.",
+        "thought_failure": "열어볼 수 있잖아."
+      }
+    }
+  ]
+}

@@ -1,0 +1,169 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/SmallVillage.gd" id="1_village"]
+[ext_resource type="Script" path="res://scripts/actors/NPC.gd" id="2_npc"]
+[ext_resource type="Script" path="res://scripts/objects/CollectibleItem.gd" id="3_item"]
+[ext_resource type="Script" path="res://scripts/objects/MusicNote.gd" id="4_note"]
+[ext_resource type="Script" path="res://scripts/objects/RegionExit.gd" id="5_exit"]
+[ext_resource type="Script" path="res://scripts/objects/InteractableObject.gd" id="6_iobj"]
+
+[node name="SmallVillage" type="Node2D"]
+script = ExtResource("1_village")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.25, 0.25, 0.28, 1)
+
+[node name="Ground" type="TileMapLayer" parent="."]
+[node name="Paths" type="TileMapLayer" parent="."]
+[node name="BackDecorations" type="TileMapLayer" parent="."]
+[node name="CollisionLayer" type="TileMapLayer" parent="."]
+[node name="FrontDecorations" type="TileMapLayer" parent="."]
+
+[node name="ChangeableDecorations" type="Node2D" parent="."]
+
+[node name="Window01" type="Sprite2D" parent="ChangeableDecorations"]
+position = Vector2(100, 140)
+modulate = Color(0.3, 0.3, 0.35, 1)
+metadata/min_stage = 4
+
+[node name="Window02" type="Sprite2D" parent="ChangeableDecorations"]
+position = Vector2(200, 140)
+modulate = Color(0.3, 0.3, 0.35, 1)
+metadata/min_stage = 4
+
+[node name="Window03" type="Sprite2D" parent="ChangeableDecorations"]
+position = Vector2(360, 140)
+modulate = Color(0.3, 0.3, 0.35, 1)
+metadata/min_stage = 5
+
+[node name="FogLayer" type="Node2D" parent="."]
+modulate = Color(1, 1, 1, 0.60)
+
+[node name="FogRect" type="ColorRect" parent="FogLayer"]
+size = Vector2(640, 360)
+color = Color(0.22, 0.22, 0.25, 0.35)
+mouse_filter = 2
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="Well" type="Node2D" parent="Interactables"]
+position = Vector2(320, 200)
+script = ExtResource("6_iobj")
+object_id = "village_well"
+
+[node name="InteractionArea" type="Area2D" parent="Interactables/Well"]
+collision_layer = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Well/InteractionArea"]
+
+[node name="Lanterns" type="Node2D" parent="."]
+visible = false
+
+[node name="Items" type="Node2D" parent="."]
+
+[node name="OldPhoto" type="Node2D" parent="Items"]
+position = Vector2(180, 250)
+script = ExtResource("3_item")
+item_id = "old_photo"
+map_cell = Vector2i(5, 7)
+
+[node name="Sprite2D" type="Sprite2D" parent="Items/OldPhoto"]
+[node name="InteractionArea" type="Area2D" parent="Items/OldPhoto"]
+collision_layer = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Items/OldPhoto/InteractionArea"]
+
+[node name="ShortLetter" type="Node2D" parent="Items"]
+position = Vector2(450, 220)
+script = ExtResource("3_item")
+item_id = "short_letter"
+map_cell = Vector2i(14, 6)
+
+[node name="Sprite2D" type="Sprite2D" parent="Items/ShortLetter"]
+[node name="InteractionArea" type="Area2D" parent="Items/ShortLetter"]
+collision_layer = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Items/ShortLetter/InteractionArea"]
+
+[node name="MusicNotes" type="Node2D" parent="."]
+
+[node name="Note03" type="Node2D" parent="MusicNotes"]
+position = Vector2(190, 260)
+visible = false
+script = ExtResource("4_note")
+note_id = "note_03"
+map_cell = Vector2i(6, 8)
+
+[node name="Sprite2D" type="Sprite2D" parent="MusicNotes/Note03"]
+[node name="InteractionArea" type="Area2D" parent="MusicNotes/Note03"]
+collision_layer = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MusicNotes/Note03/InteractionArea"]
+
+[node name="Note04" type="Node2D" parent="MusicNotes"]
+position = Vector2(460, 230)
+visible = false
+script = ExtResource("4_note")
+note_id = "note_04"
+map_cell = Vector2i(14, 7)
+
+[node name="Sprite2D" type="Sprite2D" parent="MusicNotes/Note04"]
+[node name="InteractionArea" type="Area2D" parent="MusicNotes/Note04"]
+collision_layer = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MusicNotes/Note04/InteractionArea"]
+
+[node name="NPCs" type="Node2D" parent="."]
+
+[node name="VillageElder" type="Node2D" parent="NPCs"]
+position = Vector2(260, 210)
+script = ExtResource("2_npc")
+npc_id = "village_elder"
+initial_face_direction = "down"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="NPCs/VillageElder"]
+[node name="InteractionArea" type="Area2D" parent="NPCs/VillageElder"]
+collision_layer = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NPCs/VillageElder/InteractionArea"]
+[node name="Exclamation" type="Label" parent="NPCs/VillageElder"]
+position = Vector2(-4, -20)
+text = "!"
+theme_override_colors/font_color = Color(0.9, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 12
+
+[node name="VillageKid" type="Node2D" parent="NPCs"]
+position = Vector2(400, 240)
+script = ExtResource("2_npc")
+npc_id = "village_kid"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="NPCs/VillageKid"]
+[node name="InteractionArea" type="Area2D" parent="NPCs/VillageKid"]
+collision_layer = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NPCs/VillageKid/InteractionArea"]
+[node name="Exclamation" type="Label" parent="NPCs/VillageKid"]
+position = Vector2(-4, -20)
+text = "!"
+theme_override_colors/font_color = Color(0.9, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 12
+
+[node name="RegionExits" type="Node2D" parent="."]
+
+[node name="ToForest" type="Area2D" parent="RegionExits"]
+position = Vector2(20, 200)
+script = ExtResource("5_exit")
+target_region = "ash_forest"
+spawn_point = "from_village"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RegionExits/ToForest"]
+
+[node name="ToLake" type="Area2D" parent="RegionExits"]
+position = Vector2(620, 150)
+script = ExtResource("5_exit")
+target_region = "rain_lake"
+spawn_point = "from_village"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RegionExits/ToLake"]
+
+[node name="ToGarden" type="Area2D" parent="RegionExits"]
+position = Vector2(620, 270)
+script = ExtResource("5_exit")
+target_region = "memory_garden"
+spawn_point = "from_village"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RegionExits/ToGarden"]
+
+[node name="RegionAmbience" type="AudioStreamPlayer" parent="."]
+bus = "Ambient"
+volume_db = -20.0

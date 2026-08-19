@@ -1,0 +1,121 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/RainLake.gd" id="1_lake"]
+[ext_resource type="Script" path="res://scripts/actors/NPC.gd" id="2_npc"]
+[ext_resource type="Script" path="res://scripts/objects/CollectibleItem.gd" id="3_item"]
+[ext_resource type="Script" path="res://scripts/objects/MusicNote.gd" id="4_note"]
+[ext_resource type="Script" path="res://scripts/objects/RegionExit.gd" id="5_exit"]
+[ext_resource type="Script" path="res://scripts/objects/InteractableObject.gd" id="6_iobj"]
+
+[node name="RainLake" type="Node2D"]
+script = ExtResource("1_lake")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.25, 0.25, 0.28, 1)
+
+[node name="Ground" type="TileMapLayer" parent="."]
+[node name="Paths" type="TileMapLayer" parent="."]
+[node name="BackDecorations" type="TileMapLayer" parent="."]
+[node name="CollisionLayer" type="TileMapLayer" parent="."]
+[node name="FrontDecorations" type="TileMapLayer" parent="."]
+
+[node name="ChangeableDecorations" type="Node2D" parent="."]
+
+[node name="ReflectionLayer" type="Node2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+
+[node name="LakeReflect" type="ColorRect" parent="ReflectionLayer"]
+position = Vector2(150, 230)
+size = Vector2(340, 60)
+color = Color(0.45, 0.55, 0.70, 0.3)
+mouse_filter = 2
+
+[node name="RainParticles" type="GPUParticles2D" parent="."]
+position = Vector2(320, 0)
+amount = 200
+lifetime = 1.2
+one_shot = false
+preprocess = 0.5
+
+[node name="FogLayer" type="Node2D" parent="."]
+modulate = Color(1, 1, 1, 0.50)
+
+[node name="FogRect" type="ColorRect" parent="FogLayer"]
+size = Vector2(640, 360)
+color = Color(0.22, 0.25, 0.30, 0.3)
+mouse_filter = 2
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="WoodBridge" type="Node2D" parent="Interactables"]
+position = Vector2(300, 200)
+script = ExtResource("6_iobj")
+object_id = "lake_bridge"
+
+[node name="InteractionArea" type="Area2D" parent="Interactables/WoodBridge"]
+collision_layer = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/WoodBridge/InteractionArea"]
+
+[node name="Items" type="Node2D" parent="."]
+
+[node name="CleanWater" type="Node2D" parent="Items"]
+position = Vector2(200, 260)
+script = ExtResource("3_item")
+item_id = "clean_water"
+map_cell = Vector2i(6, 8)
+
+[node name="Sprite2D" type="Sprite2D" parent="Items/CleanWater"]
+[node name="InteractionArea" type="Area2D" parent="Items/CleanWater"]
+collision_layer = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Items/CleanWater/InteractionArea"]
+
+[node name="MusicNotes" type="Node2D" parent="."]
+
+[node name="Note05" type="Node2D" parent="MusicNotes"]
+position = Vector2(210, 270)
+visible = false
+script = ExtResource("4_note")
+note_id = "note_05"
+map_cell = Vector2i(6, 8)
+
+[node name="Sprite2D" type="Sprite2D" parent="MusicNotes/Note05"]
+[node name="InteractionArea" type="Area2D" parent="MusicNotes/Note05"]
+collision_layer = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MusicNotes/Note05/InteractionArea"]
+
+[node name="NPCs" type="Node2D" parent="."]
+
+[node name="LakeFisherman" type="Node2D" parent="NPCs"]
+position = Vector2(350, 230)
+script = ExtResource("2_npc")
+npc_id = "lake_fisherman"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="NPCs/LakeFisherman"]
+[node name="InteractionArea" type="Area2D" parent="NPCs/LakeFisherman"]
+collision_layer = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NPCs/LakeFisherman/InteractionArea"]
+[node name="Exclamation" type="Label" parent="NPCs/LakeFisherman"]
+position = Vector2(-4, -20)
+text = "!"
+theme_override_colors/font_color = Color(0.9, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 12
+
+[node name="RegionExits" type="Node2D" parent="."]
+
+[node name="ToVillage" type="Area2D" parent="RegionExits"]
+position = Vector2(20, 240)
+script = ExtResource("5_exit")
+target_region = "small_village"
+spawn_point = "from_lake"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RegionExits/ToVillage"]
+
+[node name="ToGarden" type="Area2D" parent="RegionExits"]
+position = Vector2(620, 240)
+script = ExtResource("5_exit")
+target_region = "memory_garden"
+spawn_point = "from_lake"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RegionExits/ToGarden"]
+
+[node name="RegionAmbience" type="AudioStreamPlayer" parent="."]
+bus = "Ambient"
+volume_db = -16.0

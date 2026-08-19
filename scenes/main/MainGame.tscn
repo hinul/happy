@@ -1,0 +1,384 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://scripts/main/MainGame.gd" id="1_main"]
+[ext_resource type="Script" path="res://scripts/player/Player.gd" id="2_player"]
+[ext_resource type="Script" path="res://scripts/ui/DialogueUI.gd" id="3_dlg"]
+[ext_resource type="Script" path="res://scripts/ui/InventoryUI.gd" id="4_inv"]
+[ext_resource type="Script" path="res://scripts/ui/ScoreUI.gd" id="5_score"]
+[ext_resource type="Script" path="res://scripts/ui/MiniMapUI.gd" id="6_mini"]
+[ext_resource type="Script" path="res://scripts/ui/WorldMapUI.gd" id="7_world"]
+[ext_resource type="Script" path="res://scripts/ui/PauseMenu.gd" id="8_pause"]
+[ext_resource type="Script" path="res://scripts/ui/NotificationUI.gd" id="9_notif"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
+size = Vector2(10, 8)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
+radius = 18.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
+size = Vector2(16, 32)
+
+[node name="MainGame" type="Node2D"]
+script = ExtResource("1_main")
+
+[node name="RegionContainer" type="Node2D" parent="."]
+
+[node name="Player" type="CharacterBody2D" parent="."]
+script = ExtResource("2_player")
+collision_layer = 2
+collision_mask = 1
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+position = Vector2(0, -4)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("RectangleShape2D_player")
+
+[node name="InteractionArea" type="Area2D" parent="Player"]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/InteractionArea"]
+shape = SubResource("CircleShape2D_interact")
+
+[node name="FootstepPlayer" type="AudioStreamPlayer2D" parent="Player"]
+bus = "SFX"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(2, 2)
+limit_smoothed = true
+position_smoothing_enabled = true
+position_smoothing_speed = 5.0
+
+[node name="GameUI" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="MiniMapUI" type="Control" parent="GameUI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -162.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 128.0
+script = ExtResource("6_mini")
+
+[node name="NotificationUI" type="Control" parent="GameUI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -160.0
+offset_right = -8.0
+offset_bottom = -8.0
+mouse_filter = 2
+script = ExtResource("9_notif")
+
+[node name="Container" type="VBoxContainer" parent="GameUI/NotificationUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 2
+
+[node name="NoteIcon" type="Label" parent="GameUI"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 0.0
+offset_left = -10.0
+offset_top = 4.0
+offset_right = 10.0
+offset_bottom = 20.0
+text = "♪"
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.85, 0.82, 0.60, 0)
+theme_override_font_sizes/font_size = 12
+
+[node name="DialogueUI" type="Control" parent="GameUI"]
+layout_mode = 1
+anchors_preset = 12
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -100.0
+visible = false
+script = ExtResource("3_dlg")
+
+[node name="DialoguePanel" type="PanelContainer" parent="GameUI/DialogueUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+
+[node name="VBox" type="VBoxContainer" parent="GameUI/DialogueUI/DialoguePanel"]
+layout_mode = 2
+
+[node name="SpeakerName" type="Label" parent="GameUI/DialogueUI/DialoguePanel/VBox"]
+layout_mode = 2
+text = ""
+theme_override_colors/font_color = Color(0.95, 0.90, 0.65, 1)
+theme_override_font_sizes/font_size = 11
+
+[node name="DialogueText" type="RichTextLabel" parent="GameUI/DialogueUI/DialoguePanel/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 50)
+bbcode_enabled = true
+text = ""
+theme_override_font_sizes/normal_font_size = 11
+scroll_active = false
+
+[node name="ContinueIcon" type="Label" parent="GameUI/DialogueUI/DialoguePanel/VBox"]
+layout_mode = 2
+text = "▼"
+horizontal_alignment = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.65, 1)
+theme_override_font_sizes/font_size = 9
+visible = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GameUI/DialogueUI"]
+
+[node name="InventoryUI" type="Control" parent="GameUI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -130.0
+offset_top = -100.0
+offset_right = 130.0
+offset_bottom = 100.0
+visible = false
+script = ExtResource("4_inv")
+
+[node name="Panel" type="PanelContainer" parent="GameUI/InventoryUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBox" type="VBoxContainer" parent="GameUI/InventoryUI/Panel"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="GameUI/InventoryUI/Panel/VBox"]
+layout_mode = 2
+text = "소지품"
+theme_override_font_sizes/font_size = 12
+
+[node name="ItemGrid" type="GridContainer" parent="GameUI/InventoryUI/Panel/VBox"]
+layout_mode = 2
+columns = 3
+
+[node name="ItemInfo" type="VBoxContainer" parent="GameUI/InventoryUI/Panel/VBox"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="GameUI/InventoryUI/Panel/VBox/ItemInfo"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 11
+
+[node name="DescLabel" type="Label" parent="GameUI/InventoryUI/Panel/VBox/ItemInfo"]
+layout_mode = 2
+text = ""
+theme_override_colors/font_color = Color(0.7, 0.7, 0.65, 1)
+theme_override_font_sizes/font_size = 10
+autowrap_mode = 3
+
+[node name="ScoreUI" type="Control" parent="GameUI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -130.0
+offset_top = -80.0
+offset_right = 130.0
+offset_bottom = 80.0
+visible = false
+script = ExtResource("5_score")
+
+[node name="NoteIcon" type="Label" parent="GameUI/ScoreUI"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 0.0
+offset_left = -6.0
+offset_right = 6.0
+offset_bottom = 14.0
+text = "♪"
+theme_override_colors/font_color = Color(0.85, 0.82, 0.60, 0)
+theme_override_font_sizes/font_size = 11
+
+[node name="Panel" type="PanelContainer" parent="GameUI/ScoreUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBox" type="VBoxContainer" parent="GameUI/ScoreUI/Panel"]
+layout_mode = 2
+
+[node name="ScoreTitle" type="Label" parent="GameUI/ScoreUI/Panel/VBox"]
+layout_mode = 2
+text = "「???」"
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.85, 0.82, 0.68, 1)
+theme_override_font_sizes/font_size = 13
+
+[node name="NoteContainer" type="HBoxContainer" parent="GameUI/ScoreUI/Panel/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="WorldMapUI" type="Control" parent="GameUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+visible = false
+script = ExtResource("7_world")
+
+[node name="PauseMenu" type="Control" parent="GameUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+script = ExtResource("8_pause")
+
+[node name="Background" type="ColorRect" parent="GameUI/PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.05, 0.05, 0.08, 0.75)
+mouse_filter = 0
+
+[node name="Panel" type="PanelContainer" parent="GameUI/PauseMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -120.0
+offset_right = 100.0
+offset_bottom = 120.0
+
+[node name="VBox" type="VBoxContainer" parent="GameUI/PauseMenu/Panel"]
+layout_mode = 2
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="GameUI/PauseMenu/Panel/VBox"]
+layout_mode = 2
+text = "메뉴"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+
+[node name="SaveBtn" type="Button" parent="GameUI/PauseMenu/Panel/VBox"]
+layout_mode = 2
+text = "저장"
+theme_override_font_sizes/font_size = 12
+
+[node name="LoadBtn" type="Button" parent="GameUI/PauseMenu/Panel/VBox"]
+layout_mode = 2
+text = "불러오기"
+theme_override_font_sizes/font_size = 12
+
+[node name="SettingsBtn" type="Button" parent="GameUI/PauseMenu/Panel/VBox"]
+layout_mode = 2
+text = "설정"
+theme_override_font_sizes/font_size = 12
+
+[node name="TitleBtn" type="Button" parent="GameUI/PauseMenu/Panel/VBox"]
+layout_mode = 2
+text = "제목 화면으로"
+theme_override_font_sizes/font_size = 12
+
+[node name="ResumeBtn" type="Button" parent="GameUI/PauseMenu/Panel/VBox"]
+layout_mode = 2
+text = "계속하기"
+theme_override_font_sizes/font_size = 12
+
+[node name="FeedbackLabel" type="Label" parent="GameUI/PauseMenu/Panel/VBox"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.75, 0.78, 0.70, 1)
+theme_override_font_sizes/font_size = 10
+
+[node name="SettingsPanel" type="PanelContainer" parent="GameUI/PauseMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 105.0
+offset_top = -80.0
+offset_right = 230.0
+offset_bottom = 80.0
+visible = false
+
+[node name="SVBox" type="VBoxContainer" parent="GameUI/PauseMenu/SettingsPanel"]
+layout_mode = 2
+
+[node name="MusicLabel" type="Label" parent="GameUI/PauseMenu/SettingsPanel/SVBox"]
+layout_mode = 2
+text = "음악"
+theme_override_font_sizes/font_size = 10
+
+[node name="MusicSlider" type="HSlider" parent="GameUI/PauseMenu/SettingsPanel/SVBox"]
+layout_mode = 2
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 0.8
+
+[node name="SoundLabel" type="Label" parent="GameUI/PauseMenu/SettingsPanel/SVBox"]
+layout_mode = 2
+text = "효과음"
+theme_override_font_sizes/font_size = 10
+
+[node name="SoundSlider" type="HSlider" parent="GameUI/PauseMenu/SettingsPanel/SVBox"]
+layout_mode = 2
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 0.8
+
+[node name="TextSpeedLabel" type="Label" parent="GameUI/PauseMenu/SettingsPanel/SVBox"]
+layout_mode = 2
+text = "대사 속도"
+theme_override_font_sizes/font_size = 10
+
+[node name="TextSpeedSlider" type="HSlider" parent="GameUI/PauseMenu/SettingsPanel/SVBox"]
+layout_mode = 2
+min_value = 0.01
+max_value = 0.12
+step = 0.01
+value = 0.05

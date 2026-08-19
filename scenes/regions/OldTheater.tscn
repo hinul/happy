@@ -1,0 +1,117 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/OldTheater.gd" id="1_theater"]
+[ext_resource type="Script" path="res://scripts/actors/NPC.gd" id="2_npc"]
+[ext_resource type="Script" path="res://scripts/objects/CollectibleItem.gd" id="3_item"]
+[ext_resource type="Script" path="res://scripts/objects/MusicNote.gd" id="4_note"]
+[ext_resource type="Script" path="res://scripts/objects/RegionExit.gd" id="5_exit"]
+
+[node name="OldTheater" type="Node2D"]
+script = ExtResource("1_theater")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.25, 0.25, 0.28, 1)
+
+[node name="Ground" type="TileMapLayer" parent="."]
+[node name="Paths" type="TileMapLayer" parent="."]
+[node name="BackDecorations" type="TileMapLayer" parent="."]
+[node name="CollisionLayer" type="TileMapLayer" parent="."]
+[node name="FrontDecorations" type="TileMapLayer" parent="."]
+
+[node name="ChangeableDecorations" type="Node2D" parent="."]
+
+[node name="StageLight" type="Node2D" parent="."]
+modulate = Color(1, 0.95, 0.8, 0)
+
+[node name="SpotLight01" type="Sprite2D" parent="StageLight"]
+position = Vector2(200, 120)
+
+[node name="SpotLight02" type="Sprite2D" parent="StageLight"]
+position = Vector2(440, 120)
+
+[node name="FogLayer" type="Node2D" parent="."]
+modulate = Color(1, 1, 1, 0.40)
+
+[node name="FogRect" type="ColorRect" parent="FogLayer"]
+size = Vector2(640, 360)
+color = Color(0.18, 0.18, 0.20, 0.25)
+mouse_filter = 2
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="SoundPuzzle" type="Node2D" parent="Interactables"]
+position = Vector2(320, 180)
+
+[node name="TheaterStage" type="Node2D" parent="Interactables"]
+position = Vector2(320, 150)
+
+[node name="Items" type="Node2D" parent="."]
+
+[node name="Candle" type="Node2D" parent="Items"]
+position = Vector2(180, 250)
+script = ExtResource("3_item")
+item_id = "candle"
+map_cell = Vector2i(5, 7)
+
+[node name="Sprite2D" type="Sprite2D" parent="Items/Candle"]
+[node name="InteractionArea" type="Area2D" parent="Items/Candle"]
+collision_layer = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Items/Candle/InteractionArea"]
+
+[node name="MusicNotes" type="Node2D" parent="."]
+
+[node name="Note08" type="Node2D" parent="MusicNotes"]
+position = Vector2(190, 260)
+visible = false
+script = ExtResource("4_note")
+note_id = "note_08"
+map_cell = Vector2i(6, 8)
+
+[node name="Sprite2D" type="Sprite2D" parent="MusicNotes/Note08"]
+[node name="InteractionArea" type="Area2D" parent="MusicNotes/Note08"]
+collision_layer = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MusicNotes/Note08/InteractionArea"]
+
+[node name="NPCs" type="Node2D" parent="."]
+
+[node name="TheaterMusician" type="Node2D" parent="NPCs"]
+position = Vector2(320, 240)
+script = ExtResource("2_npc")
+npc_id = "theater_musician"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="NPCs/TheaterMusician"]
+[node name="InteractionArea" type="Area2D" parent="NPCs/TheaterMusician"]
+collision_layer = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NPCs/TheaterMusician/InteractionArea"]
+[node name="Exclamation" type="Label" parent="NPCs/TheaterMusician"]
+position = Vector2(-4, -20)
+text = "!"
+theme_override_colors/font_color = Color(0.9, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 12
+
+[node name="RegionExits" type="Node2D" parent="."]
+
+[node name="ToLake" type="Area2D" parent="RegionExits"]
+position = Vector2(20, 280)
+script = ExtResource("5_exit")
+target_region = "rain_lake"
+spawn_point = "from_theater"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RegionExits/ToLake"]
+
+[node name="ToGarden" type="Area2D" parent="RegionExits"]
+position = Vector2(20, 200)
+script = ExtResource("5_exit")
+target_region = "memory_garden"
+spawn_point = "from_theater"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RegionExits/ToGarden"]
+
+[node name="ToHill" type="Area2D" parent="RegionExits"]
+position = Vector2(620, 280)
+script = ExtResource("5_exit")
+target_region = "dawn_hill"
+spawn_point = "from_theater"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RegionExits/ToHill"]
+
+[node name="RegionAmbience" type="AudioStreamPlayer" parent="."]
+bus = "Ambient"
+volume_db = -24.0

@@ -1,0 +1,241 @@
+{
+  "npcs": [
+    {
+      "id": "forest_wanderer",
+      "display_name": "숲에서 만난 사람",
+      "region_id": "ash_forest",
+      "dance_type": "high_kick",
+      "ending_order": 3,
+      "dialogue_early": [
+        "오늘도 그냥 그런 날이지.",
+        "숲이 왜 이렇게 어두운 건지 모르겠어."
+      ],
+      "dialogue_middle": [
+        "오늘은 창문을 열어봤어.",
+        "오래간만에 밖을 좀 봤지."
+      ],
+      "dialogue_late": [
+        "생각보다 바람이 괜찮더라.",
+        "어제는 조금 일찍 나왔어."
+      ],
+      "dialogue_final": [
+        "내일은 어디 한번 가볼까.",
+        "여기 오길 잘한 것 같아."
+      ]
+    },
+    {
+      "id": "village_elder",
+      "display_name": "마을 어르신",
+      "region_id": "small_village",
+      "dance_type": "stay_center",
+      "ending_order": 2,
+      "dialogue_early": [
+        "요즘은 잠을 잘 못 자.",
+        "가게를 열어야 하는데 그냥 닫아두고 있어."
+      ],
+      "dialogue_middle": [
+        "어제는 조금 일찍 누웠어.",
+        "오랜만에 차를 끓여봤지."
+      ],
+      "dialogue_late": [
+        "잘 잔 건 아닌데, 전보다는 나았어.",
+        "가게 문을 좀 열어봤어."
+      ],
+      "dialogue_final": [
+        "오늘은 손님이 오려나.",
+        "문을 열어두니까 조금 다르더라."
+      ]
+    },
+    {
+      "id": "village_kid",
+      "display_name": "마을 아이",
+      "region_id": "small_village",
+      "dance_type": "wrong_direction",
+      "ending_order": 5,
+      "dialogue_early": [
+        "...",
+        "어디서 왔어?"
+      ],
+      "dialogue_middle": [
+        "저기 호수에 가봤어?",
+        "비가 오면 나는 집에 있어."
+      ],
+      "dialogue_late": [
+        "저번에 새 한 마리를 봤어.",
+        "이름을 뭐라고 지을까."
+      ],
+      "dialogue_final": [
+        "같이 뛰어볼래?",
+        "저쪽에 더 가볼 거야?"
+      ]
+    },
+    {
+      "id": "lake_fisherman",
+      "display_name": "호숫가 사람",
+      "region_id": "rain_lake",
+      "dance_type": "side_step",
+      "ending_order": 4,
+      "dialogue_early": [
+        "비가 계속 오네.",
+        "물이 너무 흐려서 아무것도 안 보여."
+      ],
+      "dialogue_middle": [
+        "가끔은 수면이 조용할 때도 있어.",
+        "멀리서 뭔가 반짝이는 것 같기도 하고."
+      ],
+      "dialogue_late": [
+        "오늘은 비가 좀 덜 오는 것 같은데.",
+        "수면에 뭔가 비치는 게 있더라."
+      ],
+      "dialogue_final": [
+        "빛이 들어오는 게 보이지?",
+        "오랜만에 맑은 것 같아."
+      ]
+    },
+    {
+      "id": "garden_keeper",
+      "display_name": "정원 관리인",
+      "region_id": "memory_garden",
+      "dance_type": "spin",
+      "ending_order": 6,
+      "dialogue_early": [
+        "화단이 말라버렸어.",
+        "예전엔 꽃이 많았는데."
+      ],
+      "dialogue_middle": [
+        "물을 좀 줬더니 뭔가 나올 것 같기도 해.",
+        "손을 대기가 망설여져."
+      ],
+      "dialogue_late": [
+        "작은 게 하나 나왔어.",
+        "뭐가 될지는 모르겠지만."
+      ],
+      "dialogue_final": [
+        "봐. 꽃이 피었잖아.",
+        "생각보다 빨리 피었어."
+      ]
+    },
+    {
+      "id": "theater_musician",
+      "display_name": "극장의 연주자",
+      "region_id": "old_theater",
+      "dance_type": "late_join",
+      "ending_order": 7,
+      "dialogue_early": [
+        "오래된 악기들만 남아 있어.",
+        "언제 다시 연주할 수 있을지 모르겠어."
+      ],
+      "dialogue_middle": [
+        "가끔 혼자 소리를 내봐.",
+        "아무도 없는데도 연습이 되더라."
+      ],
+      "dialogue_late": [
+        "조명이 켜지니까 달라 보여.",
+        "여기서 뭔가 해볼 수 있을 것 같아."
+      ],
+      "dialogue_final": [
+        "같이 연주해볼까?",
+        "어떤 곡이든 괜찮아."
+      ]
+    }
+  ],
+  "negative_thoughts": [
+    {
+      "id": "thought_late",
+      "display_name": "이미 늦었어",
+      "lines": [
+        "이미 늦었어.",
+        "이 정도면 너무 늦은 거 아니야?"
+      ],
+      "player_response": "그래도 지금은 여기 있잖아."
+    },
+    {
+      "id": "thought_failure",
+      "display_name": "또 실패하면 어떡하지",
+      "lines": [
+        "또 실패하면 어떡하지.",
+        "해봤자 소용없어."
+      ],
+      "player_response": "그때 가서 다시 생각해도 되겠지."
+    },
+    {
+      "id": "thought_worthless",
+      "display_name": "남들은 잘하는데",
+      "lines": [
+        "남들은 잘하는데 나는 왜 이럴까.",
+        "괜히 시작했어."
+      ],
+      "player_response": "일단 여기까지 왔잖아."
+    },
+    {
+      "id": "thought_return",
+      "display_name": "그냥 돌아가는 게 낫지 않을까",
+      "lines": [
+        "그냥 돌아가는 게 낫지 않을까.",
+        "이게 의미 있는 일인지 모르겠어."
+      ],
+      "player_response": "아직 가보지 않은 곳이 있어."
+    }
+  ],
+  "doubt_boss": {
+    "id": "doubt",
+    "display_name": "의심",
+    "phase_dialogues": [
+      {
+        "phase": 1,
+        "lines": [
+          "정말 달라질 수 있을 것 같아?",
+          "여기까지 온 게 무슨 소용이야."
+        ]
+      },
+      {
+        "phase": 2,
+        "lines": [
+          "또 실패하면?",
+          "이걸 계속해서 뭐가 달라져?"
+        ]
+      },
+      {
+        "phase": 3,
+        "lines": [
+          "아무것도 달라지지 않았잖아.",
+          "내가 없으면 넌 어떻게 할 건데?"
+        ]
+      },
+      {
+        "phase": 4,
+        "lines": [
+          "그래도 또 나타날 거야.",
+          "..."
+        ]
+      }
+    ]
+  },
+  "interactables": {
+    "old_score": {
+      "id": "old_score",
+      "lines": ["음이 모두 모이면 다시 들을 수 있을까?"],
+      "unlocks_score_ui": true
+    },
+    "forest_path_sign": {
+      "id": "forest_path_sign",
+      "lines": ["글자가 흐릿해서 읽기 어렵다."]
+    },
+    "village_well": {
+      "id": "village_well",
+      "lines": ["안을 들여다봤다. 아무것도 보이지 않는다."]
+    },
+    "lake_bridge": {
+      "id": "lake_bridge",
+      "lines": ["나무다리가 젖어 있다.", "밟으면 삐걱거린다."]
+    },
+    "theater_stage": {
+      "id": "theater_stage",
+      "lines": ["먼지가 쌓여 있다. 오래된 악기들이 놓여 있다."]
+    },
+    "hill_viewpoint": {
+      "id": "hill_viewpoint",
+      "lines": ["안개가 깔려 있어서 아래가 잘 보이지 않는다."]
+    }
+  }
+}

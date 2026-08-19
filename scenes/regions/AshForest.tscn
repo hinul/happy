@@ -1,0 +1,184 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/AshForest.gd" id="1_ash"]
+[ext_resource type="Script" path="res://scripts/actors/NPC.gd" id="2_npc"]
+[ext_resource type="Script" path="res://scripts/objects/CollectibleItem.gd" id="3_item"]
+[ext_resource type="Script" path="res://scripts/objects/MusicNote.gd" id="4_note"]
+[ext_resource type="Script" path="res://scripts/objects/InteractableObject.gd" id="5_iobj"]
+[ext_resource type="Script" path="res://scripts/objects/RegionExit.gd" id="6_exit"]
+
+[node name="AshForest" type="Node2D"]
+script = ExtResource("1_ash")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.25, 0.25, 0.28, 1)
+
+[node name="Ground" type="TileMapLayer" parent="."]
+
+[node name="Paths" type="TileMapLayer" parent="."]
+
+[node name="BackDecorations" type="TileMapLayer" parent="."]
+
+[node name="CollisionLayer" type="TileMapLayer" parent="."]
+collision_enabled = true
+
+[node name="FrontDecorations" type="TileMapLayer" parent="."]
+
+[node name="ChangeableDecorations" type="Node2D" parent="."]
+
+[node name="SmallLeaves01" type="Sprite2D" parent="ChangeableDecorations"]
+position = Vector2(80, 120)
+modulate = Color(0.45, 0.55, 0.40, 0)
+script = null
+metadata/min_stage = 2
+
+[node name="SmallLeaves02" type="Sprite2D" parent="ChangeableDecorations"]
+position = Vector2(200, 90)
+modulate = Color(0.45, 0.55, 0.40, 0)
+metadata/min_stage = 3
+
+[node name="SmallFlower01" type="Sprite2D" parent="ChangeableDecorations"]
+position = Vector2(150, 170)
+modulate = Color(0.75, 0.5, 0.65, 0)
+metadata/min_stage = 2
+
+[node name="FogLayer" type="Node2D" parent="."]
+modulate = Color(1, 1, 1, 0.85)
+
+[node name="FogRect01" type="ColorRect" parent="FogLayer"]
+position = Vector2(0, 0)
+size = Vector2(640, 360)
+color = Color(0.22, 0.22, 0.25, 0.5)
+mouse_filter = 2
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="OldScore" type="Node2D" parent="Interactables"]
+position = Vector2(160, 210)
+script = ExtResource("5_iobj")
+object_id = "old_score"
+one_time_only = true
+unlocks_score_ui = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Interactables/OldScore"]
+
+[node name="InteractionArea" type="Area2D" parent="Interactables/OldScore"]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/OldScore/InteractionArea"]
+
+[node name="PathSign" type="Node2D" parent="Interactables"]
+position = Vector2(400, 180)
+script = ExtResource("5_iobj")
+object_id = "forest_path_sign"
+
+[node name="InteractionArea" type="Area2D" parent="Interactables/PathSign"]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/PathSign/InteractionArea"]
+
+[node name="Items" type="Node2D" parent="."]
+
+[node name="WarmTea" type="Node2D" parent="Items"]
+position = Vector2(120, 240)
+script = ExtResource("3_item")
+item_id = "warm_tea"
+map_cell = Vector2i(3, 7)
+
+[node name="Sprite2D" type="Sprite2D" parent="Items/WarmTea"]
+
+[node name="InteractionArea" type="Area2D" parent="Items/WarmTea"]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Items/WarmTea/InteractionArea"]
+
+[node name="SmallFlower" type="Node2D" parent="Items"]
+position = Vector2(280, 160)
+script = ExtResource("3_item")
+item_id = "small_flower"
+map_cell = Vector2i(8, 5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Items/SmallFlower"]
+
+[node name="InteractionArea" type="Area2D" parent="Items/SmallFlower"]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Items/SmallFlower/InteractionArea"]
+
+[node name="MusicNotes" type="Node2D" parent="."]
+
+[node name="Note01" type="Node2D" parent="MusicNotes"]
+position = Vector2(130, 250)
+visible = false
+script = ExtResource("4_note")
+note_id = "note_01"
+map_cell = Vector2i(4, 7)
+
+[node name="Sprite2D" type="Sprite2D" parent="MusicNotes/Note01"]
+
+[node name="InteractionArea" type="Area2D" parent="MusicNotes/Note01"]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MusicNotes/Note01/InteractionArea"]
+
+[node name="Note02" type="Node2D" parent="MusicNotes"]
+position = Vector2(290, 170)
+visible = false
+script = ExtResource("4_note")
+note_id = "note_02"
+map_cell = Vector2i(9, 5)
+
+[node name="Sprite2D" type="Sprite2D" parent="MusicNotes/Note02"]
+
+[node name="InteractionArea" type="Area2D" parent="MusicNotes/Note02"]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MusicNotes/Note02/InteractionArea"]
+
+[node name="NPCs" type="Node2D" parent="."]
+
+[node name="ForestWanderer" type="Node2D" parent="NPCs"]
+position = Vector2(300, 200)
+script = ExtResource("2_npc")
+npc_id = "forest_wanderer"
+initial_face_direction = "down"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="NPCs/ForestWanderer"]
+
+[node name="InteractionArea" type="Area2D" parent="NPCs/ForestWanderer"]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NPCs/ForestWanderer/InteractionArea"]
+
+[node name="Exclamation" type="Label" parent="NPCs/ForestWanderer"]
+position = Vector2(-4, -20)
+text = "!"
+theme_override_colors/font_color = Color(0.9, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 12
+
+[node name="Encounters" type="Node2D" parent="."]
+
+[node name="ThoughtLate" type="Node2D" parent="Encounters"]
+position = Vector2(480, 220)
+script = null
+
+[node name="RegionExits" type="Node2D" parent="."]
+
+[node name="ToVillage" type="Area2D" parent="RegionExits"]
+position = Vector2(620, 200)
+script = ExtResource("6_exit")
+target_region = "small_village"
+spawn_point = "from_forest"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RegionExits/ToVillage"]
+
+[node name="RegionAmbience" type="AudioStreamPlayer" parent="."]
+bus = "Ambient"
+volume_db = -18.0

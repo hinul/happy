@@ -1,0 +1,138 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/MemoryGarden.gd" id="1_garden"]
+[ext_resource type="Script" path="res://scripts/actors/NPC.gd" id="2_npc"]
+[ext_resource type="Script" path="res://scripts/objects/CollectibleItem.gd" id="3_item"]
+[ext_resource type="Script" path="res://scripts/objects/MusicNote.gd" id="4_note"]
+[ext_resource type="Script" path="res://scripts/objects/RegionExit.gd" id="5_exit"]
+
+[node name="MemoryGarden" type="Node2D"]
+script = ExtResource("1_garden")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.25, 0.25, 0.28, 1)
+
+[node name="Ground" type="TileMapLayer" parent="."]
+[node name="Paths" type="TileMapLayer" parent="."]
+[node name="BackDecorations" type="TileMapLayer" parent="."]
+[node name="CollisionLayer" type="TileMapLayer" parent="."]
+[node name="FrontDecorations" type="TileMapLayer" parent="."]
+
+[node name="ChangeableDecorations" type="Node2D" parent="."]
+
+[node name="FlowerBeds" type="Node2D" parent="ChangeableDecorations"]
+
+[node name="Flower01" type="Sprite2D" parent="ChangeableDecorations/FlowerBeds"]
+position = Vector2(120, 200)
+scale = Vector2(0.1, 0.1)
+metadata/min_stage = 6
+
+[node name="Flower02" type="Sprite2D" parent="ChangeableDecorations/FlowerBeds"]
+position = Vector2(200, 220)
+scale = Vector2(0.1, 0.1)
+metadata/min_stage = 6
+
+[node name="Flower03" type="Sprite2D" parent="ChangeableDecorations/FlowerBeds"]
+position = Vector2(350, 190)
+scale = Vector2(0.1, 0.1)
+metadata/min_stage = 7
+
+[node name="FogLayer" type="Node2D" parent="."]
+modulate = Color(1, 1, 1, 0.45)
+
+[node name="FogRect" type="ColorRect" parent="FogLayer"]
+size = Vector2(640, 360)
+color = Color(0.20, 0.20, 0.22, 0.28)
+mouse_filter = 2
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="PhotoPuzzle" type="Node2D" parent="Interactables"]
+position = Vector2(320, 200)
+
+[node name="Items" type="Node2D" parent="."]
+
+[node name="NewPencil" type="Node2D" parent="Items"]
+position = Vector2(160, 240)
+script = ExtResource("3_item")
+item_id = "new_pencil"
+map_cell = Vector2i(5, 7)
+
+[node name="Sprite2D" type="Sprite2D" parent="Items/NewPencil"]
+[node name="InteractionArea" type="Area2D" parent="Items/NewPencil"]
+collision_layer = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Items/NewPencil/InteractionArea"]
+
+[node name="SmallSprout" type="Node2D" parent="Items"]
+position = Vector2(420, 210)
+script = ExtResource("3_item")
+item_id = "small_sprout"
+map_cell = Vector2i(13, 6)
+
+[node name="Sprite2D" type="Sprite2D" parent="Items/SmallSprout"]
+[node name="InteractionArea" type="Area2D" parent="Items/SmallSprout"]
+collision_layer = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Items/SmallSprout/InteractionArea"]
+
+[node name="MusicNotes" type="Node2D" parent="."]
+
+[node name="Note06" type="Node2D" parent="MusicNotes"]
+position = Vector2(170, 250)
+visible = false
+script = ExtResource("4_note")
+note_id = "note_06"
+map_cell = Vector2i(5, 7)
+
+[node name="Sprite2D" type="Sprite2D" parent="MusicNotes/Note06"]
+[node name="InteractionArea" type="Area2D" parent="MusicNotes/Note06"]
+collision_layer = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MusicNotes/Note06/InteractionArea"]
+
+[node name="Note07" type="Node2D" parent="MusicNotes"]
+position = Vector2(430, 220)
+visible = false
+script = ExtResource("4_note")
+note_id = "note_07"
+map_cell = Vector2i(13, 7)
+
+[node name="Sprite2D" type="Sprite2D" parent="MusicNotes/Note07"]
+[node name="InteractionArea" type="Area2D" parent="MusicNotes/Note07"]
+collision_layer = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MusicNotes/Note07/InteractionArea"]
+
+[node name="NPCs" type="Node2D" parent="."]
+
+[node name="GardenKeeper" type="Node2D" parent="NPCs"]
+position = Vector2(300, 230)
+script = ExtResource("2_npc")
+npc_id = "garden_keeper"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="NPCs/GardenKeeper"]
+[node name="InteractionArea" type="Area2D" parent="NPCs/GardenKeeper"]
+collision_layer = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NPCs/GardenKeeper/InteractionArea"]
+[node name="Exclamation" type="Label" parent="NPCs/GardenKeeper"]
+position = Vector2(-4, -20)
+text = "!"
+theme_override_colors/font_color = Color(0.9, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 12
+
+[node name="RegionExits" type="Node2D" parent="."]
+
+[node name="ToVillage" type="Area2D" parent="RegionExits"]
+position = Vector2(20, 220)
+script = ExtResource("5_exit")
+target_region = "small_village"
+spawn_point = "from_garden"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RegionExits/ToVillage"]
+
+[node name="ToTheater" type="Area2D" parent="RegionExits"]
+position = Vector2(620, 220)
+script = ExtResource("5_exit")
+target_region = "old_theater"
+spawn_point = "from_garden"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RegionExits/ToTheater"]
+
+[node name="RegionAmbience" type="AudioStreamPlayer" parent="."]
+bus = "Ambient"
+volume_db = -22.0
