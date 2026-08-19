@@ -91,8 +91,9 @@ func load_save() -> bool:
 	var err = json.parse(f.get_as_text())
 	f.close()
 
-	if err != OK:
-		push_error("[SaveManager] 저장 파일 파싱 실패. 파일이 손상되었을 수 있습니다.")
+	if err != OK or not (json.data is Dictionary):
+		push_error("[SaveManager] 저장 파일 손상 감지. 자동 초기화합니다.")
+		delete_save()
 		return false
 
 	var data: Dictionary = json.data
