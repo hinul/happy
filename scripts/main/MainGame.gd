@@ -86,7 +86,9 @@ func set_player_position(pos: Vector2) -> void:
 # ─────────────────────────────────────────────
 
 func _play_intro_sequence() -> void:
-	GameState.unlock_input()
+	# DialogueManager.start_lines()가 내부적으로 lock_input() / unlock_input()을 처리함
+	# 한 프레임 뒤에 시작하여 씬 완전 초기화 보장
+	await get_tree().process_frame
 	DialogueManager.start_lines(["여기가 어디지?", "왜 이렇게 조용하지?"], "")
 
 	# 악보 힌트 (오브젝트 근처에 있으면)
@@ -97,8 +99,9 @@ func _play_intro_sequence() -> void:
 # ─────────────────────────────────────────────
 
 func _on_new_game() -> void:
+	# _ready()에서 이미 load_region과 _play_intro_sequence 처리 완료
+	# 혹시 씬 전환 없이 새 게임 재시작 시에만 필요
 	load_region("ash_forest")
-	_play_intro_sequence()
 
 func _on_game_loaded() -> void:
 	load_region(GameState.current_region)

@@ -24,8 +24,8 @@ func apply_progress_stage(stage: int) -> void:
 func _update_fog(stage: int) -> void:
 	if not fog_layer:
 		return
-	# 안개 투명도: stage 0=0.85, stage 9=0.1
-	var target_alpha = lerpf(0.85, 0.1, float(stage) / 9.0)
+	# 안개 투명도: stage 0=0.18 (맵이 보일 정도로 연하게), stage 9=0.05
+	var target_alpha = lerpf(0.18, 0.05, float(stage) / 9.0)
 	var tween = create_tween()
 	tween.tween_property(fog_layer, "modulate:a", target_alpha, 2.0)
 

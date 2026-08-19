@@ -63,8 +63,8 @@ func _setup_animations() -> void:
 	if not sprite:
 		return
 	sprite.sprite_frames = _create_sprite_frames()
-	sprite.animation = "walk_down"
-	sprite.stop()
+	sprite.animation = "idle_down"
+	sprite.play("idle_down")   # 게임 시작 직후 캐릭터가 즉시 표시되도록
 
 ## 절차적으로 스프라이트 프레임 생성 (픽셀아트 스타일)
 func _create_sprite_frames() -> SpriteFrames:

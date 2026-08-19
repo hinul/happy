@@ -19,6 +19,21 @@ func _ready() -> void:
 		return
 	# 처음엔 숨겨져 있음 (아이템 수집 후 reveal)
 	visible = false
+	# 스프라이트 텍스처 생성
+	if sprite:
+		sprite.texture = _create_note_texture()
+	# 상호작용 영역 자동 생성
+	if not has_node("InteractionArea"):
+		var area = Area2D.new()
+		area.name = "InteractionArea"
+		area.collision_layer = 4
+		area.collision_mask = 0
+		var sh = CollisionShape2D.new()
+		var circ = CircleShape2D.new()
+		circ.radius = 12.0
+		sh.shape = circ
+		area.add_child(sh)
+		add_child(area)
 	if map_cell != Vector2i.ZERO:
 		MapDiscoveryManager.add_icon(map_cell, "note")
 
@@ -83,6 +98,3 @@ func _create_note_texture() -> ImageTexture:
 	img.set_pixel(7, 3, c)
 	return ImageTexture.create_from_image(img)
 
-func _ready_texture() -> void:
-	if sprite:
-		sprite.texture = _create_note_texture()

@@ -32,6 +32,7 @@ func _ready() -> void:
 	GameState.dialogue_finished.connect(func(): _is_active = false)
 
 func _process(delta: float) -> void:
+	# 독백(speaker 없음)에만 자동 진행 적용
 	if _is_active and not _is_typing and _speaker_name.is_empty() and _pending_choices.is_empty():
 		_auto_advance_timer += delta
 		if _auto_advance_timer >= AUTO_ADVANCE_TIME:
@@ -78,6 +79,8 @@ func start_interactable_dialogue(object_id: String) -> void:
 
 ## 단순 텍스트 대화 시작 (주인공 독백 등)
 func start_lines(lines: Array[String], speaker: String = "") -> void:
+	if lines.is_empty():
+		return
 	_start_dialogue(lines, speaker)
 
 ## 선택지 대화 시작
@@ -119,6 +122,8 @@ func is_active() -> bool:
 func _start_dialogue(lines: Array[String], speaker: String) -> void:
 	if _is_active:
 		return
+	if lines.is_empty():
+		return
 	_lines = lines
 	_speaker_name = speaker
 	_current_line_index = 0
@@ -149,6 +154,7 @@ func _show_next_line() -> void:
 		_dialogue_ui.display_line(line, _speaker_name)
 	_is_typing = true
 
+## 타이핑 완료 콜백 (DialogueUI에서 호출)
 func _on_typing_finished() -> void:
 	_is_typing = false
 

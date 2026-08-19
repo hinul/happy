@@ -16,8 +16,25 @@ func _ready() -> void:
 	if GameState.has_item(item_id):
 		queue_free()
 		return
-	if sprite:
-		sprite.texture = _create_item_texture()
+	# Sprite2D 없으면 자동 생성
+	if not sprite:
+		var s = Sprite2D.new()
+		s.name = "Sprite2D"
+		add_child(s)
+		sprite = s
+	sprite.texture = _create_item_texture()
+	# InteractionArea 없으면 자동 생성
+	if not has_node("InteractionArea"):
+		var area = Area2D.new()
+		area.name = "InteractionArea"
+		area.collision_layer = 4
+		area.collision_mask = 0
+		var sh = CollisionShape2D.new()
+		var circ = CircleShape2D.new()
+		circ.radius = 10.0
+		sh.shape = circ
+		area.add_child(sh)
+		add_child(area)
 	# 지도에 아이템 아이콘 등록
 	if map_cell != Vector2i.ZERO:
 		MapDiscoveryManager.add_icon(map_cell, "item")

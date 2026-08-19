@@ -11,6 +11,13 @@ var _player_inside = false
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
+	# CollisionShape2D 없으면 자동 생성
+	if get_child_count() == 0 or not (get_child(0) is CollisionShape2D):
+		var sh = CollisionShape2D.new()
+		var rect = RectangleShape2D.new()
+		rect.size = Vector2(16, 32)
+		sh.shape = rect
+		add_child(sh)
 
 func _on_body_entered(body: Node2D) -> void:
 	if not body.is_in_group("player"):

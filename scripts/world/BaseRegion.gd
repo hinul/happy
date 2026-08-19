@@ -76,18 +76,17 @@ func _apply_lighting(stage: int) -> void:
 	tween.tween_property(canvas_modulate, "color", target_color, 1.5)
 
 func _get_stage_color(stage: int) -> Color:
-	# 단계별 색상 (차분한 서늘함 → 선명하고 따뜻한 자연광)
-	# 화면이 어두워져서 오브젝트가 안 보이는 일 방지
+	# 단계별 색상 (시작부터 충분히 밝게 유지)
 	var colors: Array[Color] = [
-		Color(0.68, 0.68, 0.75, 1.0),  # 0: 서늘한 톤 (선명함 보장)
-		Color(0.72, 0.72, 0.78, 1.0),  # 1
-		Color(0.76, 0.76, 0.80, 1.0),  # 2
-		Color(0.80, 0.80, 0.82, 1.0),  # 3
-		Color(0.84, 0.83, 0.84, 1.0),  # 4
-		Color(0.88, 0.87, 0.86, 1.0),  # 5
-		Color(0.92, 0.90, 0.88, 1.0),  # 6
-		Color(0.95, 0.93, 0.89, 1.0),  # 7
-		Color(0.98, 0.96, 0.91, 1.0),  # 8
+		Color(0.82, 0.82, 0.86, 1.0),  # 0: 밝은 서늘한 톤
+		Color(0.84, 0.84, 0.88, 1.0),  # 1
+		Color(0.86, 0.86, 0.88, 1.0),  # 2
+		Color(0.88, 0.88, 0.88, 1.0),  # 3
+		Color(0.90, 0.89, 0.88, 1.0),  # 4
+		Color(0.92, 0.91, 0.89, 1.0),  # 5
+		Color(0.94, 0.93, 0.90, 1.0),  # 6
+		Color(0.96, 0.94, 0.91, 1.0),  # 7
+		Color(0.98, 0.96, 0.92, 1.0),  # 8
 		Color(1.00, 0.98, 0.93, 1.0),  # 9: 따뜻한 햇빛
 	]
 	return colors[clampi(stage, 0, colors.size() - 1)]
@@ -133,29 +132,44 @@ class ProceduralMapDraw extends Node2D:
 			_:
 				_draw_ash_forest(width, height)
 
+	## draw_ellipse 대체: 폴리공 없이 정수 점 샘플링으로 타원 그리기
+	func _draw_ellipse_approx(center: Vector2, rx: float, ry: float, color: Color, filled: bool = true) -> void:
+		var pts = PackedVector2Array()
+		var steps = 36
+		for i in range(steps + 1):
+			var angle = (float(i) / float(steps)) * TAU
+			pts.append(center + Vector2(cos(angle) * rx, sin(angle) * ry))
+		if filled:
+			draw_colored_polygon(pts, color)
+		else:
+			draw_polyline(pts, color, 1.5)
+
 	func _draw_ash_forest(w: int, h: int) -> void:
 		# 바닥 풀밭 (잿빛 → 짙은 녹색)
-		var base_color = Color(0.22, 0.24, 0.22).lerp(Color(0.28, 0.40, 0.28), float(current_stage) / 9.0)
+		var base_color = Color(0.28, 0.32, 0.28).lerp(Color(0.32, 0.45, 0.30), float(current_stage) / 9.0)
 		draw_rect(Rect2(0, 0, w, h), base_color)
 
-		# 흙길 (중앙 도로)
-		var path_color = Color(0.35, 0.32, 0.28)
-		draw_rect(Rect2(40, 180, w - 80, 40), path_color)
-		draw_rect(Rect2(140, 160, 60, 80), path_color)
-		draw_rect(Rect2(440, 160, 60, 80), path_color)
+		# 흙바닥 구역 (Ground highlight)
+		var mid_color = base_color.lightened(0.08)
+		draw_rect(Rect2(60, 155, w - 120, 55), mid_color)
 
-		# 주변 죽은 나무/살아나는 나무 서큘러 그리드
-		var tree_color = Color(0.18, 0.16, 0.16).lerp(Color(0.18, 0.32, 0.20), float(current_stage) / 9.0)
-		var trunk_color = Color(0.28, 0.22, 0.18)
+		# 흙바닥 길 (중앙 도로)
+		var path_color = Color(0.42, 0.38, 0.30)
+		draw_rect(Rect2(40, 178, w - 80, 46), path_color)
+		draw_rect(Rect2(138, 158, 64, 86), path_color)
+		draw_rect(Rect2(438, 158, 64, 86), path_color)
 
-		# 상단/하단 나무 줄기들
+		# 주변 나무
+		var tree_color = Color(0.16, 0.22, 0.16).lerp(Color(0.20, 0.36, 0.22), float(current_stage) / 9.0)
+		var trunk_color = Color(0.32, 0.26, 0.20)
+
 		for x in range(30, w, 50):
 			# 상단 나무
-			draw_rect(Rect2(x, 40, 12, 40), trunk_color)
-			draw_circle(Vector2(x + 6, 40), 22.0, tree_color)
+			draw_rect(Rect2(x, 42, 12, 42), trunk_color)
+			draw_circle(Vector2(x + 6, 42), 24.0, tree_color)
 			# 하단 나무
-			draw_rect(Rect2(x + 20, 270, 12, 40), trunk_color)
-			draw_circle(Vector2(x + 26, 270), 22.0, tree_color)
+			draw_rect(Rect2(x + 20, 268, 12, 42), trunk_color)
+			draw_circle(Vector2(x + 26, 268), 24.0, tree_color)
 
 	func _draw_small_village(w: int, h: int) -> void:
 		# 마을 자갈길 바닥
@@ -164,8 +178,8 @@ class ProceduralMapDraw extends Node2D:
 
 		# 마을 중앙 광장
 		var plaza_color = Color(0.40, 0.38, 0.35)
-		draw_circle(Vector2(w / 2, h / 2), 90.0, plaza_color)
-		draw_circle(Vector2(w / 2, h / 2), 86.0, base_color)
+		_draw_ellipse_approx(Vector2(w / 2, h / 2), 90.0, 90.0, plaza_color)
+		_draw_ellipse_approx(Vector2(w / 2, h / 2), 86.0, 86.0, base_color)
 
 		# 집 실루엣 3채
 		var house_color = Color(0.20, 0.18, 0.18)
@@ -180,7 +194,7 @@ class ProceduralMapDraw extends Node2D:
 
 		# 중앙 거대 호수
 		var lake_color = Color(0.20, 0.28, 0.38).lerp(Color(0.25, 0.42, 0.55), float(current_stage) / 9.0)
-		draw_ellipse(Vector2(w / 2, h / 2 + 10), 200.0, 90.0, lake_color)
+		_draw_ellipse_approx(Vector2(w / 2, h / 2 + 10), 200.0, 90.0, lake_color)
 
 		# 젖은 나무다리
 		var bridge_color = Color(0.38, 0.28, 0.20)
