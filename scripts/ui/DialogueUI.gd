@@ -3,7 +3,7 @@
 ## 얇은 픽셀 테두리, 어두운 반투명 배경, 타이핑 효과
 extends Control
 
-@onready var dialogue_panel: Panel = $DialoguePanel
+@onready var dialogue_panel: Control = $DialoguePanel if has_node("DialoguePanel") else null
 @onready var speaker_label: Label = $DialoguePanel/SpeakerName
 @onready var text_label: RichTextLabel = $DialoguePanel/DialogueText
 @onready var continue_icon: Label = $DialoguePanel/ContinueIcon

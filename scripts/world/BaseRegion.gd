@@ -24,9 +24,10 @@ var _procedural_background: Node2D = null
 # 초기화
 # ─────────────────────────────────────────────
 func _ready() -> void:
-	WorldStateManager.register_region(self)
-	GameState.discover_region(region_id)
 	_setup_region()
+	WorldStateManager.register_region(self)
+	if not region_id.is_empty():
+		GameState.discover_region(region_id)
 	_create_procedural_environment()
 	apply_progress_stage(GameState.get_progress_stage())
 	if region_ambience and MusicManager._audio_enabled:

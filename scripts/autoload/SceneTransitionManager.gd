@@ -27,9 +27,11 @@ func _ready() -> void:
 	_fade_layer = CanvasLayer.new()
 	_fade_layer.layer = 100
 	_fade_rect = ColorRect.new()
-	_fade_rect.color = Color(0.05, 0.05, 0.08, 0.0)
+	_fade_rect.color = Color(0.05, 0.05, 0.08, 1.0)
+	_fade_rect.modulate.a = 0.0
 	_fade_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_fade_rect.visible = false
 	_fade_layer.add_child(_fade_rect)
 	add_child(_fade_layer)
 
@@ -91,29 +93,41 @@ func _finish_transition(region_id: String) -> void:
 	transition_finished.emit(region_id)
 
 func _fade_out(callback: Callable) -> void:
+	_fade_rect.visible = true
 	var tween := create_tween()
-	tween.tween_property(_fade_rect, "color:a", 1.0, FADE_DURATION)
+	tween.tween_property(_fade_rect, "modulate:a", 1.0, FADE_DURATION)
 	tween.tween_callback(callback)
 
 func _fade_in(callback: Callable) -> void:
+	_fade_rect.visible = true
 	var tween := create_tween()
-	tween.tween_property(_fade_rect, "color:a", 0.0, FADE_DURATION)
-	tween.tween_callback(callback)
+	tween.tween_property(_fade_rect, "modulate:a", 0.0, FADE_DURATION)
+	tween.tween_callback(func():
+		_fade_rect.visible = false
+		if callback.is_valid():
+			callback.call()
+	)
 
 ## 화면 즉시 검게 (게임 시작 연출용)
 func set_fade(alpha: float) -> void:
-	_fade_rect.color.a = alpha
+	_fade_rect.modulate.a = alpha
+	_fade_rect.visible = (alpha > 0.0)
 
 ## 페이드인 애니메이션
 func fade_in(duration: float = FADE_DURATION, callback: Callable = Callable()) -> void:
+	_fade_rect.visible = true
 	var tween := create_tween()
-	tween.tween_property(_fade_rect, "color:a", 0.0, duration)
-	if callback.is_valid():
-		tween.tween_callback(callback)
+	tween.tween_property(_fade_rect, "modulate:a", 0.0, duration)
+	tween.tween_callback(func():
+		_fade_rect.visible = false
+		if callback.is_valid():
+			callback.call()
+	)
 
 ## 페이드아웃 애니메이션
 func fade_out(duration: float = FADE_DURATION, callback: Callable = Callable()) -> void:
+	_fade_rect.visible = true
 	var tween := create_tween()
-	tween.tween_property(_fade_rect, "color:a", 1.0, duration)
+	tween.tween_property(_fade_rect, "modulate:a", 1.0, duration)
 	if callback.is_valid():
 		tween.tween_callback(callback)
