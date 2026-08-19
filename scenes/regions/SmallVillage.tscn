@@ -11,7 +11,7 @@
 script = ExtResource("1_village")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0.25, 0.25, 0.28, 1)
+color = Color(0.68, 0.68, 0.75, 1)
 
 [node name="Ground" type="TileMapLayer" parent="."]
 [node name="Paths" type="TileMapLayer" parent="."]
@@ -37,11 +37,11 @@ modulate = Color(0.3, 0.3, 0.35, 1)
 metadata/min_stage = 5
 
 [node name="FogLayer" type="Node2D" parent="."]
-modulate = Color(1, 1, 1, 0.60)
+modulate = Color(1, 1, 1, 0.15)
 
 [node name="FogRect" type="ColorRect" parent="FogLayer"]
 size = Vector2(640, 360)
-color = Color(0.22, 0.22, 0.25, 0.35)
+color = Color(0.22, 0.22, 0.25, 0.08)
 mouse_filter = 2
 
 [node name="Interactables" type="Node2D" parent="."]

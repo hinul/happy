@@ -10,7 +10,7 @@
 script = ExtResource("1_theater")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0.25, 0.25, 0.28, 1)
+color = Color(0.68, 0.68, 0.75, 1)
 
 [node name="Ground" type="TileMapLayer" parent="."]
 [node name="Paths" type="TileMapLayer" parent="."]
@@ -30,11 +30,11 @@ position = Vector2(200, 120)
 position = Vector2(440, 120)
 
 [node name="FogLayer" type="Node2D" parent="."]
-modulate = Color(1, 1, 1, 0.40)
+modulate = Color(1, 1, 1, 0.15)
 
 [node name="FogRect" type="ColorRect" parent="FogLayer"]
 size = Vector2(640, 360)
-color = Color(0.18, 0.18, 0.20, 0.25)
+color = Color(0.18, 0.18, 0.20, 0.08)
 mouse_filter = 2
 
 [node name="Interactables" type="Node2D" parent="."]
