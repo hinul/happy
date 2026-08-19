@@ -41,6 +41,11 @@ window/stretch/mode="canvas_items"
 window/stretch/aspect="keep"
 window/handheld/orientation=0
 
+[gui]
+
+theme/custom_font="res://assets/fonts/NanumGothic.ttf"
+theme/custom_font_size=12
+
 [input]
 
 move_up={
