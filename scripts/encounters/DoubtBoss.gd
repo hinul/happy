@@ -13,7 +13,7 @@ var _follow_delay: float = 0.4  # 플레이어보다 늦게 따라옴
 
 # 플레이어 위치 기록
 var _player_positions: Array[Vector2] = []
-const RECORD_INTERVAL := 0.05
+const RECORD_INTERVAL = 0.05
 
 func _ready() -> void:
 	_phase = GameState.boss_state
@@ -40,7 +40,7 @@ func _process(delta: float) -> void:
 
 	# 늦은 간격으로 플레이어 위치 추적
 	if _player_positions.size() > 0:
-		var target := _player_positions[0]
+		var target = _player_positions[0]
 		global_position = global_position.lerp(target, delta * 2.0)
 
 	# 스프라이트 방향
@@ -56,7 +56,7 @@ func on_interact() -> void:
 	_start_phase_dialogue()
 
 func _start_phase_dialogue() -> void:
-	var lines := _get_phase_lines()
+	var lines = _get_phase_lines()
 	DialogueManager.start_lines(lines, "의심")
 	DialogueManager.dialogue_end.connect(_on_phase_done, CONNECT_ONE_SHOT)
 
@@ -67,16 +67,16 @@ func _on_phase_done() -> void:
 		_finish()
 		return
 	# 크기 축소
-	var new_scale := 1.0 - float(_phase) * 0.18
-	var tween := create_tween()
+	var new_scale = 1.0 - float(_phase) * 0.18
+	var tween = create_tween()
 	tween.tween_property(self, "scale", Vector2(new_scale, new_scale), 1.5)
 	# 다음 단계 자동 시작 (잠시 후)
-	var t := get_tree().create_timer(2.0)
+	var t = get_tree().create_timer(2.0)
 	t.timeout.connect(_start_phase_dialogue)
 
 func _finish() -> void:
 	GameState.boss_state = 5
-	var tween := create_tween()
+	var tween = create_tween()
 	tween.tween_property(self, "scale", Vector2(0.3, 0.3), 2.0)
 	tween.parallel().tween_property(self, "modulate:a", 0.45, 2.0)
 	DialogueManager.start_lines(["그래도 또 나타날 거야."], "의심")
@@ -87,10 +87,10 @@ func _finish() -> void:
 	, CONNECT_ONE_SHOT)
 
 func _get_phase_lines() -> Array[String]:
-	var f := FileAccess.open("res://data/dialogues.json", FileAccess.READ)
+	var f = FileAccess.open("res://data/dialogues.json", FileAccess.READ)
 	if not f:
 		return ["..."]
-	var json := JSON.new()
+	var json = JSON.new()
 	if json.parse(f.get_as_text()) != OK:
 		f.close()
 		return ["..."]
@@ -106,16 +106,16 @@ func _get_phase_lines() -> Array[String]:
 	return ["..."]
 
 func _create_shadow_frames() -> SpriteFrames:
-	var frames := SpriteFrames.new()
+	var frames = SpriteFrames.new()
 	if frames.has_animation("default"):
 		frames.remove_animation("default")
 	frames.add_animation("idle")
 	frames.set_animation_loop("idle", true)
 	frames.set_animation_speed("idle", 4.0)
 	for i in range(4):
-		var img := Image.create(16, 24, false, Image.FORMAT_RGBA8)
+		var img = Image.create(16, 24, false, Image.FORMAT_RGBA8)
 		img.fill(Color.TRANSPARENT)
-		var alpha := 0.65 + float(i % 2) * 0.1
+		var alpha = 0.65 + float(i % 2) * 0.1
 		# 주인공과 같은 실루엣
 		for y in range(2, 20):
 			for x in range(4, 12):

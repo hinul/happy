@@ -27,7 +27,7 @@ func _process(delta: float) -> void:
 	if not _is_typing:
 		return
 	_char_timer += delta
-	var speed := GameState.text_speed
+	var speed = GameState.text_speed
 	if _char_timer >= speed:
 		_char_timer = 0.0
 		_char_index += 1
@@ -74,14 +74,14 @@ func skip_typing() -> void:
 
 func show_choices(choices: Array[String]) -> void:
 	# 선택지는 대화창 위쪽에 버튼으로 표시
-	var choice_container := $DialoguePanel/ChoiceContainer if has_node("DialoguePanel/ChoiceContainer") else null
+	var choice_container = $DialoguePanel/ChoiceContainer if has_node("DialoguePanel/ChoiceContainer") else null
 	if not choice_container:
 		return
 	choice_container.show()
 	for child in choice_container.get_children():
 		child.queue_free()
 	for i in range(choices.size()):
-		var btn := Button.new()
+		var btn = Button.new()
 		btn.text = choices[i]
 		btn.pressed.connect(func(): DialogueManager.select_choice(i))
 		choice_container.add_child(btn)

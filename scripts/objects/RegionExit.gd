@@ -6,7 +6,7 @@ extends Area2D
 @export var spawn_point: String = "default"
 @export var requires_confirmation: bool = false
 
-var _player_inside := false
+var _player_inside = false
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)

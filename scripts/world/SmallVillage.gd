@@ -29,7 +29,7 @@ func _update_windows(stage: int) -> void:
 	for child in changeable_decorations.get_children():
 		if child.name.contains("Window"):
 			var min_s: int = child.get_meta("min_stage", 4)
-			var tween := create_tween()
+			var tween = create_tween()
 			tween.tween_property(child, "modulate",
 				Color(1.0, 0.9, 0.6) if stage >= min_s else Color(0.3, 0.3, 0.35), 1.5)
 

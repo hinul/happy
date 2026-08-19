@@ -9,7 +9,7 @@ extends Control
 @onready var sound_slider: HSlider = $Panel/SettingsPanel/SoundSlider if has_node("Panel/SettingsPanel/SoundSlider") else null
 @onready var text_speed_slider: HSlider = $Panel/SettingsPanel/TextSpeedSlider if has_node("Panel/SettingsPanel/TextSpeedSlider") else null
 
-var _settings_open := false
+var _settings_open = false
 
 func _ready() -> void:
 	hide()
@@ -17,13 +17,13 @@ func _ready() -> void:
 		save_btn.pressed.connect(_on_save)
 	if load_btn:
 		load_btn.pressed.connect(_on_load)
-	var settings_b := get_node_or_null("Panel/VBox/SettingsBtn")
+	var settings_b = get_node_or_null("Panel/VBox/SettingsBtn")
 	if settings_b:
 		settings_b.pressed.connect(_on_settings)
-	var title_b := get_node_or_null("Panel/VBox/TitleBtn")
+	var title_b = get_node_or_null("Panel/VBox/TitleBtn")
 	if title_b:
 		title_b.pressed.connect(_on_title)
-	var resume_b := get_node_or_null("Panel/VBox/ResumeBtn")
+	var resume_b = get_node_or_null("Panel/VBox/ResumeBtn")
 	if resume_b:
 		resume_b.pressed.connect(_close)
 
@@ -52,7 +52,7 @@ func _close() -> void:
 
 func _on_save() -> void:
 	GameState.player_position = _get_player_pos()
-	var ok := SaveManager.save()
+	var ok = SaveManager.save()
 	if ok:
 		_show_feedback("저장했습니다.")
 	else:
@@ -100,12 +100,12 @@ func _on_text_speed_changed(val: float) -> void:
 	GameState.text_speed = val
 
 func _show_feedback(text: String) -> void:
-	var label := get_node_or_null("Panel/FeedbackLabel")
+	var label = get_node_or_null("Panel/FeedbackLabel")
 	if label:
 		label.text = text
-		var tween := create_tween()
+		var tween = create_tween()
 		tween.tween_property(label, "modulate:a", 0.0, 2.0).set_delay(1.0)
 
 func _get_player_pos() -> Vector2:
-	var player := get_tree().get_first_node_in_group("player")
+	var player = get_tree().get_first_node_in_group("player")
 	return player.global_position if player else GameState.player_position

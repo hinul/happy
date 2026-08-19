@@ -24,7 +24,7 @@ var _choice_callback: Callable
 var _dialogue_data: Dictionary = {}
 
 var _auto_advance_timer: float = 0.0
-const AUTO_ADVANCE_TIME := 3.5
+const AUTO_ADVANCE_TIME = 3.5
 
 func _ready() -> void:
 	_load_dialogue_data()
@@ -47,11 +47,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		advance()
 
 func _load_dialogue_data() -> void:
-	var f := FileAccess.open("res://data/dialogues.json", FileAccess.READ)
+	var f = FileAccess.open("res://data/dialogues.json", FileAccess.READ)
 	if not f:
 		push_error("[DialogueManager] dialogues.json을 찾을 수 없습니다.")
 		return
-	var json := JSON.new()
+	var json = JSON.new()
 	if json.parse(f.get_as_text()) == OK:
 		_dialogue_data = json.data
 	f.close()
@@ -66,14 +66,14 @@ func register_ui(ui: Node) -> void:
 
 ## NPC 대화 시작
 func start_npc_dialogue(npc_id: String) -> void:
-	var stage := WorldStateManager.get_npc_dialogue_stage(npc_id)
-	var lines := _get_npc_lines(npc_id, stage)
-	var name_ := _get_npc_name(npc_id)
+	var stage = WorldStateManager.get_npc_dialogue_stage(npc_id)
+	var lines = _get_npc_lines(npc_id, stage)
+	var name_ = _get_npc_name(npc_id)
 	_start_dialogue(lines, name_)
 
 ## 오브젝트 조사 대화 시작
 func start_interactable_dialogue(object_id: String) -> void:
-	var lines := _get_interactable_lines(object_id)
+	var lines = _get_interactable_lines(object_id)
 	_start_dialogue(lines, "")
 
 ## 단순 텍스트 대화 시작 (주인공 독백 등)
@@ -142,7 +142,7 @@ func _show_next_line() -> void:
 		_end_dialogue()
 		return
 
-	var line := _lines[_current_line_index]
+	var line = _lines[_current_line_index]
 	_current_line_index += 1
 	dialogue_line_shown.emit(line, _speaker_name)
 	if _dialogue_ui and _dialogue_ui.has_method("display_line"):

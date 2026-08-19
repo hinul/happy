@@ -25,19 +25,19 @@ func _update_rain(stage: int) -> void:
 	if not rain_particles:
 		return
 	# stage가 높을수록 비가 줄어듦
-	var amount := int(lerpf(200.0, 30.0, float(stage) / 9.0))
+	var amount = int(lerpf(200.0, 30.0, float(stage) / 9.0))
 	rain_particles.amount = amount
 
 func _update_reflections(stage: int) -> void:
 	if not reflection_layer:
 		return
 	# stage 4+: 수면 반사 효과 등장
-	var tween := create_tween()
+	var tween = create_tween()
 	tween.tween_property(reflection_layer, "modulate:a",
 		lerpf(0.0, 0.8, float(maxi(0, stage - 4)) / 5.0), 2.0)
 
 ## 호수 발판 퍼즐 (종이배 방향 단서)
 func check_stepping_stone_puzzle(sequence: Array[int]) -> bool:
 	# 올바른 순서: [2, 0, 3, 1] (종이배가 가리키는 방향)
-	var correct := [2, 0, 3, 1]
+	var correct = [2, 0, 3, 1]
 	return sequence == correct

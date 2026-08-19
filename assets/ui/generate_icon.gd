@@ -5,15 +5,15 @@
 extends EditorScript
 
 func _run() -> void:
-	var img := Image.create(128, 128, false, Image.FORMAT_RGBA8)
+	var img = Image.create(128, 128, false, Image.FORMAT_RGBA8)
 	img.fill(Color(0.05, 0.05, 0.08, 1.0))
 	# 음표 그리기 (큰 버전)
-	var note_color := Color(0.95, 0.90, 0.60, 1.0)
+	var note_color = Color(0.95, 0.90, 0.60, 1.0)
 	# 음표 머리 (타원)
 	for y in range(80, 110):
 		for x in range(30, 85):
-			var dx := float(x - 57.5) / 27.5
-			var dy := float(y - 95.0) / 15.0
+			var dx = float(x - 57.5) / 27.5
+			var dy = float(y - 95.0) / 15.0
 			if dx * dx + dy * dy <= 1.0:
 				img.set_pixel(x, y, note_color)
 	# 음표 기둥
@@ -22,8 +22,8 @@ func _run() -> void:
 			img.set_pixel(x, y, note_color)
 	# 음표 깃발
 	for i in range(20):
-		var x := 87 + int(float(i) * 0.8)
-		var y := 22 + int(float(i) * 1.2)
+		var x = 87 + int(float(i) * 0.8)
+		var y = 22 + int(float(i) * 1.2)
 		if x < 128 and y < 128:
 			img.set_pixel(x, y, note_color)
 	img.save_png("res://assets/ui/icon.png")

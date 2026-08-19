@@ -34,9 +34,9 @@ func _refresh() -> void:
 	for child in item_grid.get_children():
 		child.queue_free()
 
-	var items := InventoryManager.get_items()
+	var items = InventoryManager.get_items()
 	for item_id in items:
-		var btn := Button.new()
+		var btn = Button.new()
 		btn.text = InventoryManager.get_display_name(item_id)
 		btn.custom_minimum_size = Vector2(80, 30)
 		btn.pressed.connect(func(): _select_item(item_id))

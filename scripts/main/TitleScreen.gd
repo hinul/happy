@@ -10,7 +10,7 @@ extends Control
 @onready var settings_panel: Control = $SettingsPanel if has_node("SettingsPanel") else null
 @onready var storage_warning: Label = $StorageWarning if has_node("StorageWarning") else null
 
-var _note_float_timer := 0.0
+var _note_float_timer = 0.0
 
 func _ready() -> void:
 	# 저장 데이터 없으면 이어하기 비활성화
@@ -57,7 +57,7 @@ func _on_settings() -> void:
 
 func _start_game() -> void:
 	# 페이드아웃 후 메인 게임으로 전환
-	var tween := create_tween()
+	var tween = create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, 0.6)
 	tween.tween_callback(func():
 		get_tree().change_scene_to_file("res://scenes/main/MainGame.tscn")

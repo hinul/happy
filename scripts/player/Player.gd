@@ -17,17 +17,17 @@ extends CharacterBody2D
 # ─────────────────────────────────────────────
 # 이동 설정
 # ─────────────────────────────────────────────
-const BASE_SPEED := 80.0
-const LATE_SPEED_BONUS := 8.0   # 후반 진행 시 약간 빠른 느낌
+const BASE_SPEED = 80.0
+const LATE_SPEED_BONUS = 8.0   # 후반 진행 시 약간 빠른 느낌
 
-var _speed := BASE_SPEED
-var _direction := Vector2.ZERO
-var _last_direction := Vector2.DOWN
-var _is_running := false   # 엔딩 연출 전용
+var _speed = BASE_SPEED
+var _direction = Vector2.ZERO
+var _last_direction = Vector2.DOWN
+var _is_running = false   # 엔딩 연출 전용
 
 # 발걸음 타이머
-var _footstep_timer := 0.0
-const FOOTSTEP_INTERVAL := 0.35
+var _footstep_timer = 0.0
+const FOOTSTEP_INTERVAL = 0.35
 
 # ─────────────────────────────────────────────
 # 독백 시스템 (진행 단계별)
@@ -45,9 +45,9 @@ const MONOLOGUE_LATE: Array[String] = [
 	"저쪽에도 길이 있었나?",
 ]
 
-var _monologue_timer := 0.0
-const MONOLOGUE_INTERVAL := 45.0
-var _last_monologue := ""
+var _monologue_timer = 0.0
+const MONOLOGUE_INTERVAL = 45.0
+var _last_monologue = ""
 
 # ─────────────────────────────────────────────
 # 초기화
@@ -68,12 +68,12 @@ func _setup_animations() -> void:
 
 ## 절차적으로 스프라이트 프레임 생성 (픽셀아트 스타일)
 func _create_sprite_frames() -> SpriteFrames:
-	var frames := SpriteFrames.new()
+	var frames = SpriteFrames.new()
 	# 애니메이션 목록 초기화 (기본 'default' 제거)
 	if frames.has_animation("default"):
 		frames.remove_animation("default")
 
-	var anims := ["walk_down", "walk_up", "walk_left", "walk_right",
+	var anims = ["walk_down", "walk_up", "walk_left", "walk_right",
 				  "idle_down", "idle_up", "idle_left", "idle_right",
 				  "dance", "run_right"]
 	for anim in anims:
@@ -96,33 +96,33 @@ func _create_sprite_frames() -> SpriteFrames:
 
 func _add_walk_frames(frames: SpriteFrames, anim: String, color: Color, _dir: Vector2i) -> void:
 	for i in range(4):
-		var tex := _create_player_texture(color, i, false)
+		var tex = _create_player_texture(color, i, false)
 		frames.add_frame(anim, tex)
 
 func _add_idle_frames(frames: SpriteFrames, anim: String, color: Color) -> void:
-	var tex := _create_player_texture(color, 0, false)
+	var tex = _create_player_texture(color, 0, false)
 	frames.add_frame(anim, tex)
 	frames.add_frame(anim, tex)
 
 func _add_dance_frames(frames: SpriteFrames) -> void:
 	frames.set_animation_speed("dance", 8.0)
 	for i in range(8):
-		var tex := _create_player_texture(Color(0.65, 0.55, 0.45), i % 4, i >= 4)
+		var tex = _create_player_texture(Color(0.65, 0.55, 0.45), i % 4, i >= 4)
 		frames.add_frame("dance", tex)
 
 func _add_run_frames(frames: SpriteFrames) -> void:
 	frames.set_animation_speed("run_right", 10.0)
 	for i in range(4):
-		var tex := _create_player_texture(Color(0.6, 0.5, 0.4), i, false)
+		var tex = _create_player_texture(Color(0.6, 0.5, 0.4), i, false)
 		frames.add_frame("run_right", tex)
 
 ## 16×24 픽셀 캐릭터 텍스처 생성
 func _create_player_texture(skin_color: Color, frame_idx: int, is_jump: bool) -> ImageTexture:
-	var img := Image.create(16, 24, false, Image.FORMAT_RGBA8)
+	var img = Image.create(16, 24, false, Image.FORMAT_RGBA8)
 	img.fill(Color.TRANSPARENT)
 
 	# 몸통 (8×10)
-	var body_color := skin_color.darkened(0.1)
+	var body_color = skin_color.darkened(0.1)
 	for y in range(10, 20):
 		for x in range(4, 12):
 			img.set_pixel(x, y, body_color)
@@ -137,7 +137,7 @@ func _create_player_texture(skin_color: Color, frame_idx: int, is_jump: bool) ->
 	img.set_pixel(9, 5, Color(0.1, 0.1, 0.1))
 
 	# 다리 애니메이션
-	var leg_offset := [0, 1, 0, -1][frame_idx % 4]
+	var leg_offset = [0, 1, 0, -1][frame_idx % 4]
 	if is_jump:
 		leg_offset = -2
 	# 왼쪽 다리
@@ -159,7 +159,7 @@ func _physics_process(delta: float) -> void:
 		return
 
 	# 입력 수집
-	var input_vec := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	var input_vec = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	_direction = input_vec.normalized()
 
 	if _direction != Vector2.ZERO:
@@ -203,7 +203,7 @@ func _play_footstep() -> void:
 func _update_walk_animation() -> void:
 	if not sprite:
 		return
-	var anim := "walk_"
+	var anim = "walk_"
 	if _is_running:
 		anim = "run_right"
 	elif abs(_direction.x) > abs(_direction.y):
@@ -221,7 +221,7 @@ func _update_walk_animation() -> void:
 func _update_idle_animation() -> void:
 	if not sprite:
 		return
-	var anim := "idle_"
+	var anim = "idle_"
 	if abs(_last_direction.x) > abs(_last_direction.y):
 		anim += "right" if _last_direction.x > 0 else "left"
 	elif _last_direction.y > 0:
@@ -244,13 +244,13 @@ func _try_interact() -> void:
 	if DialogueManager.is_active():
 		DialogueManager.advance()
 		return
-	var areas := interaction_area.get_overlapping_areas()
+	var areas = interaction_area.get_overlapping_areas()
 	for area in areas:
-		var parent := area.get_parent()
+		var parent = area.get_parent()
 		if parent and parent.has_method("on_interact"):
 			parent.on_interact()
 			return
-	var bodies := interaction_area.get_overlapping_bodies()
+	var bodies = interaction_area.get_overlapping_bodies()
 	for body in bodies:
 		if body != self and body.has_method("on_interact"):
 			body.on_interact()
@@ -262,7 +262,7 @@ func _try_interact() -> void:
 func _try_monologue() -> void:
 	if DialogueManager.is_active():
 		return
-	var stage := GameState.get_progress_stage()
+	var stage = GameState.get_progress_stage()
 	var pool: Array[String]
 	if stage <= 2:
 		pool = MONOLOGUE_EARLY
@@ -271,7 +271,7 @@ func _try_monologue() -> void:
 	else:
 		pool = MONOLOGUE_LATE
 
-	var line := pool[randi() % pool.size()]
+	var line = pool[randi() % pool.size()]
 	if line == _last_monologue and pool.size() > 1:
 		line = pool[(pool.find(line) + 1) % pool.size()]
 	_last_monologue = line
@@ -284,7 +284,7 @@ func _on_stage_changed(stage: int) -> void:
 	_update_speed()
 
 func _update_speed() -> void:
-	var stage := GameState.get_progress_stage()
+	var stage = GameState.get_progress_stage()
 	# 진행할수록 조금 빠른 느낌 (UI에 수치 노출 없음)
 	_speed = BASE_SPEED + float(mini(stage, 5)) * (LATE_SPEED_BONUS / 5.0)
 

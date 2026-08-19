@@ -25,8 +25,8 @@ func _update_fog(stage: int) -> void:
 	if not fog_layer:
 		return
 	# 안개 투명도: stage 0=0.85, stage 9=0.1
-	var target_alpha := lerpf(0.85, 0.1, float(stage) / 9.0)
-	var tween := create_tween()
+	var target_alpha = lerpf(0.85, 0.1, float(stage) / 9.0)
+	var tween = create_tween()
 	tween.tween_property(fog_layer, "modulate:a", target_alpha, 2.0)
 
 func _update_trees(stage: int) -> void:
@@ -34,6 +34,6 @@ func _update_trees(stage: int) -> void:
 	if changeable_decorations:
 		for child in changeable_decorations.get_children():
 			var min_s: int = child.get_meta("min_stage", 99)
-			var tween := create_tween()
+			var tween = create_tween()
 			tween.tween_property(child, "modulate:a",
 				1.0 if stage >= min_s else 0.0, 0.8)

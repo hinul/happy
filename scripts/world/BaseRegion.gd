@@ -41,7 +41,7 @@ func _setup_region() -> void:
 # ─────────────────────────────────────────────
 func _create_procedural_environment() -> void:
 	# Ground 노드 확인 및 절차적 그리기 추가
-	var ground := get_node_or_null("Ground")
+	var ground = get_node_or_null("Ground")
 	if ground and ground.get_child_count() == 0:
 		_procedural_background = ProceduralMapDraw.new()
 		_procedural_background.region_id = region_id
@@ -71,8 +71,8 @@ func get_spawn_point(point_name: String = "default") -> Vector2:
 func _apply_lighting(stage: int) -> void:
 	if not canvas_modulate:
 		return
-	var target_color := _get_stage_color(stage)
-	var tween := create_tween()
+	var target_color = _get_stage_color(stage)
+	var tween = create_tween()
 	tween.tween_property(canvas_modulate, "color", target_color, 1.5)
 
 func _get_stage_color(stage: int) -> Color:
@@ -114,8 +114,8 @@ class ProceduralMapDraw extends Node2D:
 		queue_redraw()
 
 	func _draw() -> void:
-		var width := 640
-		var height := 360
+		var width = 640
+		var height = 360
 
 		match region_id:
 			"ash_forest":
@@ -135,18 +135,18 @@ class ProceduralMapDraw extends Node2D:
 
 	func _draw_ash_forest(w: int, h: int) -> void:
 		# 바닥 풀밭 (잿빛 → 짙은 녹색)
-		var base_color := Color(0.22, 0.24, 0.22).lerp(Color(0.28, 0.40, 0.28), float(current_stage) / 9.0)
+		var base_color = Color(0.22, 0.24, 0.22).lerp(Color(0.28, 0.40, 0.28), float(current_stage) / 9.0)
 		draw_rect(Rect2(0, 0, w, h), base_color)
 
 		# 흙길 (중앙 도로)
-		var path_color := Color(0.35, 0.32, 0.28)
+		var path_color = Color(0.35, 0.32, 0.28)
 		draw_rect(Rect2(40, 180, w - 80, 40), path_color)
 		draw_rect(Rect2(140, 160, 60, 80), path_color)
 		draw_rect(Rect2(440, 160, 60, 80), path_color)
 
 		# 주변 죽은 나무/살아나는 나무 서큘러 그리드
-		var tree_color := Color(0.18, 0.16, 0.16).lerp(Color(0.18, 0.32, 0.20), float(current_stage) / 9.0)
-		var trunk_color := Color(0.28, 0.22, 0.18)
+		var tree_color = Color(0.18, 0.16, 0.16).lerp(Color(0.18, 0.32, 0.20), float(current_stage) / 9.0)
+		var trunk_color = Color(0.28, 0.22, 0.18)
 
 		# 상단/하단 나무 줄기들
 		for x in range(30, w, 50):
@@ -159,45 +159,45 @@ class ProceduralMapDraw extends Node2D:
 
 	func _draw_small_village(w: int, h: int) -> void:
 		# 마을 자갈길 바닥
-		var base_color := Color(0.30, 0.28, 0.26)
+		var base_color = Color(0.30, 0.28, 0.26)
 		draw_rect(Rect2(0, 0, w, h), base_color)
 
 		# 마을 중앙 광장
-		var plaza_color := Color(0.40, 0.38, 0.35)
+		var plaza_color = Color(0.40, 0.38, 0.35)
 		draw_circle(Vector2(w / 2, h / 2), 90.0, plaza_color)
 		draw_circle(Vector2(w / 2, h / 2), 86.0, base_color)
 
 		# 집 실루엣 3채
-		var house_color := Color(0.20, 0.18, 0.18)
+		var house_color = Color(0.20, 0.18, 0.18)
 		draw_rect(Rect2(70, 80, 80, 60), house_color)
 		draw_rect(Rect2(250, 60, 100, 70), house_color)
 		draw_rect(Rect2(470, 80, 90, 60), house_color)
 
 	func _draw_rain_lake(w: int, h: int) -> void:
 		# 호숫가 잔디 바닥
-		var shore_color := Color(0.22, 0.26, 0.24)
+		var shore_color = Color(0.22, 0.26, 0.24)
 		draw_rect(Rect2(0, 0, w, h), shore_color)
 
 		# 중앙 거대 호수
-		var lake_color := Color(0.20, 0.28, 0.38).lerp(Color(0.25, 0.42, 0.55), float(current_stage) / 9.0)
+		var lake_color = Color(0.20, 0.28, 0.38).lerp(Color(0.25, 0.42, 0.55), float(current_stage) / 9.0)
 		draw_ellipse(Vector2(w / 2, h / 2 + 10), 200.0, 90.0, lake_color)
 
 		# 젖은 나무다리
-		var bridge_color := Color(0.38, 0.28, 0.20)
+		var bridge_color = Color(0.38, 0.28, 0.20)
 		draw_rect(Rect2(120, h / 2 - 10, 200, 24), bridge_color)
 
 	func _draw_memory_garden(w: int, h: int) -> void:
 		# 정원 잔디 바닥
-		var grass_color := Color(0.24, 0.30, 0.24)
+		var grass_color = Color(0.24, 0.30, 0.24)
 		draw_rect(Rect2(0, 0, w, h), grass_color)
 
 		# 정원 산책로 (십자형)
-		var path_color := Color(0.42, 0.38, 0.32)
+		var path_color = Color(0.42, 0.38, 0.32)
 		draw_rect(Rect2(0, 160, w, 40), path_color)
 		draw_rect(Rect2(300, 0, 40, h), path_color)
 
 		# 화단 영역 4개
-		var bed_color := Color(0.32, 0.22, 0.18)
+		var bed_color = Color(0.32, 0.22, 0.18)
 		draw_rect(Rect2(80, 50, 140, 80), bed_color)
 		draw_rect(Rect2(420, 50, 140, 80), bed_color)
 		draw_rect(Rect2(80, 230, 140, 80), bed_color)
@@ -205,27 +205,27 @@ class ProceduralMapDraw extends Node2D:
 
 	func _draw_old_theater(w: int, h: int) -> void:
 		# 극장 마루 바닥
-		var floor_color := Color(0.18, 0.14, 0.12)
+		var floor_color = Color(0.18, 0.14, 0.12)
 		draw_rect(Rect2(0, 0, w, h), floor_color)
 
 		# 무대 영역
-		var stage_color := Color(0.28, 0.20, 0.15)
+		var stage_color = Color(0.28, 0.20, 0.15)
 		draw_rect(Rect2(100, 40, 440, 140), stage_color)
 
 		# 객석 의자 열
-		var seat_color := Color(0.25, 0.12, 0.12)
+		var seat_color = Color(0.25, 0.12, 0.12)
 		for y in range(220, 330, 30):
 			for x in range(120, 520, 40):
 				draw_rect(Rect2(x, y, 24, 16), seat_color)
 
 	func _draw_dawn_hill(w: int, h: int) -> void:
 		# 언덕 잔디 (새벽빛)
-		var hill_color := Color(0.22, 0.22, 0.28).lerp(Color(0.35, 0.38, 0.32), float(current_stage) / 9.0)
+		var hill_color = Color(0.22, 0.22, 0.28).lerp(Color(0.35, 0.38, 0.32), float(current_stage) / 9.0)
 		draw_rect(Rect2(0, 0, w, h), hill_color)
 
 		# 언덕 곡선 길
-		var path_color := Color(0.38, 0.35, 0.30)
-		var points := PackedVector2Array([
+		var path_color = Color(0.38, 0.35, 0.30)
+		var points = PackedVector2Array([
 			Vector2(50, 320), Vector2(180, 260),
 			Vector2(320, 200), Vector2(450, 140), Vector2(560, 100)
 		])

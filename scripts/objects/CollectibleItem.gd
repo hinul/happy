@@ -9,8 +9,8 @@ extends Node2D
 @onready var glow: Node2D = $Glow if has_node("Glow") else null
 @onready var interaction_area: Area2D = $InteractionArea if has_node("InteractionArea") else null
 
-var _collected := false
-var _bob_timer := 0.0
+var _collected = false
+var _bob_timer = 0.0
 
 func _ready() -> void:
 	if GameState.has_item(item_id):
@@ -40,22 +40,22 @@ func on_interact() -> void:
 	if map_cell != Vector2i.ZERO:
 		MapDiscoveryManager.remove_icon(map_cell)
 	# 음표 단서 확인 및 음표 등장
-	var item_data := InventoryManager.get_item_data(item_id)
+	var item_data = InventoryManager.get_item_data(item_id)
 	var linked_note: String = item_data.get("linked_note_id", "")
 	if not linked_note.is_empty():
 		_reveal_linked_note(linked_note)
 	# 자동 저장
 	SaveManager.auto_save()
 	# 오브젝트 제거 (애니메이션 후)
-	var tween := create_tween()
+	var tween = create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, 0.5)
 	tween.tween_callback(queue_free)
 
 func _show_pickup_notification() -> void:
-	var name_ := InventoryManager.get_display_name(item_id)
-	var desc := InventoryManager.get_description(item_id)
+	var name_ = InventoryManager.get_display_name(item_id)
+	var desc = InventoryManager.get_description(item_id)
 	# NotificationUI에 전달
-	var ui := get_tree().get_first_node_in_group("notification_ui")
+	var ui = get_tree().get_first_node_in_group("notification_ui")
 	if ui and ui.has_method("show_item_pickup"):
 		ui.show_item_pickup(name_, desc)
 
@@ -66,7 +66,7 @@ func _reveal_linked_note(note_id: String) -> void:
 	# 주변에서 작은 소리가 들리고 음표가 나타남
 	await get_tree().create_timer(1.2).timeout
 	# 부모 씬에서 해당 음표 오브젝트 활성화
-	var note_node := get_tree().get_first_node_in_group("note_" + note_id)
+	var note_node = get_tree().get_first_node_in_group("note_" + note_id)
 	if note_node:
 		note_node.visible = true
 		note_node.set_meta("revealed", true)
@@ -77,21 +77,21 @@ func _reveal_linked_note(note_id: String) -> void:
 
 func _create_item_texture() -> ImageTexture:
 	# 아이템별 픽셀 아이콘 (12×12)
-	var img := Image.create(12, 12, false, Image.FORMAT_RGBA8)
+	var img = Image.create(12, 12, false, Image.FORMAT_RGBA8)
 	img.fill(Color.TRANSPARENT)
-	var color := _get_item_color()
+	var color = _get_item_color()
 	# 기본 다이아몬드 형태
 	for y in range(12):
 		for x in range(12):
-			var cx := abs(x - 5.5)
-			var cy := abs(y - 5.5)
+			var cx = abs(x - 5.5)
+			var cy = abs(y - 5.5)
 			if cx + cy <= 5.0:
 				img.set_pixel(x, y, color)
 	# 테두리
 	for y in range(12):
 		for x in range(12):
-			var cx := abs(x - 5.5)
-			var cy := abs(y - 5.5)
+			var cx = abs(x - 5.5)
+			var cy = abs(y - 5.5)
 			if abs(cx + cy - 5.0) < 0.8:
 				img.set_pixel(x, y, color.lightened(0.3))
 	return ImageTexture.create_from_image(img)

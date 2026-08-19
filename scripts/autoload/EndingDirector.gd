@@ -71,14 +71,14 @@ func _play_note_sequence(index: int, callback: Callable) -> void:
 		callback.call()
 		return
 	MusicManager.play_note_pickup(index)
-	var t := get_tree().create_timer(0.35)
+	var t = get_tree().create_timer(0.35)
 	t.timeout.connect(func(): _play_note_sequence(index + 1, callback))
 
 ## 2단계: 캉캉 시작 전 정적
 func _phase_cancan_start() -> void:
 	ending_phase_changed.emit("silence_before_cancan")
 	# 짧은 정적
-	var t := get_tree().create_timer(1.2)
+	var t = get_tree().create_timer(1.2)
 	t.timeout.connect(func():
 		MusicManager.play_cancan()
 		_phase_npc_parade()
@@ -90,7 +90,7 @@ func _phase_npc_parade() -> void:
 	for dancer_data in DANCER_SEQUENCE:
 		var entry_time: float = dancer_data["entry_time"]
 		var npc_id: String = dancer_data["npc_id"]
-		var t := get_tree().create_timer(entry_time)
+		var t = get_tree().create_timer(entry_time)
 		t.timeout.connect(func():
 			dancer_appeared.emit(npc_id)
 			if _ending_scene and _ending_scene.has_method("spawn_dancer"):
@@ -98,7 +98,7 @@ func _phase_npc_parade() -> void:
 		)
 
 	# 주인공 합류 (16초 후)
-	var player_join_timer := get_tree().create_timer(16.0)
+	var player_join_timer = get_tree().create_timer(16.0)
 	player_join_timer.timeout.connect(_phase_player_joins)
 
 ## 4단계: 주인공 춤 합류
@@ -108,7 +108,7 @@ func _phase_player_joins() -> void:
 		_ending_scene.player_join_dance()
 
 	# 카메라 줌아웃 (22초 후)
-	var zoom_timer := get_tree().create_timer(6.0)
+	var zoom_timer = get_tree().create_timer(6.0)
 	zoom_timer.timeout.connect(_phase_camera_zoomout)
 
 ## 5단계: 카메라 줌아웃
@@ -118,14 +118,14 @@ func _phase_camera_zoomout() -> void:
 		_ending_scene.start_zoomout()
 
 	# 주인공 대사: "어라?" (줌아웃 중간)
-	var text_timer := get_tree().create_timer(3.0)
+	var text_timer = get_tree().create_timer(3.0)
 	text_timer.timeout.connect(func():
 		if _ending_scene and _ending_scene.has_method("show_player_reaction"):
 			_ending_scene.show_player_reaction("어라?")
 	)
 
 	# 최종 문장 (줌아웃 완료 후)
-	var final_timer := get_tree().create_timer(5.0)
+	var final_timer = get_tree().create_timer(5.0)
 	final_timer.timeout.connect(_phase_final_texts)
 
 ## 6단계: 마지막 문장 순차 표시
@@ -137,12 +137,12 @@ func _show_text_sequence(index: int) -> void:
 	if index >= FINAL_TEXTS.size():
 		_phase_the_end()
 		return
-	var text := FINAL_TEXTS[index]
+	var text = FINAL_TEXTS[index]
 	final_text_shown.emit(text)
 	if _ending_scene and _ending_scene.has_method("show_ending_text"):
 		_ending_scene.show_ending_text(text)
-	var interval := TEXT_INTERVALS[index] if index < TEXT_INTERVALS.size() else 3.0
-	var t := get_tree().create_timer(interval)
+	var interval = TEXT_INTERVALS[index] if index < TEXT_INTERVALS.size() else 3.0
+	var t = get_tree().create_timer(interval)
 	t.timeout.connect(func(): _show_text_sequence(index + 1))
 
 ## 7단계: THE END + 엔딩 메뉴
@@ -154,7 +154,7 @@ func _phase_the_end() -> void:
 	if _ending_scene and _ending_scene.has_method("show_the_end"):
 		_ending_scene.show_the_end()
 
-	var menu_timer := get_tree().create_timer(2.5)
+	var menu_timer = get_tree().create_timer(2.5)
 	menu_timer.timeout.connect(func():
 		ending_menu_shown.emit()
 		if _ending_scene and _ending_scene.has_method("show_ending_menu"):

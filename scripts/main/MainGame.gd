@@ -12,7 +12,7 @@ extends Node2D
 var _current_region_instance: Node = null
 
 # 지역 ID → 씬 경로
-const REGION_SCENES := SceneTransitionManager.REGION_SCENES
+const REGION_SCENES = SceneTransitionManager.REGION_SCENES
 
 func _ready() -> void:
 	SceneTransitionManager.register_main_game(self)
@@ -56,12 +56,12 @@ func load_region(region_id: String, spawn_point: String = "default") -> void:
 		_current_region_instance.queue_free()
 		_current_region_instance = null
 
-	var scene_path := REGION_SCENES.get(region_id, "")
+	var scene_path = REGION_SCENES.get(region_id, "")
 	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
 		push_error("[MainGame] 지역 씬 없음: " + region_id)
 		return
 
-	var packed := load(scene_path) as PackedScene
+	var packed = load(scene_path) as PackedScene
 	if not packed:
 		return
 

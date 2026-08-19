@@ -16,8 +16,8 @@ extends Node
 # stage 8: 완성 직전
 # stage 9: 캉캉 전체
 
-const CROSSFADE_DURATION := 2.0
-const MASTER_VOLUME_DB := 0.0
+const CROSSFADE_DURATION = 2.0
+const MASTER_VOLUME_DB = 0.0
 
 # 캉캉 멜로디 음정 (주파수 Hz, 캉캉 주제 기반)
 # E4-D4-E4-C4 / E4-D4-B3-G3 패턴
@@ -119,7 +119,7 @@ func set_sound_volume(vol: float) -> void:
 func play_sfx_beep(freq: float = 440.0, duration: float = 0.1) -> void:
 	if not _audio_enabled:
 		return
-	var stream := _create_tone_stream(freq, duration, 0.3)
+	var stream = _create_tone_stream(freq, duration, 0.3)
 	_sfx_player.stream = stream
 	_sfx_player.play()
 
@@ -127,8 +127,8 @@ func play_note_pickup(note_index: int) -> void:
 	if not _audio_enabled:
 		return
 	# 캉캉 멜로디의 해당 음 재생
-	var freq := CANCAN_MELODY[note_index % CANCAN_MELODY.size()]
-	var stream := _create_tone_stream(freq, 0.5, 0.4)
+	var freq = CANCAN_MELODY[note_index % CANCAN_MELODY.size()]
+	var stream = _create_tone_stream(freq, 0.5, 0.4)
 	_sfx_player.stream = stream
 	_sfx_player.play()
 
@@ -138,9 +138,9 @@ func play_cancan() -> void:
 	_cancan_playing = true
 	_stop_all_music()
 	# OGG 파일이 있으면 재생, 없으면 절차적 생성
-	var ogg_path := "res://audio/bgm/cancan_final.ogg"
+	var ogg_path = "res://audio/bgm/cancan_final.ogg"
 	if ResourceLoader.exists(ogg_path):
-		var stream := load(ogg_path)
+		var stream = load(ogg_path)
 		_current_player.stream = stream
 		_current_player.volume_db = _volume_to_db(GameState.music_volume)
 		_current_player.play()
@@ -177,10 +177,10 @@ func _get_note_interval(stage: int) -> float:
 		_: return 0.8
 
 func _play_stage_note() -> void:
-	var stage := _current_stage
+	var stage = _current_stage
 	if stage == 0:
 		# 낮은 지속음 하나만
-		var stream := _create_tone_stream(98.0, 1.5, 0.1)
+		var stream = _create_tone_stream(98.0, 1.5, 0.1)
 		_player_a.stream = stream
 		_player_a.play()
 		return
@@ -195,13 +195,13 @@ func _play_stage_note() -> void:
 		return
 
 	# 단계가 높을수록 더 많은 음 동시 재생
-	var count := mini(stage, notes.size())
+	var count = mini(stage, notes.size())
 	for i in range(count):
 		if i == 0 or stage >= 5:
-			var freq := notes[i % notes.size()]
-			var vol := 0.15 + (float(i) / float(count)) * 0.1
-			var dur := 0.3 + float(stage) * 0.05
-			var s := _create_tone_stream(freq, dur, vol)
+			var freq = notes[i % notes.size()]
+			var vol = 0.15 + (float(i) / float(count)) * 0.1
+			var dur = 0.3 + float(stage) * 0.05
+			var s = _create_tone_stream(freq, dur, vol)
 			if i == 0:
 				_player_a.stream = s
 				_player_a.play()
@@ -211,7 +211,7 @@ func _play_stage_note() -> void:
 
 func _play_ambient() -> void:
 	# 바람 소리 절차적 생성
-	var stream := _create_noise_stream(3.0, 0.05)
+	var stream = _create_noise_stream(3.0, 0.05)
 	_ambient_player.stream = stream
 	_ambient_player.volume_db = _volume_to_db(GameState.sound_volume * 0.3)
 	_ambient_player.play()
@@ -223,11 +223,11 @@ func _play_procedural_cancan() -> void:
 func _play_cancan_sequence(index: int) -> void:
 	if index >= CANCAN_MELODY.size():
 		index = 0  # 루프
-	var freq := CANCAN_MELODY[index]
-	var stream := _create_tone_stream(freq, 0.22, 0.6)
+	var freq = CANCAN_MELODY[index]
+	var stream = _create_tone_stream(freq, 0.22, 0.6)
 	_current_player.stream = stream
 	_current_player.play()
-	var t := get_tree().create_timer(0.24)
+	var t = get_tree().create_timer(0.24)
 	t.timeout.connect(func(): _play_cancan_sequence(index + 1))
 
 func _stop_all_music() -> void:
@@ -244,29 +244,29 @@ func _on_ending_started() -> void:
 
 ## 단순 사인파 톤 생성
 func _create_tone_stream(freq: float, duration: float, volume: float = 0.5) -> AudioStreamWAV:
-	var sample_rate := 22050
-	var num_samples := int(duration * sample_rate)
-	var data := PackedByteArray()
+	var sample_rate = 22050
+	var num_samples = int(duration * sample_rate)
+	var data = PackedByteArray()
 	data.resize(num_samples * 2)  # 16-bit mono
 
 	for i in range(num_samples):
-		var t := float(i) / float(sample_rate)
-		var envelope := 1.0
+		var t = float(i) / float(sample_rate)
+		var envelope = 1.0
 		# 어택/릴리즈 엔벨로프
-		var attack := 0.02
-		var release := 0.1
+		var attack = 0.02
+		var release = 0.1
 		if t < attack:
 			envelope = t / attack
 		elif t > duration - release:
 			envelope = (duration - t) / release
-		var sample := sin(2.0 * PI * freq * t) * volume * envelope
+		var sample = sin(2.0 * PI * freq * t) * volume * envelope
 		# 약간의 배음 추가 (2배음)
 		sample += sin(2.0 * PI * freq * 2.0 * t) * volume * 0.2 * envelope
-		var s16 := int(clampf(sample, -1.0, 1.0) * 32767.0)
+		var s16 = int(clampf(sample, -1.0, 1.0) * 32767.0)
 		data[i * 2] = s16 & 0xFF
 		data[i * 2 + 1] = (s16 >> 8) & 0xFF
 
-	var stream := AudioStreamWAV.new()
+	var stream = AudioStreamWAV.new()
 	stream.data = data
 	stream.format = AudioStreamWAV.FORMAT_16_BITS
 	stream.mix_rate = sample_rate
@@ -275,23 +275,23 @@ func _create_tone_stream(freq: float, duration: float, volume: float = 0.5) -> A
 
 ## 노이즈(바람 소리) 생성
 func _create_noise_stream(duration: float, volume: float = 0.05) -> AudioStreamWAV:
-	var sample_rate := 22050
-	var num_samples := int(duration * sample_rate)
-	var data := PackedByteArray()
+	var sample_rate = 22050
+	var num_samples = int(duration * sample_rate)
+	var data = PackedByteArray()
 	data.resize(num_samples * 2)
-	var rng := RandomNumberGenerator.new()
+	var rng = RandomNumberGenerator.new()
 	rng.randomize()
-	var prev := 0.0
+	var prev = 0.0
 	for i in range(num_samples):
 		# 저역 통과 필터링으로 부드러운 바람 소리
-		var raw := rng.randf_range(-1.0, 1.0)
-		var filtered := prev * 0.97 + raw * 0.03
+		var raw = rng.randf_range(-1.0, 1.0)
+		var filtered = prev * 0.97 + raw * 0.03
 		prev = filtered
-		var s16 := int(clampf(filtered * volume, -1.0, 1.0) * 32767.0)
+		var s16 = int(clampf(filtered * volume, -1.0, 1.0) * 32767.0)
 		data[i * 2] = s16 & 0xFF
 		data[i * 2 + 1] = (s16 >> 8) & 0xFF
 
-	var stream := AudioStreamWAV.new()
+	var stream = AudioStreamWAV.new()
 	stream.data = data
 	stream.format = AudioStreamWAV.FORMAT_16_BITS
 	stream.mix_rate = sample_rate

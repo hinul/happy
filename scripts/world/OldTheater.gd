@@ -7,7 +7,7 @@ extends BaseRegion
 
 # 무대 소리 퍼즐 상태
 var _sound_sequence: Array[int] = []
-const CORRECT_SEQUENCE := [1, 3, 2]  # 세 가지 소리 순서
+const CORRECT_SEQUENCE = [1, 3, 2]  # 세 가지 소리 순서
 
 func _setup_region() -> void:
 	region_id = "old_theater"
@@ -28,7 +28,7 @@ func _update_stage_lighting(stage: int) -> void:
 		return
 	# stage 6+: 극장 조명 켜짐
 	if stage >= 6:
-		var tween := create_tween()
+		var tween = create_tween()
 		tween.tween_property(stage_light, "modulate:a", 1.0, 2.0)
 		# stage 8: 무대 조명 완전 점등
 		if stage >= 8:
@@ -38,13 +38,13 @@ func _update_stage_lighting(stage: int) -> void:
 ## 소리 퍼즐: 무대 악기 소리 순서 입력
 func input_sound(sound_id: int) -> bool:
 	_sound_sequence.append(sound_id)
-	var expected := CORRECT_SEQUENCE[_sound_sequence.size() - 1]
+	var expected = CORRECT_SEQUENCE[_sound_sequence.size() - 1]
 	if sound_id != expected:
 		# 실패 — 패널티 없이 다시 시작
 		_sound_sequence = []
 		return false
 	# 소리에 해당하는 음 재생
-	var freqs := [261.63, 329.63, 392.00]
+	var freqs = [261.63, 329.63, 392.00]
 	MusicManager.play_sfx_beep(freqs[clampi(sound_id, 0, freqs.size()-1)], 0.3)
 	if _sound_sequence.size() >= CORRECT_SEQUENCE.size():
 		_on_sound_puzzle_complete()

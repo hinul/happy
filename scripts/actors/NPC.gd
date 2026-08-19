@@ -21,7 +21,7 @@ func _ready() -> void:
 
 	# 지도 아이콘 등록
 	if not npc_id.is_empty():
-		var cell := Vector2i(int(global_position.x / 32), int(global_position.y / 32))
+		var cell = Vector2i(int(global_position.x / 32), int(global_position.y / 32))
 		MapDiscoveryManager.add_icon(cell, "npc")
 
 func on_interact() -> void:
@@ -42,18 +42,18 @@ func _refresh_stage() -> void:
 
 ## 절차적 NPC 스프라이트 (16×24, 색상으로 구별)
 func _create_npc_frames() -> SpriteFrames:
-	var frames := SpriteFrames.new()
+	var frames = SpriteFrames.new()
 	if frames.has_animation("default"):
 		frames.remove_animation("default")
-	var color := _get_npc_color()
+	var color = _get_npc_color()
 	for dir in ["down", "up", "left", "right"]:
-		var anim := "idle_" + dir
+		var anim = "idle_" + dir
 		frames.add_animation(anim)
 		frames.set_animation_loop(anim, true)
 		frames.set_animation_speed(anim, 4.0)
 		for i in range(2):
 			frames.add_frame(anim, _make_npc_texture(color, i))
-		var walk := "walk_" + dir
+		var walk = "walk_" + dir
 		frames.add_animation(walk)
 		frames.set_animation_loop(walk, true)
 		frames.set_animation_speed(walk, 6.0)
@@ -78,7 +78,7 @@ func _get_npc_color() -> Color:
 		_: return Color(0.5, 0.5, 0.5)
 
 func _make_npc_texture(color: Color, frame_idx: int) -> ImageTexture:
-	var img := Image.create(16, 24, false, Image.FORMAT_RGBA8)
+	var img = Image.create(16, 24, false, Image.FORMAT_RGBA8)
 	img.fill(Color.TRANSPARENT)
 	# 몸통
 	for y in range(10, 20):
@@ -92,9 +92,9 @@ func _make_npc_texture(color: Color, frame_idx: int) -> ImageTexture:
 	img.set_pixel(6, 5, Color(0.1, 0.1, 0.1))
 	img.set_pixel(9, 5, Color(0.1, 0.1, 0.1))
 	# 다리
-	var leg_offset := [0, 1, 0, -1][frame_idx % 4]
+	var leg_offset = [0, 1, 0, -1][frame_idx % 4]
 	for y in range(20, 24):
-		var py := clampi(y + leg_offset, 0, 23)
+		var py = clampi(y + leg_offset, 0, 23)
 		img.set_pixel(5, py, color.darkened(0.2))
 		py = clampi(y - leg_offset, 0, 23)
 		img.set_pixel(10, py, color.darkened(0.2))

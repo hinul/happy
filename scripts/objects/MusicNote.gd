@@ -9,9 +9,9 @@ extends Node2D
 @onready var sprite: Sprite2D = $Sprite2D if has_node("Sprite2D") else null
 @onready var interaction_area: Area2D = $InteractionArea if has_node("InteractionArea") else null
 
-var _collected := false
-var _revealed := false
-var _float_timer := 0.0
+var _collected = false
+var _revealed = false
+var _float_timer = 0.0
 
 func _ready() -> void:
 	if GameState.has_note(note_id):
@@ -36,10 +36,10 @@ func reveal() -> void:
 	visible = true
 	# 등장 효과
 	scale = Vector2(0.1, 0.1)
-	var tween := create_tween()
+	var tween = create_tween()
 	tween.tween_property(self, "scale", Vector2.ONE, 0.4)
 	# 음 재생
-	var index := _get_note_index()
+	var index = _get_note_index()
 	MusicManager.play_note_pickup(index)
 
 func on_interact() -> void:
@@ -51,25 +51,25 @@ func on_interact() -> void:
 		MapDiscoveryManager.remove_icon(map_cell)
 	_play_collect_effect()
 	SaveManager.auto_save()
-	var tween := create_tween()
+	var tween = create_tween()
 	tween.tween_property(self, "scale", Vector2(2.0, 2.0), 0.3)
 	tween.parallel().tween_property(self, "modulate:a", 0.0, 0.3)
 	tween.tween_callback(queue_free)
 
 func _play_collect_effect() -> void:
-	var index := _get_note_index()
+	var index = _get_note_index()
 	MusicManager.play_note_pickup(index)
 	# ScoreUI 업데이트 신호는 GameState.note_collected 신호로 처리됨
 
 func _get_note_index() -> int:
-	var ids := ["note_01","note_02","note_03","note_04","note_05",
+	var ids = ["note_01","note_02","note_03","note_04","note_05",
 				"note_06","note_07","note_08","note_09"]
 	return ids.find(note_id)
 
 func _create_note_texture() -> ImageTexture:
-	var img := Image.create(10, 14, false, Image.FORMAT_RGBA8)
+	var img = Image.create(10, 14, false, Image.FORMAT_RGBA8)
 	img.fill(Color.TRANSPARENT)
-	var c := Color(0.95, 0.92, 0.6, 1.0)
+	var c = Color(0.95, 0.92, 0.6, 1.0)
 	# 음표 머리 (타원)
 	for y in range(8, 12):
 		for x in range(1, 7):

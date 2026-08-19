@@ -79,9 +79,9 @@ func _ready() -> void:
 	_load_settings()
 
 func _load_settings() -> void:
-	var f := FileAccess.open("res://data/default_settings.json", FileAccess.READ)
+	var f = FileAccess.open("res://data/default_settings.json", FileAccess.READ)
 	if f:
-		var json := JSON.new()
+		var json = JSON.new()
 		if json.parse(f.get_as_text()) == OK:
 			var d: Dictionary = json.data
 			music_volume = d.get("music_volume", 0.8)
@@ -100,8 +100,8 @@ func collect_note(note_id: String) -> void:
 	if note_id in collected_note_ids:
 		return
 	collected_note_ids.append(note_id)
-	var new_stage := collected_note_ids.size()
-	var stage_changed := (new_stage != _progress_stage)
+	var new_stage = collected_note_ids.size()
+	var stage_changed = (new_stage != _progress_stage)
 	_progress_stage = new_stage
 	note_collected.emit(note_id)
 	if stage_changed:
@@ -246,7 +246,7 @@ func from_dict(d: Dictionary) -> void:
 # ─────────────────────────────────────────────
 
 func _cells_to_array(cells: Array[Vector2i]) -> Array:
-	var result := []
+	var result = []
 	for c in cells:
 		result.append([c.x, c.y])
 	return result

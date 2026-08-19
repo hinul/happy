@@ -40,7 +40,7 @@ func check_region_unlocks(stage: int) -> void:
 
 ## 특정 NPC의 현재 대사 단계 반환 (0~3)
 func get_npc_dialogue_stage(npc_id: String) -> int:
-	var stage := GameState.get_progress_stage()
+	var stage = GameState.get_progress_stage()
 	# 일부 NPC는 지역 이벤트 완료 여부도 함께 확인
 	match npc_id:
 		"theater_musician":
@@ -63,7 +63,7 @@ func get_npc_dialogue_stage(npc_id: String) -> int:
 func can_spawn_negative_thought(thought_id: String) -> bool:
 	if GameState.is_event_done("thought_" + thought_id):
 		return false
-	var stage := GameState.get_progress_stage()
+	var stage = GameState.get_progress_stage()
 	return stage >= 1
 
 ## 최종 보스 접근 가능 여부

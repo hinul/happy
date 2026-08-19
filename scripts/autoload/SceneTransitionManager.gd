@@ -5,7 +5,7 @@ extends Node
 signal transition_started(region_id: String)
 signal transition_finished(region_id: String)
 
-const FADE_DURATION := 0.4
+const FADE_DURATION = 0.4
 
 # 지역 ID → 씬 경로 매핑
 const REGION_SCENES: Dictionary = {
@@ -70,7 +70,7 @@ func teleport_player(pos: Vector2) -> void:
 
 func _load_region(region_id: String, spawn_point: String) -> void:
 	GameState.current_region = region_id
-	var scene_path := REGION_SCENES[region_id]
+	var scene_path = REGION_SCENES[region_id]
 
 	if not ResourceLoader.exists(scene_path):
 		push_error("[SceneTransitionManager] 씬 파일 없음: " + scene_path)
@@ -94,13 +94,13 @@ func _finish_transition(region_id: String) -> void:
 
 func _fade_out(callback: Callable) -> void:
 	_fade_rect.visible = true
-	var tween := create_tween()
+	var tween = create_tween()
 	tween.tween_property(_fade_rect, "modulate:a", 1.0, FADE_DURATION)
 	tween.tween_callback(callback)
 
 func _fade_in(callback: Callable) -> void:
 	_fade_rect.visible = true
-	var tween := create_tween()
+	var tween = create_tween()
 	tween.tween_property(_fade_rect, "modulate:a", 0.0, FADE_DURATION)
 	tween.tween_callback(func():
 		_fade_rect.visible = false
@@ -116,7 +116,7 @@ func set_fade(alpha: float) -> void:
 ## 페이드인 애니메이션
 func fade_in(duration: float = FADE_DURATION, callback: Callable = Callable()) -> void:
 	_fade_rect.visible = true
-	var tween := create_tween()
+	var tween = create_tween()
 	tween.tween_property(_fade_rect, "modulate:a", 0.0, duration)
 	tween.tween_callback(func():
 		_fade_rect.visible = false
@@ -127,7 +127,7 @@ func fade_in(duration: float = FADE_DURATION, callback: Callable = Callable()) -
 ## 페이드아웃 애니메이션
 func fade_out(duration: float = FADE_DURATION, callback: Callable = Callable()) -> void:
 	_fade_rect.visible = true
-	var tween := create_tween()
+	var tween = create_tween()
 	tween.tween_property(_fade_rect, "modulate:a", 1.0, duration)
 	if callback.is_valid():
 		tween.tween_callback(callback)

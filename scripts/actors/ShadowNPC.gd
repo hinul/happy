@@ -47,7 +47,7 @@ func _on_thought_dialogue_done() -> void:
 	# 올바른 아이템 사용 시 크기 축소, 그림자로 변환
 	_is_interacted = true
 	GameState.complete_event("thought_done_" + thought_id)
-	var tween := create_tween()
+	var tween = create_tween()
 	tween.tween_property(self, "scale", Vector2(0.45, 0.45), 1.0)
 	# 옆으로 이동
 	tween.parallel().tween_property(self, "position:x", position.x + 30.0, 1.0)
@@ -67,14 +67,14 @@ func _on_doubt_phase_done() -> void:
 	if _phase >= 4:
 		_finish_doubt()
 	else:
-		var tween := create_tween()
+		var tween = create_tween()
 		tween.tween_property(self, "scale",
 			Vector2(1.0 - float(_phase) * 0.2, 1.0 - float(_phase) * 0.2), 1.5)
 
 func _finish_doubt() -> void:
 	# 의심이 작은 그림자가 되어 남음 — 사라지지 않음
 	GameState.boss_state = 5
-	var tween := create_tween()
+	var tween = create_tween()
 	tween.tween_property(self, "scale", Vector2(0.3, 0.3), 2.0)
 	tween.tween_property(self, "modulate:a", 0.5, 1.0)
 	DialogueManager.start_lines(["그래도 또 나타날 거야."], "의심")
@@ -88,7 +88,7 @@ func _get_doubt_dialogue() -> Dictionary:
 	return {}  # DialogueManager._dialogue_data.get("doubt_boss", {}).get(...)
 
 func _create_shadow_frames() -> SpriteFrames:
-	var frames := SpriteFrames.new()
+	var frames = SpriteFrames.new()
 	if frames.has_animation("default"):
 		frames.remove_animation("default")
 	frames.add_animation("float")
@@ -99,18 +99,18 @@ func _create_shadow_frames() -> SpriteFrames:
 	return frames
 
 func _make_shadow_texture(frame_idx: int) -> ImageTexture:
-	var size := 24 if is_doubt_boss else 16
-	var img := Image.create(size, size + 8, false, Image.FORMAT_RGBA8)
+	var size = 24 if is_doubt_boss else 16
+	var img = Image.create(size, size + 8, false, Image.FORMAT_RGBA8)
 	img.fill(Color.TRANSPARENT)
-	var alpha := 0.7 + float(frame_idx % 2) * 0.1
-	var shadow_color := Color(0.1, 0.1, 0.15, alpha)
+	var alpha = 0.7 + float(frame_idx % 2) * 0.1
+	var shadow_color = Color(0.1, 0.1, 0.15, alpha)
 	# 둥근 그림자 형태
-	var cx := size / 2
-	var cy := size / 2
+	var cx = size / 2
+	var cy = size / 2
 	for y in range(size + 8):
 		for x in range(size):
-			var dx := float(x - cx)
-			var dy := float(y - cy)
+			var dx = float(x - cx)
+			var dy = float(y - cy)
 			if (dx * dx) / float(cx * cx) + (dy * dy) / float(cy * cy) <= 1.0:
 				img.set_pixel(x, y, shadow_color)
 	# 눈 (약하게)

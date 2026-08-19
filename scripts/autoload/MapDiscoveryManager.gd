@@ -8,7 +8,7 @@ signal worldmap_updated
 signal icon_changed(cell: Vector2i, icon_type: String, visible: bool)
 
 # 지도 셀 크기 (픽셀)
-const CELL_SIZE := 32
+const CELL_SIZE = 32
 
 # 미니맵 UI 참조
 var _minimap_ui: Node = null
@@ -38,7 +38,7 @@ func register_worldmap(ui: Node) -> void:
 
 ## 플레이어 현재 월드 위치로 셀 방문 처리
 func visit_position(world_pos: Vector2) -> void:
-	var cell := Vector2i(
+	var cell = Vector2i(
 		int(world_pos.x / CELL_SIZE),
 		int(world_pos.y / CELL_SIZE)
 	)
@@ -66,7 +66,7 @@ func get_visited_cells() -> Array[Vector2i]:
 
 ## 활성 아이콘 목록 반환
 func get_active_icons() -> Dictionary:
-	var result := {}
+	var result = {}
 	for cell in _icons:
 		if _icons[cell]["active"]:
 			result[cell] = _icons[cell]
@@ -84,21 +84,21 @@ func _on_region_discovered(region_id: String) -> void:
 func _on_item_collected(item_id: String) -> void:
 	# 획득한 아이템 아이콘 제거
 	for cell in _icons:
-		var icon := _icons[cell]
+		var icon = _icons[cell]
 		if icon.get("type") == "item" and icon.get("item_id") == item_id:
 			remove_icon(cell)
 			break
 
 func _on_note_collected(note_id: String) -> void:
 	for cell in _icons:
-		var icon := _icons[cell]
+		var icon = _icons[cell]
 		if icon.get("type") == "note" and icon.get("note_id") == note_id:
 			remove_icon(cell)
 			break
 
 func _on_npc_event_done(event_id: String) -> void:
 	for cell in _icons:
-		var icon := _icons[cell]
+		var icon = _icons[cell]
 		if icon.get("type") == "npc" and icon.get("event_id") == event_id:
 			remove_icon(cell)
 			break

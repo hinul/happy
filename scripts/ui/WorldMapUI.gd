@@ -54,7 +54,7 @@ func _draw() -> void:
 	# 배경
 	draw_rect(Rect2(Vector2.ZERO, size), Color(0.08, 0.08, 0.12, 0.95))
 
-	var discovered := GameState.discovered_region_ids
+	var discovered = GameState.discovered_region_ids
 
 	# 연결선 (발견한 지역 간)
 	for conn in REGION_CONNECTIONS:
@@ -69,8 +69,8 @@ func _draw() -> void:
 		var pos: Vector2 = REGION_POSITIONS[region_id]
 		if region_id not in discovered:
 			continue
-		var is_current := (region_id == GameState.current_region)
-		var node_color := Color(0.8, 0.85, 0.9) if is_current else Color(0.5, 0.55, 0.6)
+		var is_current = (region_id == GameState.current_region)
+		var node_color = Color(0.8, 0.85, 0.9) if is_current else Color(0.5, 0.55, 0.6)
 		draw_circle(pos, 8.0, node_color)
 		if is_current:
 			draw_circle(pos, 10.0, Color(1.0, 1.0, 0.8, 0.5), false, 1.5)

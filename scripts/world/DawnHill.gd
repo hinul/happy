@@ -21,7 +21,7 @@ func apply_progress_stage(stage: int) -> void:
 func _update_path(stage: int) -> void:
 	# stage 8+: 안개가 걷히며 언덕 입구 드러남
 	if path_blocker:
-		var tween := create_tween()
+		var tween = create_tween()
 		tween.tween_property(path_blocker, "modulate:a",
 			0.0 if stage >= 8 else 1.0, 3.0)
 
@@ -30,7 +30,7 @@ func _update_dawn(stage: int) -> void:
 		return
 	if stage >= 8:
 		# 새벽빛: 지평선 색조
-		var tween := create_tween()
+		var tween = create_tween()
 		tween.tween_property(canvas_modulate, "color",
 			Color(1.0, 0.92, 0.80), 4.0)
 

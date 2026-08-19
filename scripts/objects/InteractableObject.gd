@@ -6,7 +6,7 @@ extends Node2D
 @export var one_time_only: bool = false
 @export var unlocks_score_ui: bool = false
 
-var _interacted := false
+var _interacted = false
 
 func _ready() -> void:
 	if one_time_only and GameState.is_event_done("obj_" + object_id):
@@ -25,6 +25,6 @@ func _on_dialogue_done() -> void:
 	if unlocks_score_ui:
 		GameState.score_ui_unlocked = true
 		# 악보 메뉴 추가됨을 작은 음표 아이콘 움직임으로 알림
-		var ui := get_tree().get_first_node_in_group("score_ui")
+		var ui = get_tree().get_first_node_in_group("score_ui")
 		if ui and ui.has_method("animate_icon"):
 			ui.animate_icon()

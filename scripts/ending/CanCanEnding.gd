@@ -9,7 +9,7 @@ extends Node2D
 @onready var player_dancer: Node2D = $Dancers/PlayerDancer
 
 var _text_label: Label
-var _menu_visible := false
+var _menu_visible = false
 
 # 댄스 타입별 설정
 const DANCE_CONFIGS: Dictionary = {
@@ -44,18 +44,18 @@ func _setup_text_label() -> void:
 func _setup_menu_buttons() -> void:
 	if not ending_menu_ui:
 		return
-	var vbox := VBoxContainer.new()
+	var vbox = VBoxContainer.new()
 	vbox.set_anchors_preset(Control.PRESET_CENTER)
 	ending_menu_ui.add_child(vbox)
-	var btn_new := Button.new()
+	var btn_new = Button.new()
 	btn_new.text = "처음부터 다시"
 	btn_new.pressed.connect(_on_restart)
 	vbox.add_child(btn_new)
-	var btn_replay := Button.new()
+	var btn_replay = Button.new()
 	btn_replay.text = "마지막 장면 다시 보기"
 	btn_replay.pressed.connect(_on_replay)
 	vbox.add_child(btn_replay)
-	var btn_title := Button.new()
+	var btn_title = Button.new()
 	btn_title.text = "제목 화면으로"
 	btn_title.pressed.connect(_on_title)
 	vbox.add_child(btn_title)
@@ -65,7 +65,7 @@ func _setup_menu_buttons() -> void:
 # ─────────────────────────────────────────────
 
 func spawn_dancer(npc_id: String, dance_type: String) -> void:
-	var dancer := _create_dancer_node(npc_id, dance_type)
+	var dancer = _create_dancer_node(npc_id, dance_type)
 	if dancer:
 		dancers_container.add_child(dancer)
 		_animate_entry(dancer)
@@ -78,7 +78,7 @@ func player_join_dance() -> void:
 func start_zoomout() -> void:
 	if not ending_camera:
 		return
-	var tween := create_tween()
+	var tween = create_tween()
 	tween.tween_property(ending_camera, "zoom", Vector2(0.25, 0.25), 5.0).set_trans(Tween.TRANS_SINE)
 
 func show_player_reaction(text: String) -> void:
@@ -90,7 +90,7 @@ func show_ending_text(text: String) -> void:
 	ending_text_ui.show()
 	if _text_label:
 		_text_label.text = text
-		var tween := create_tween()
+		var tween = create_tween()
 		tween.tween_property(_text_label, "modulate:a", 1.0, 0.8)
 
 func show_the_end() -> void:
@@ -106,14 +106,14 @@ func show_ending_menu() -> void:
 # ─────────────────────────────────────────────
 
 func _create_dancer_node(npc_id: String, dance_type: String) -> Node2D:
-	var node := Node2D.new()
+	var node = Node2D.new()
 	node.name = "Dancer_" + npc_id
-	var sprite := AnimatedSprite2D.new()
+	var sprite = AnimatedSprite2D.new()
 	sprite.sprite_frames = _create_dancer_frames(npc_id, dance_type)
 	sprite.play("dance")
 	node.add_child(sprite)
 	# 무작위 위치
-	var rng := RandomNumberGenerator.new()
+	var rng = RandomNumberGenerator.new()
 	rng.randomize()
 	node.position = Vector2(
 		rng.randf_range(-200.0, 200.0),
@@ -122,22 +122,22 @@ func _create_dancer_node(npc_id: String, dance_type: String) -> Node2D:
 	return node
 
 func _create_dancer_frames(npc_id: String, dance_type: String) -> SpriteFrames:
-	var frames := SpriteFrames.new()
+	var frames = SpriteFrames.new()
 	if frames.has_animation("default"):
 		frames.remove_animation("default")
 	frames.add_animation("dance")
 	frames.set_animation_loop("dance", true)
-	var config := DANCE_CONFIGS.get(dance_type, DANCE_CONFIGS["side_step"])
+	var config = DANCE_CONFIGS.get(dance_type, DANCE_CONFIGS["side_step"])
 	var speed: float = config["speed"]
 	frames.set_animation_speed("dance", 8.0 * speed)
-	var color := _get_npc_color(npc_id)
+	var color = _get_npc_color(npc_id)
 	var kick_height: float = config["kick_height"]
 	for i in range(8):
 		frames.add_frame("dance", _create_dance_frame(color, i, kick_height))
 	return frames
 
 func _create_dance_frame(color: Color, frame_idx: int, kick_height: float) -> ImageTexture:
-	var img := Image.create(16, 32, false, Image.FORMAT_RGBA8)
+	var img = Image.create(16, 32, false, Image.FORMAT_RGBA8)
 	img.fill(Color.TRANSPARENT)
 	# 몸통
 	for y in range(10, 24):
@@ -151,13 +151,13 @@ func _create_dance_frame(color: Color, frame_idx: int, kick_height: float) -> Im
 	img.set_pixel(6, 5, Color(0.1, 0.1, 0.1))
 	img.set_pixel(9, 5, Color(0.1, 0.1, 0.1))
 	# 다리 발차기
-	var leg_y := 24 + int(kick_height * float(frame_idx % 4) / 3.0 * -1.0)
+	var leg_y = 24 + int(kick_height * float(frame_idx % 4) / 3.0 * -1.0)
 	leg_y = clampi(leg_y, 0, 31)
 	for x in range(4, 8):
 		if leg_y >= 0 and leg_y < 32:
 			img.set_pixel(x, leg_y, color.darkened(0.2))
 	# 반대 다리
-	var other_leg_y := 24 + int(kick_height * float((frame_idx + 2) % 4) / 3.0 * -1.0)
+	var other_leg_y = 24 + int(kick_height * float((frame_idx + 2) % 4) / 3.0 * -1.0)
 	other_leg_y = clampi(other_leg_y, 0, 31)
 	for x in range(8, 12):
 		if other_leg_y >= 0 and other_leg_y < 32:
@@ -167,14 +167,14 @@ func _create_dance_frame(color: Color, frame_idx: int, kick_height: float) -> Im
 func _animate_entry(dancer: Node2D) -> void:
 	dancer.modulate.a = 0.0
 	dancer.position.x += 200.0
-	var tween := create_tween()
+	var tween = create_tween()
 	tween.tween_property(dancer, "modulate:a", 1.0, 0.5)
 	tween.parallel().tween_property(dancer, "position:x", dancer.position.x - 200.0, 0.5)
 
 func _animate_player_join() -> void:
 	if not player_dancer:
 		return
-	var sprite := player_dancer.get_node_or_null("AnimatedSprite2D")
+	var sprite = player_dancer.get_node_or_null("AnimatedSprite2D")
 	if sprite and sprite is AnimatedSprite2D:
 		sprite.play("dance")
 

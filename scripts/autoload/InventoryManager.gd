@@ -12,11 +12,11 @@ func _ready() -> void:
 	GameState.item_collected.connect(_on_item_collected)
 
 func _load_item_data() -> void:
-	var f := FileAccess.open("res://data/items.json", FileAccess.READ)
+	var f = FileAccess.open("res://data/items.json", FileAccess.READ)
 	if not f:
 		push_error("[InventoryManager] items.json을 찾을 수 없습니다.")
 		return
-	var json := JSON.new()
+	var json = JSON.new()
 	if json.parse(f.get_as_text()) == OK:
 		var items: Array = json.data.get("items", [])
 		for item in items:
@@ -42,11 +42,11 @@ func has_item(item_id: String) -> bool:
 ## 만남 이벤트(생각/보스)에서 아이템 사용
 ## 아이템이 잘못 선택돼도 소모되지 않음
 func use_item_in_encounter(item_id: String, encounter_type: String, encounter_id: String) -> String:
-	var data := get_item_data(item_id)
+	var data = get_item_data(item_id)
 	if data.is_empty():
 		return "이건 지금 필요한 게 아닌 것 같다."
 
-	var response := ""
+	var response = ""
 	match encounter_type:
 		"boss":
 			response = data.get("boss_response", "...")

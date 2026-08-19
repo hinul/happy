@@ -7,7 +7,7 @@ extends BaseRegion
 
 # 사진 조각 배치 현황 (장소 기준, 시간순 아님)
 var _placed_photos: Dictionary = {}
-const REQUIRED_PHOTOS := 4
+const REQUIRED_PHOTOS = 4
 
 func _setup_region() -> void:
 	region_id = "memory_garden"
@@ -29,8 +29,8 @@ func _update_flowers(stage: int) -> void:
 	# stage 6+: 꽃 출현
 	for child in flower_beds.get_children():
 		var min_s: int = child.get_meta("min_stage", 6)
-		var target_scale := Vector2.ONE if stage >= min_s else Vector2(0.1, 0.1)
-		var tween := create_tween()
+		var target_scale = Vector2.ONE if stage >= min_s else Vector2(0.1, 0.1)
+		var tween = create_tween()
 		tween.tween_property(child, "scale", target_scale, 1.2)
 
 ## 사진 조각 배치 (시간순이 아닌 장소별 배치 퍼즐)
