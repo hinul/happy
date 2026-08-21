@@ -9,6 +9,8 @@ extends Node2D
 @onready var glow: Node2D = $Glow if has_node("Glow") else null
 @onready var interaction_area: Area2D = $InteractionArea if has_node("InteractionArea") else null
 
+var _collected: bool = false
+var _bob_timer: float = 0.0
 var _hint_node: Label = null
 
 func _ready() -> void:
