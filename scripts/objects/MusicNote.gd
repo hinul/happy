@@ -12,18 +12,45 @@ extends Node2D
 var _collected = false
 var _revealed = false
 var _float_timer = 0.0
+const NOTE_ITEM_MAP: Dictionary = {
+	"note_01": "warm_tea",
+	"note_02": "small_flower",
+	"note_03": "old_photo",
+	"note_04": "short_letter",
+	"note_05": "clean_water",
+	"note_06": "new_pencil",
+	"note_07": "small_sprout",
+	"note_08": "candle",
+	"note_09": "laughter_bottle",
+}
+
 var _hint_node: Label = null
 
 func _ready() -> void:
 	add_to_group("interactable")
+	add_to_group("note_" + note_id)
+	z_index = 10
+
 	if GameState.has_note(note_id):
 		queue_free()
 		return
-	# 처음엔 숨겨져 있음 (아이템 수집 후 reveal)
-	visible = false
+
+	# 연결된 아이템을 이미 주운 상태라면 음표를 즉시 표시!
+	var linked_item: String = NOTE_ITEM_MAP.get(note_id, "")
+	if not linked_item.is_empty() and GameState.has_item(linked_item):
+		_revealed = true
+		visible = true
+	else:
+		visible = false
+
 	# 스프라이트 텍스처 생성
-	if sprite:
-		sprite.texture = _create_note_texture()
+	if not sprite:
+		var s = Sprite2D.new()
+		s.name = "Sprite2D"
+		add_child(s)
+		sprite = s
+	sprite.texture = _create_note_texture()
+
 	# 상호작용 영역 설정 보장
 	var area = get_node_or_null("InteractionArea") as Area2D
 	if not area:

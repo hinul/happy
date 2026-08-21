@@ -38,6 +38,7 @@ func _process(delta: float) -> void:
 
 func _on_new_game() -> void:
 	MusicManager.enable_audio()   # 첫 사용자 입력 후 오디오 활성화
+	SaveManager.delete_save()
 	GameState.reset_for_new_game()
 	SaveManager.save()
 	_start_game()

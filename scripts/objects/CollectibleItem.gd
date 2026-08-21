@@ -13,6 +13,7 @@ var _hint_node: Label = null
 
 func _ready() -> void:
 	add_to_group("interactable")
+	z_index = 10
 	if GameState.has_item(item_id):
 		queue_free()
 		return
