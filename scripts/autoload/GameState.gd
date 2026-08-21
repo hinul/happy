@@ -178,10 +178,10 @@ func unlock_input() -> void:
 ## 새 게임 초기화
 func reset_for_new_game() -> void:
 	current_region = "ash_forest"
-	player_position = Vector2(320, 200)
+	player_position = Vector2(240, 200)
 	collected_item_ids = []
 	collected_note_ids = []
-	discovered_region_ids = []
+	discovered_region_ids = ["ash_forest"]
 	visited_map_cells = []
 	unlocked_region_ids = ["ash_forest"]
 	completed_event_ids = []

@@ -10,8 +10,8 @@ extends BaseRegion
 func _setup_region() -> void:
 	region_id = "ash_forest"
 	spawn_points = {
-		"default": Vector2(160, 200),
-		"from_village": Vector2(600, 200),
+		"default": Vector2(240, 200),
+		"from_village": Vector2(490, 200),
 	}
 
 func apply_progress_stage(stage: int) -> void:
