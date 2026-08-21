@@ -43,11 +43,12 @@ func _ready() -> void:
 		sh.shape = circ
 
 	_hint_node = Label.new()
-	_hint_node.text = "[E]"
+	_hint_node.text = "[ ♪ 음표 ]"
 	_hint_node.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_hint_node.position = Vector2(-15, -20)
-	_hint_node.add_theme_color_override("font_color", Color(1.0, 0.95, 0.6, 0.9))
-	_hint_node.add_theme_font_size_override("font_size", 9)
+	_hint_node.position = Vector2(-30, -26)
+	_hint_node.add_theme_color_override("font_color", Color(1.0, 0.95, 0.4, 1.0))
+	_hint_node.add_theme_color_override("font_shadow_color", Color(0.1, 0.1, 0.1, 0.9))
+	_hint_node.add_theme_font_size_override("font_size", 10)
 	add_child(_hint_node)
 
 	if map_cell != Vector2i.ZERO:
@@ -59,16 +60,16 @@ func _process(delta: float) -> void:
 	# 떠다니는 효과
 	_float_timer += delta
 	if sprite:
-		sprite.position.y = sin(_float_timer * 2.2) * 3.5
+		sprite.position.y = sin(_float_timer * 2.5) * 3.5
+		sprite.rotation = sin(_float_timer * 1.5) * 0.15
 	if _hint_node:
-		_hint_node.position.y = -20.0 + sin(_float_timer * 2.2) * 3.5
+		_hint_node.position.y = -26.0 + sin(_float_timer * 2.5) * 3.5
 
-	# 근접 시 자동 줍기 (반경 24px)
+	# 근접 시 자동 줍기 (반경 32px)
 	var player = get_tree().get_first_node_in_group("player")
 	if player and is_instance_valid(player):
-		if global_position.distance_to(player.global_position) <= 24.0:
+		if global_position.distance_to(player.global_position) <= 32.0:
 			on_interact()
-		sprite.rotation = sin(_float_timer * 1.5) * 0.1
 
 func reveal() -> void:
 	_revealed = true
@@ -98,7 +99,6 @@ func on_interact() -> void:
 func _play_collect_effect() -> void:
 	var index = _get_note_index()
 	MusicManager.play_note_pickup(index)
-	# ScoreUI 업데이트 신호는 GameState.note_collected 신호로 처리됨
 
 func _get_note_index() -> int:
 	var ids = ["note_01","note_02","note_03","note_04","note_05",
@@ -106,19 +106,39 @@ func _get_note_index() -> int:
 	return ids.find(note_id)
 
 func _create_note_texture() -> ImageTexture:
-	var img = Image.create(10, 14, false, Image.FORMAT_RGBA8)
+	var img = Image.create(20, 20, false, Image.FORMAT_RGBA8)
 	img.fill(Color.TRANSPARENT)
-	var c = Color(0.95, 0.92, 0.6, 1.0)
-	# 음표 머리 (타원)
-	for y in range(8, 12):
-		for x in range(1, 7):
+
+	# 뒤쪽 반짝이는 황금빛 오라
+	var glow_c = Color(1.0, 0.95, 0.4, 0.3)
+	for y in range(20):
+		for x in range(20):
+			var dist = Vector2(x - 9.5, y - 9.5).length()
+			if dist <= 8.5:
+				img.set_pixel(x, y, glow_c)
+
+	var c = Color(1.0, 0.95, 0.5, 1.0)
+	var stem = Color(1.0, 0.85, 0.3, 1.0)
+
+	# 음표 머리 1 (왼쪽)
+	for y in range(12, 17):
+		for x in range(3, 9):
 			img.set_pixel(x, y, c)
-	# 음표 기둥
-	for y in range(0, 9):
-		img.set_pixel(6, y, c)
-	# 음표 깃발
-	img.set_pixel(7, 1, c)
-	img.set_pixel(8, 2, c)
-	img.set_pixel(7, 3, c)
+	# 음표 기둥 1
+	for y in range(5, 14):
+		for x in range(7, 10):
+			img.set_pixel(x, y, stem)
+	# 깃발/연결선
+	for x in range(7, 15):
+		for y in range(4, 7):
+			img.set_pixel(x, y, stem)
+	# 음표 머리 2 (오른쪽 2분음표 스타일)
+	for y in range(10, 15):
+		for x in range(12, 17):
+			img.set_pixel(x, y, c)
+	for y in range(5, 12):
+		for x in range(15, 18):
+			img.set_pixel(x, y, stem)
+
 	return ImageTexture.create_from_image(img)
 
