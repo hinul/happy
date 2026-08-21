@@ -58,6 +58,11 @@ func _ready() -> void:
 	GameState.progress_stage_changed.connect(_on_stage_changed)
 	GameState.ending_started.connect(_on_ending_started)
 	_update_speed()
+	# InteractionArea가 아이템·NPC 레이어(4)를 감지하도록 설정
+	if interaction_area:
+		interaction_area.collision_mask = 4  # layer 4 감지
+		interaction_area.monitoring = true
+		interaction_area.monitorable = false
 
 func _setup_animations() -> void:
 	if not sprite:
@@ -153,6 +158,10 @@ func _create_player_texture(skin_color: Color, frame_idx: int, is_jump: bool) ->
 # 이동 처리
 # ─────────────────────────────────────────────
 func _physics_process(delta: float) -> void:
+	# input_locked 중에도 interact 키는 처리 (대화 진행을 위해)
+	if Input.is_action_just_pressed("interact"):
+		_try_interact()
+
 	if GameState.input_locked:
 		velocity = Vector2.ZERO
 		move_and_slide()
@@ -183,10 +192,6 @@ func _physics_process(delta: float) -> void:
 	if _monologue_timer >= MONOLOGUE_INTERVAL:
 		_monologue_timer = 0.0
 		_try_monologue()
-
-	# 조사 입력
-	if Input.is_action_just_pressed("interact"):
-		_try_interact()
 
 func _handle_footstep(delta: float) -> void:
 	_footstep_timer += delta
