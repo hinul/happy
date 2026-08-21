@@ -9,8 +9,7 @@ extends Node2D
 @onready var glow: Node2D = $Glow if has_node("Glow") else null
 @onready var interaction_area: Area2D = $InteractionArea if has_node("InteractionArea") else null
 
-var _collected = false
-var _bob_timer = 0.0
+var _hint_node: Label = null
 
 func _ready() -> void:
 	add_to_group("interactable")
@@ -39,8 +38,18 @@ func _ready() -> void:
 		area.add_child(sh)
 	if not sh.shape:
 		var circ = CircleShape2D.new()
-		circ.radius = 16.0
+		circ.radius = 24.0
 		sh.shape = circ
+
+	# 머리 위 [E] 힌트 라벨 추가
+	_hint_node = Label.new()
+	_hint_node.text = "[E]"
+	_hint_node.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_hint_node.position = Vector2(-15, -20)
+	_hint_node.add_theme_color_override("font_color", Color(1.0, 0.95, 0.6, 0.9))
+	_hint_node.add_theme_font_size_override("font_size", 9)
+	add_child(_hint_node)
+
 	# 지도에 아이템 아이콘 등록
 	if map_cell != Vector2i.ZERO:
 		MapDiscoveryManager.add_icon(map_cell, "item")
@@ -51,7 +60,15 @@ func _process(delta: float) -> void:
 	# 위아래로 살짝 떠 있는 효과
 	_bob_timer += delta
 	if sprite:
-		sprite.position.y = sin(_bob_timer * 2.0) * 2.0
+		sprite.position.y = sin(_bob_timer * 2.5) * 3.0
+	if _hint_node:
+		_hint_node.position.y = -20.0 + sin(_bob_timer * 2.5) * 3.0
+
+	# 근접 시 자동 줍기 (반경 22px)
+	var player = get_tree().get_first_node_in_group("player")
+	if player and is_instance_valid(player):
+		if global_position.distance_to(player.global_position) <= 24.0:
+			on_interact()
 
 func on_interact() -> void:
 	if _collected:

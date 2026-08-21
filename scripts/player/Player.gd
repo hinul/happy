@@ -270,10 +270,10 @@ func _try_interact() -> void:
 				body.on_interact()
 				return
 
-	# 2차 Fallback: 반경 80픽셀 내의 가장 가까운 interactable 오브젝트 탐색
+	# 2차 Fallback: 반경 120픽셀 내의 가장 가까운 interactable 오브젝트 탐색
 	var interactables = get_tree().get_nodes_in_group("interactable")
 	var closest_target: Node = null
-	var closest_dist: float = 80.0
+	var closest_dist: float = 120.0
 	for node in interactables:
 		if node is Node2D and is_instance_valid(node) and node.visible:
 			var d = global_position.distance_to(node.global_position)

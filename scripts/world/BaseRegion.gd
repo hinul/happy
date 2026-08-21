@@ -145,9 +145,10 @@ class ProceduralMapDraw extends Node2D:
 			draw_polyline(pts, color, 1.5)
 
 	func _draw_ash_forest(w: int, h: int) -> void:
-		# 바닥 풀밭 (잿빛 → 짙은 녹색)
+		# 바닥 풀밭 확장 (잿빛 → 짙은 녹색) - 맵 외곽 공허 제거
 		var base_color = Color(0.28, 0.32, 0.28).lerp(Color(0.32, 0.45, 0.30), float(current_stage) / 9.0)
-		draw_rect(Rect2(0, 0, w, h), base_color)
+		draw_rect(Rect2(-400, -400, w + 800, h + 800), base_color.darkened(0.1))
+		draw_rect(Rect2(-100, -100, w + 200, h + 200), base_color)
 
 		# 흙바닥 구역 (Ground highlight)
 		var mid_color = base_color.lightened(0.08)
@@ -155,26 +156,34 @@ class ProceduralMapDraw extends Node2D:
 
 		# 흙바닥 길 (중앙 도로)
 		var path_color = Color(0.42, 0.38, 0.30)
-		draw_rect(Rect2(40, 178, w - 80, 46), path_color)
+		draw_rect(Rect2(-200, 178, w + 400, 46), path_color)
 		draw_rect(Rect2(138, 158, 64, 86), path_color)
 		draw_rect(Rect2(438, 158, 64, 86), path_color)
 
-		# 주변 나무
+		# 주변 나무 (외곽까지 풍성하게)
 		var tree_color = Color(0.16, 0.22, 0.16).lerp(Color(0.20, 0.36, 0.22), float(current_stage) / 9.0)
 		var trunk_color = Color(0.32, 0.26, 0.20)
 
-		for x in range(30, w, 50):
+		for x in range(-150, w + 200, 50):
 			# 상단 나무
 			draw_rect(Rect2(x, 42, 12, 42), trunk_color)
 			draw_circle(Vector2(x + 6, 42), 24.0, tree_color)
+			draw_rect(Rect2(x + 10, -50, 12, 42), trunk_color)
+			draw_circle(Vector2(x + 16, -50), 26.0, tree_color.darkened(0.15))
 			# 하단 나무
 			draw_rect(Rect2(x + 20, 268, 12, 42), trunk_color)
 			draw_circle(Vector2(x + 26, 268), 24.0, tree_color)
+			draw_rect(Rect2(x - 10, 360, 12, 42), trunk_color)
+			draw_circle(Vector2(x - 4, 360), 26.0, tree_color.darkened(0.15))
 
 	func _draw_small_village(w: int, h: int) -> void:
-		# 마을 자갈길 바닥
+		# 마을 바닥 확장
 		var base_color = Color(0.30, 0.28, 0.26)
-		draw_rect(Rect2(0, 0, w, h), base_color)
+		draw_rect(Rect2(-400, -400, w + 800, h + 800), base_color.darkened(0.1))
+		draw_rect(Rect2(-100, -100, w + 200, h + 200), base_color)
+
+		# 마을 길
+		draw_rect(Rect2(-200, 175, w + 400, 50), Color(0.36, 0.34, 0.32))
 
 		# 마을 중앙 광장
 		var plaza_color = Color(0.40, 0.38, 0.35)
@@ -188,9 +197,10 @@ class ProceduralMapDraw extends Node2D:
 		draw_rect(Rect2(470, 80, 90, 60), house_color)
 
 	func _draw_rain_lake(w: int, h: int) -> void:
-		# 호숫가 잔디 바닥
+		# 호숫가 바닥 확장
 		var shore_color = Color(0.22, 0.26, 0.24)
-		draw_rect(Rect2(0, 0, w, h), shore_color)
+		draw_rect(Rect2(-400, -400, w + 800, h + 800), shore_color.darkened(0.1))
+		draw_rect(Rect2(-100, -100, w + 200, h + 200), shore_color)
 
 		# 중앙 거대 호수
 		var lake_color = Color(0.20, 0.28, 0.38).lerp(Color(0.25, 0.42, 0.55), float(current_stage) / 9.0)
@@ -201,14 +211,15 @@ class ProceduralMapDraw extends Node2D:
 		draw_rect(Rect2(120, h / 2 - 10, 200, 24), bridge_color)
 
 	func _draw_memory_garden(w: int, h: int) -> void:
-		# 정원 잔디 바닥
+		# 정원 잔디 바닥 확장
 		var grass_color = Color(0.24, 0.30, 0.24)
-		draw_rect(Rect2(0, 0, w, h), grass_color)
+		draw_rect(Rect2(-400, -400, w + 800, h + 800), grass_color.darkened(0.1))
+		draw_rect(Rect2(-100, -100, w + 200, h + 200), grass_color)
 
 		# 정원 산책로 (십자형)
 		var path_color = Color(0.42, 0.38, 0.32)
-		draw_rect(Rect2(0, 160, w, 40), path_color)
-		draw_rect(Rect2(300, 0, 40, h), path_color)
+		draw_rect(Rect2(-200, 160, w + 400, 40), path_color)
+		draw_rect(Rect2(300, -200, 40, h + 400), path_color)
 
 		# 화단 영역 4개
 		var bed_color = Color(0.32, 0.22, 0.18)
@@ -218,9 +229,10 @@ class ProceduralMapDraw extends Node2D:
 		draw_rect(Rect2(420, 230, 140, 80), bed_color)
 
 	func _draw_old_theater(w: int, h: int) -> void:
-		# 극장 마루 바닥
+		# 극장 마루 바닥 확장
 		var floor_color = Color(0.18, 0.14, 0.12)
-		draw_rect(Rect2(0, 0, w, h), floor_color)
+		draw_rect(Rect2(-400, -400, w + 800, h + 800), floor_color.darkened(0.2))
+		draw_rect(Rect2(-100, -100, w + 200, h + 200), floor_color)
 
 		# 무대 영역
 		var stage_color = Color(0.28, 0.20, 0.15)
@@ -233,9 +245,10 @@ class ProceduralMapDraw extends Node2D:
 				draw_rect(Rect2(x, y, 24, 16), seat_color)
 
 	func _draw_dawn_hill(w: int, h: int) -> void:
-		# 언덕 잔디 (새벽빛)
+		# 언덕 잔디 (새벽빛) 확장
 		var hill_color = Color(0.22, 0.22, 0.28).lerp(Color(0.35, 0.38, 0.32), float(current_stage) / 9.0)
-		draw_rect(Rect2(0, 0, w, h), hill_color)
+		draw_rect(Rect2(-400, -400, w + 800, h + 800), hill_color.darkened(0.1))
+		draw_rect(Rect2(-100, -100, w + 200, h + 200), hill_color)
 
 		# 언덕 곡선 길
 		var path_color = Color(0.38, 0.35, 0.30)

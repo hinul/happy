@@ -12,6 +12,7 @@ extends Node2D
 var _collected = false
 var _revealed = false
 var _float_timer = 0.0
+var _hint_node: Label = null
 
 func _ready() -> void:
 	add_to_group("interactable")
@@ -38,8 +39,17 @@ func _ready() -> void:
 		area.add_child(sh)
 	if not sh.shape:
 		var circ = CircleShape2D.new()
-		circ.radius = 16.0
+		circ.radius = 24.0
 		sh.shape = circ
+
+	_hint_node = Label.new()
+	_hint_node.text = "[E]"
+	_hint_node.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_hint_node.position = Vector2(-15, -20)
+	_hint_node.add_theme_color_override("font_color", Color(1.0, 0.95, 0.6, 0.9))
+	_hint_node.add_theme_font_size_override("font_size", 9)
+	add_child(_hint_node)
+
 	if map_cell != Vector2i.ZERO:
 		MapDiscoveryManager.add_icon(map_cell, "note")
 
@@ -49,7 +59,15 @@ func _process(delta: float) -> void:
 	# 떠다니는 효과
 	_float_timer += delta
 	if sprite:
-		sprite.position.y = sin(_float_timer * 3.0) * 3.0
+		sprite.position.y = sin(_float_timer * 2.2) * 3.5
+	if _hint_node:
+		_hint_node.position.y = -20.0 + sin(_float_timer * 2.2) * 3.5
+
+	# 근접 시 자동 줍기 (반경 24px)
+	var player = get_tree().get_first_node_in_group("player")
+	if player and is_instance_valid(player):
+		if global_position.distance_to(player.global_position) <= 24.0:
+			on_interact()
 		sprite.rotation = sin(_float_timer * 1.5) * 0.1
 
 func reveal() -> void:
