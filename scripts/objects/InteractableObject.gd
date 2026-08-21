@@ -87,8 +87,178 @@ func _create_object_texture() -> ImageTexture:
 	match object_id:
 		"old_score":
 			return _make_score_texture()
+		"traveler_note_01", "gardener_diary", "bottle_letter":
+			return _make_paper_texture()
+		"forest_bench", "fishing_chair":
+			return _make_bench_texture()
+		"stone_pile":
+			return _make_stone_texture()
+		"whispering_tree":
+			return _make_tree_relic_texture()
+		"rusty_mailbox":
+			return _make_mailbox_texture()
+		"village_streetlamp":
+			return _make_lamp_texture()
+		"broken_keyboard":
+			return _make_piano_texture()
+		"theater_poster":
+			return _make_poster_texture()
+		"garden_fountain":
+			return _make_fountain_texture()
 		"forest_path_sign", "village_sign", "lake_sign", _:
 			return _make_sign_texture()
+
+## 낡은 쪽지/일기/편지 픽셀아트 (14×16)
+func _make_paper_texture() -> ImageTexture:
+	var img = Image.create(14, 16, false, Image.FORMAT_RGBA8)
+	img.fill(Color.TRANSPARENT)
+	var paper = Color(0.92, 0.88, 0.76)
+	var fold  = Color(0.75, 0.70, 0.58)
+	var ink   = Color(0.35, 0.30, 0.25)
+	for y in range(2, 14):
+		for x in range(2, 12):
+			img.set_pixel(x, y, paper)
+	# 글씨 선
+	for y in [5, 8, 11]:
+		for x in range(4, 10):
+			img.set_pixel(x, y, ink)
+	# 테두리 및 접힌 모서리
+	for x in range(2, 12):
+		img.set_pixel(x, 2, fold)
+		img.set_pixel(x, 13, fold)
+	for y in range(2, 14):
+		img.set_pixel(2, y, fold)
+		img.set_pixel(11, y, fold)
+	return ImageTexture.create_from_image(img)
+
+## 나무 벤치 (20×14)
+func _make_bench_texture() -> ImageTexture:
+	var img = Image.create(20, 14, false, Image.FORMAT_RGBA8)
+	img.fill(Color.TRANSPARENT)
+	var wood = Color(0.55, 0.38, 0.24)
+	var dark = Color(0.35, 0.22, 0.14)
+	for x in range(2, 18):
+		img.set_pixel(x, 4, wood)
+		img.set_pixel(x, 7, wood)
+	for x in [3, 4, 15, 16]:
+		for y in range(7, 13):
+			img.set_pixel(x, y, dark)
+	return ImageTexture.create_from_image(img)
+
+## 소원 돌탑 (14×18)
+func _make_stone_texture() -> ImageTexture:
+	var img = Image.create(14, 18, false, Image.FORMAT_RGBA8)
+	img.fill(Color.TRANSPARENT)
+	var stone = Color(0.58, 0.60, 0.62)
+	var dark = Color(0.38, 0.40, 0.42)
+	# 하단 돌 (넓음)
+	for x in range(2, 12):
+		for y in range(12, 17):
+			img.set_pixel(x, y, stone)
+	# 중단 돌
+	for x in range(3, 11):
+		for y in range(7, 12):
+			img.set_pixel(x, y, stone.lightened(0.1))
+	# 상단 돌 (작음)
+	for x in range(5, 9):
+		for y in range(2, 7):
+			img.set_pixel(x, y, stone.lightened(0.2))
+	return ImageTexture.create_from_image(img)
+
+## 속삭이는 나무 성물 (16×20)
+func _make_tree_relic_texture() -> ImageTexture:
+	var img = Image.create(16, 20, false, Image.FORMAT_RGBA8)
+	img.fill(Color.TRANSPARENT)
+	var trunk = Color(0.38, 0.28, 0.20)
+	var glow_c = Color(0.60, 0.85, 0.65)
+	for y in range(4, 19):
+		for x in range(5, 11):
+			img.set_pixel(x, y, trunk)
+	# 중앙 빛나는 문양
+	img.set_pixel(8, 10, glow_c)
+	img.set_pixel(7, 11, glow_c)
+	img.set_pixel(9, 11, glow_c)
+	img.set_pixel(8, 12, glow_c)
+	return ImageTexture.create_from_image(img)
+
+## 빨간 우체통 (14×18)
+func _make_mailbox_texture() -> ImageTexture:
+	var img = Image.create(14, 18, false, Image.FORMAT_RGBA8)
+	img.fill(Color.TRANSPARENT)
+	var red = Color(0.85, 0.30, 0.25)
+	var dark = Color(0.25, 0.25, 0.25)
+	for x in range(6, 8):
+		for y in range(10, 18):
+			img.set_pixel(x, y, dark)
+	for x in range(3, 11):
+		for y in range(2, 10):
+			img.set_pixel(x, y, red)
+	# 투입구
+	for x in range(5, 9):
+		img.set_pixel(x, 4, dark)
+	return ImageTexture.create_from_image(img)
+
+## 따뜻한 가로등 (12×22)
+func _make_lamp_texture() -> ImageTexture:
+	var img = Image.create(12, 22, false, Image.FORMAT_RGBA8)
+	img.fill(Color.TRANSPARENT)
+	var pole = Color(0.30, 0.30, 0.35)
+	var light = Color(1.0, 0.92, 0.50)
+	for y in range(6, 22):
+		img.set_pixel(5, y, pole)
+		img.set_pixel(6, y, pole)
+	# 등불
+	for x in range(3, 9):
+		for y in range(2, 6):
+			img.set_pixel(x, y, light)
+	return ImageTexture.create_from_image(img)
+
+## 피아노 건반 (18×14)
+func _make_piano_texture() -> ImageTexture:
+	var img = Image.create(18, 14, false, Image.FORMAT_RGBA8)
+	img.fill(Color.TRANSPARENT)
+	var white = Color(0.95, 0.95, 0.95)
+	var black = Color(0.15, 0.15, 0.15)
+	for x in range(1, 17):
+		for y in range(4, 12):
+			img.set_pixel(x, y, white)
+	# 검은 건반
+	for bx in [3, 5, 9, 11, 13]:
+		for by in range(4, 8):
+			img.set_pixel(bx, by, black)
+	return ImageTexture.create_from_image(img)
+
+## 공연 포스터 (14×18)
+func _make_poster_texture() -> ImageTexture:
+	var img = Image.create(14, 18, false, Image.FORMAT_RGBA8)
+	img.fill(Color.TRANSPARENT)
+	var bg = Color(0.85, 0.78, 0.60)
+	var red = Color(0.75, 0.25, 0.20)
+	for x in range(1, 13):
+		for y in range(1, 17):
+			img.set_pixel(x, y, bg)
+	for x in range(3, 11):
+		for y in range(3, 6):
+			img.set_pixel(x, y, red)
+	return ImageTexture.create_from_image(img)
+
+## 작은 분수대 (20×18)
+func _make_fountain_texture() -> ImageTexture:
+	var img = Image.create(20, 18, false, Image.FORMAT_RGBA8)
+	img.fill(Color.TRANSPARENT)
+	var stone = Color(0.60, 0.62, 0.65)
+	var water = Color(0.40, 0.70, 0.90)
+	for x in range(2, 18):
+		for y in range(10, 17):
+			img.set_pixel(x, y, stone)
+	for x in range(4, 16):
+		for y in range(10, 13):
+			img.set_pixel(x, y, water)
+	# 물줄기
+	for y in range(3, 10):
+		img.set_pixel(9, y, water)
+		img.set_pixel(10, y, water)
+	return ImageTexture.create_from_image(img)
 
 ## 낡은 악보 픽셀아트 (16×18)
 func _make_score_texture() -> ImageTexture:

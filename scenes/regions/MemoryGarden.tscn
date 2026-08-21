@@ -47,8 +47,15 @@ mouse_filter = 2
 
 [node name="Interactables" type="Node2D" parent="."]
 
-[node name="PhotoPuzzle" type="Node2D" parent="Interactables"]
-position = Vector2(320, 200)
+[node name="GardenFountain" type="Node2D" parent="Interactables"]
+position = Vector2(320, 180)
+script = ExtResource("6_iobj")
+object_id = "garden_fountain"
+
+[node name="GardenerDiary" type="Node2D" parent="Interactables"]
+position = Vector2(220, 150)
+script = ExtResource("6_iobj")
+object_id = "gardener_diary"
 
 [node name="Items" type="Node2D" parent="."]
 

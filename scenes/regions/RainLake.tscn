@@ -56,6 +56,16 @@ object_id = "lake_bridge"
 collision_layer = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/WoodBridge/InteractionArea"]
 
+[node name="BottleLetter" type="Node2D" parent="Interactables"]
+position = Vector2(160, 240)
+script = ExtResource("6_iobj")
+object_id = "bottle_letter"
+
+[node name="FishingChair" type="Node2D" parent="Interactables"]
+position = Vector2(420, 220)
+script = ExtResource("6_iobj")
+object_id = "fishing_chair"
+
 [node name="Items" type="Node2D" parent="."]
 
 [node name="CleanWater" type="Node2D" parent="Items"]

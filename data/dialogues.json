@@ -214,28 +214,132 @@
   "interactables": {
     "old_score": {
       "id": "old_score",
-      "lines": ["음이 모두 모이면 다시 들을 수 있을까?"],
+      "lines": [
+        "바닥에 놓인 낡은 악보다.",
+        "음표들이 거의 지워져 있지만, 다시 채워 넣을 수 있을 것 같다."
+      ],
       "unlocks_score_ui": true
     },
     "forest_path_sign": {
       "id": "forest_path_sign",
-      "lines": ["글자가 흐릿해서 읽기 어렵다."]
+      "lines": ["「오른쪽으로 걸어가면 작은 마을이 나옵니다.」"]
+    },
+    "forest_bench": {
+      "id": "forest_bench",
+      "lines": [
+        "누군가 쉬어갔던 낡은 나무 벤치다.",
+        "잠시 숨을 고르기에 좋은 자리다."
+      ]
+    },
+    "traveler_note_01": {
+      "id": "traveler_note_01",
+      "lines": [
+        "바랜 종이에 적힌 글씨가 보인다.",
+        "「처음엔 막막했지만, 발걸음을 떼니 어느새 길이 보였다.」"
+      ]
+    },
+    "stone_pile": {
+      "id": "stone_pile",
+      "lines": [
+        "조심스럽게 쌓아 올린 작은 돌탑이다.",
+        "누군가의 소박한 바람이 담겨 있는 것 같다."
+      ]
+    },
+    "whispering_tree": {
+      "id": "whispering_tree",
+      "lines": [
+        "신비로운 빛을 띤 고목나무다.",
+        "가만히 귀를 기울이면 나뭇잎 사이로 아련한 음정이 울린다."
+      ]
     },
     "village_well": {
       "id": "village_well",
-      "lines": ["안을 들여다봤다. 아무것도 보이지 않는다."]
+      "lines": ["마을 중앙의 오래된 우물이다.", "깊은 곳에서 맑은 물방울 떨어지는 소리가 울린다."]
+    },
+    "rusty_mailbox": {
+      "id": "rusty_mailbox",
+      "lines": [
+        "오래된 빨간 우체통이다.",
+        "부치지 못한 옛 편지 조각들이 소중하게 보관되어 있다."
+      ]
+    },
+    "village_streetlamp": {
+      "id": "village_streetlamp",
+      "lines": [
+        "따뜻한 노란빛을 내뿜는 가로등이다.",
+        "어둠 속에서도 길을 잃지 않게 비춰준다."
+      ]
+    },
+    "broken_keyboard": {
+      "id": "broken_keyboard",
+      "lines": [
+        "나무 테이블 위에 놓인 낡은 피아노 건반이다.",
+        "살포시 눌러보자 맑고 경쾌한 소리가 울려 퍼진다."
+      ]
+    },
+    "chalk_graffiti": {
+      "id": "chalk_graffiti",
+      "lines": [
+        "담벼락에 분필로 그린 아이의 낙서다.",
+        "삐뚤빼뚤한 오선지와 활짝 웃는 사람의 얼굴이 그려져 있다."
+      ]
     },
     "lake_bridge": {
       "id": "lake_bridge",
-      "lines": ["나무다리가 젖어 있다.", "밟으면 삐걱거린다."]
+      "lines": ["호수를 가로지르는 나무다리다.", "비에 젖은 발판을 밟을 때마다 경쾌하게 삐걱거린다."]
+    },
+    "bottle_letter": {
+      "id": "bottle_letter",
+      "lines": [
+        "호숫가로 떠내려온 유리병 편지다.",
+        "「비가 그치면 가장 먼저 하늘을 올려다볼 거야.」"
+      ]
+    },
+    "fishing_chair": {
+      "id": "fishing_chair",
+      "lines": [
+        "호수를 바라보고 놓인 낡은 낚시 의자다.",
+        "잔잔한 물결 소리를 들으며 잠시 마음을 비우기 좋다."
+      ]
+    },
+    "garden_fountain": {
+      "id": "garden_fountain",
+      "lines": [
+        "맑은 물방울이 퐁퐁 솟아나는 작은 분수대다.",
+        "물방울 튀는 소리가 마치 춤곡의 리듬 같다."
+      ]
+    },
+    "gardener_diary": {
+      "id": "gardener_diary",
+      "lines": [
+        "정원사가 남겨둔 일기장 조각이다.",
+        "「씨앗은 어둠 속에서 가장 오래 머물지만, 때가 되면 반드시 꽃을 피운다.」"
+      ]
     },
     "theater_stage": {
       "id": "theater_stage",
-      "lines": ["먼지가 쌓여 있다. 오래된 악기들이 놓여 있다."]
+      "lines": ["먼지가 걷힌 극장 무대다.", "언젠가 다시 시작될 성대한 합주를 기다리고 있다."]
+    },
+    "theater_poster": {
+      "id": "theater_poster",
+      "lines": [
+        "빛바랜 오케스트라 공연 포스터다.",
+        "「자크 오펜바흐의 캉캉 대공연 — 모두가 함께 춤추던 그날.」"
+      ]
+    },
+    "music_stand": {
+      "id": "music_stand",
+      "lines": [
+        "지휘자와 연주자의 손때가 묻은 보면대다.",
+        "빈 오선지에 멜로디가 채워지기를 기다리는 듯하다."
+      ]
     },
     "hill_viewpoint": {
       "id": "hill_viewpoint",
-      "lines": ["안개가 깔려 있어서 아래가 잘 보이지 않는다."]
+      "lines": [
+        "새벽 언덕 정상의 전망대다.",
+        "저 멀리 안개가 걷히며 새벽 하늘의 첫 빛이 차오른다."
+      ]
     }
   }
 }

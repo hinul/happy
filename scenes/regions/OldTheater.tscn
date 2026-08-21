@@ -39,11 +39,20 @@ mouse_filter = 2
 
 [node name="Interactables" type="Node2D" parent="."]
 
-[node name="SoundPuzzle" type="Node2D" parent="Interactables"]
-position = Vector2(320, 180)
-
 [node name="TheaterStage" type="Node2D" parent="Interactables"]
 position = Vector2(320, 150)
+script = ExtResource("5_iobj")
+object_id = "theater_stage"
+
+[node name="TheaterPoster" type="Node2D" parent="Interactables"]
+position = Vector2(160, 200)
+script = ExtResource("5_iobj")
+object_id = "theater_poster"
+
+[node name="MusicStand" type="Node2D" parent="Interactables"]
+position = Vector2(460, 180)
+script = ExtResource("5_iobj")
+object_id = "music_stand"
 
 [node name="Items" type="Node2D" parent="."]
 

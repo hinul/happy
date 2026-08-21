@@ -17,17 +17,17 @@ extends CharacterBody2D
 # ─────────────────────────────────────────────
 # 이동 설정
 # ─────────────────────────────────────────────
-const BASE_SPEED = 80.0
-const LATE_SPEED_BONUS = 8.0   # 후반 진행 시 약간 빠른 느낌
+const BASE_SPEED = 120.0
+const LATE_SPEED_BONUS = 12.0   # 후반 진행 시 약간 빠른 느낌
 
 var _speed = BASE_SPEED
 var _direction = Vector2.ZERO
 var _last_direction = Vector2.DOWN
-var _is_running = false   # 엔딩 연출 전용
+var _is_running = false   # 달리기 / 엔딩 연출
 
 # 발걸음 타이머
 var _footstep_timer = 0.0
-const FOOTSTEP_INTERVAL = 0.35
+const FOOTSTEP_INTERVAL = 0.28
 
 # ─────────────────────────────────────────────
 # 독백 시스템 (진행 단계별)
@@ -177,9 +177,13 @@ func _physics_process(delta: float) -> void:
 	var input_vec = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	_direction = input_vec.normalized()
 
+	var is_sprint = Input.is_key_pressed(KEY_SHIFT)
+	var move_speed = _speed * (1.35 if is_sprint else 1.0)
+	_is_running = is_sprint
+
 	if _direction != Vector2.ZERO:
 		_last_direction = _direction
-		velocity = _direction * _speed
+		velocity = _direction * move_speed
 		_update_walk_animation()
 		_handle_footstep(delta)
 	else:
