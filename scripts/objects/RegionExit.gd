@@ -52,14 +52,15 @@ func _on_body_exited(body: Node2D) -> void:
 		_player_inside = false
 
 func _try_travel() -> void:
-	# 잿빛 숲 -> 마을 이동 시 필요한 음표 체크 (마을은 음표 2개 필요)
+	if target_region.is_empty():
+		return
+
+	# 진입 시 해당 지역 잠금 즉시 해제
+	GameState.unlock_region(target_region)
 	var stage = GameState.get_progress_stage()
 	WorldStateManager.check_region_unlocks(stage)
 
-	if target_region in GameState.unlocked_region_ids:
-		SceneTransitionManager.travel_to(target_region, spawn_point)
-	else:
-		_show_locked_hint()
+	SceneTransitionManager.travel_to(target_region, spawn_point)
 
 func _show_locked_hint() -> void:
 	var needed = 2

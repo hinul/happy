@@ -85,18 +85,27 @@ func on_interact() -> void:
 	GameState.collect_item(item_id)
 	_show_pickup_notification()
 	_play_pickup_effect()
+
 	if map_cell != Vector2i.ZERO:
 		MapDiscoveryManager.remove_icon(map_cell)
-	# 음표 단서 확인 및 음표 등장
+
+	# 음표 단서 확인 및 음표 즉시 획득!
 	var item_data = InventoryManager.get_item_data(item_id)
 	var linked_note: String = item_data.get("linked_note_id", "")
 	if not linked_note.is_empty():
-		_reveal_linked_note(linked_note)
-	# 자동 저장
+		if not GameState.has_note(linked_note):
+			GameState.collect_note(linked_note)
+
+	# 잿빛 숲 아이템 획득 시 작은 마을 즉시 해금
+	GameState.unlock_region("small_village")
+	var stage = GameState.get_progress_stage()
+	WorldStateManager.check_region_unlocks(stage)
+
 	SaveManager.auto_save()
+
 	# 오브젝트 제거 (애니메이션 후)
 	var tween = create_tween()
-	tween.tween_property(self, "modulate:a", 0.0, 0.5)
+	tween.tween_property(self, "modulate:a", 0.0, 0.4)
 	tween.tween_callback(queue_free)
 
 func _show_pickup_notification() -> void:
