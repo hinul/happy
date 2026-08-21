@@ -58,11 +58,17 @@ func _ready() -> void:
 	GameState.progress_stage_changed.connect(_on_stage_changed)
 	GameState.ending_started.connect(_on_ending_started)
 	_update_speed()
-	# InteractionArea가 아이템·NPC 레이어(4)를 감지하도록 설정
+	# InteractionArea 설정 보장
 	if interaction_area:
+		interaction_area.collision_layer = 0
 		interaction_area.collision_mask = 4  # layer 4 감지
 		interaction_area.monitoring = true
 		interaction_area.monitorable = false
+		var sh = interaction_area.get_node_or_null("CollisionShape2D") as CollisionShape2D
+		if sh and not sh.shape:
+			var circ = CircleShape2D.new()
+			circ.radius = 24.0
+			sh.shape = circ
 
 func _setup_animations() -> void:
 	if not sprite:
@@ -249,17 +255,33 @@ func _try_interact() -> void:
 	if DialogueManager.is_active():
 		DialogueManager.advance()
 		return
-	var areas = interaction_area.get_overlapping_areas()
-	for area in areas:
-		var parent = area.get_parent()
-		if parent and parent.has_method("on_interact"):
-			parent.on_interact()
-			return
-	var bodies = interaction_area.get_overlapping_bodies()
-	for body in bodies:
-		if body != self and body.has_method("on_interact"):
-			body.on_interact()
-			return
+
+	# 1차: Overlapping areas 탐색
+	if interaction_area:
+		var areas = interaction_area.get_overlapping_areas()
+		for area in areas:
+			var parent = area.get_parent()
+			if parent and parent.has_method("on_interact"):
+				parent.on_interact()
+				return
+		var bodies = interaction_area.get_overlapping_bodies()
+		for body in bodies:
+			if body != self and body.has_method("on_interact"):
+				body.on_interact()
+				return
+
+	# 2차 Fallback: 반경 40픽셀 내의 가장 가까운 interactable 오브젝트 탐색
+	var interactables = get_tree().get_nodes_in_group("interactable")
+	var closest_target: Node = null
+	var closest_dist: float = 40.0
+	for node in interactables:
+		if node is Node2D and is_instance_valid(node) and node.visible:
+			var d = global_position.distance_to(node.global_position)
+			if d < closest_dist and node.has_method("on_interact"):
+				closest_dist = d
+				closest_target = node
+	if closest_target:
+		closest_target.on_interact()
 
 # ─────────────────────────────────────────────
 # 독백

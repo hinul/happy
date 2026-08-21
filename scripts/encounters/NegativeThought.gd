@@ -12,6 +12,7 @@ var _is_interacted = false
 var _float_timer = 0.0
 
 func _ready() -> void:
+	add_to_group("interactable")
 	if GameState.is_event_done("thought_done_" + thought_id):
 		# 이미 상호작용 완료 — 작은 그림자로 표시
 		scale = Vector2(0.5, 0.5)
@@ -20,6 +21,23 @@ func _ready() -> void:
 	if sprite:
 		sprite.sprite_frames = _create_frames()
 		sprite.play("float")
+
+	var area = get_node_or_null("InteractionArea") as Area2D
+	if not area:
+		area = Area2D.new()
+		area.name = "InteractionArea"
+		add_child(area)
+	area.collision_layer = 4
+	area.collision_mask = 0
+	var sh = area.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if not sh:
+		sh = CollisionShape2D.new()
+		sh.name = "CollisionShape2D"
+		area.add_child(sh)
+	if not sh.shape:
+		var circ = CircleShape2D.new()
+		circ.radius = 18.0
+		sh.shape = circ
 
 func _process(delta: float) -> void:
 	_float_timer += delta

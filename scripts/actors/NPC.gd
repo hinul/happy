@@ -12,9 +12,12 @@ extends Node2D
 var _dialogue_stage: int = 0
 
 func _ready() -> void:
+	add_to_group("interactable")
 	if sprite:
 		sprite.sprite_frames = _create_npc_frames()
 		sprite.play("idle_" + initial_face_direction)
+
+	_setup_interaction_area()
 
 	GameState.progress_stage_changed.connect(_on_stage_changed)
 	_refresh_stage()
@@ -23,6 +26,24 @@ func _ready() -> void:
 	if not npc_id.is_empty():
 		var cell = Vector2i(int(global_position.x / 32), int(global_position.y / 32))
 		MapDiscoveryManager.add_icon(cell, "npc")
+
+func _setup_interaction_area() -> void:
+	var area = get_node_or_null("InteractionArea") as Area2D
+	if not area:
+		area = Area2D.new()
+		area.name = "InteractionArea"
+		add_child(area)
+	area.collision_layer = 4
+	area.collision_mask = 0
+	var shape_node = area.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if not shape_node:
+		shape_node = CollisionShape2D.new()
+		shape_node.name = "CollisionShape2D"
+		area.add_child(shape_node)
+	if not shape_node.shape:
+		var circ = CircleShape2D.new()
+		circ.radius = 18.0
+		shape_node.shape = circ
 
 func on_interact() -> void:
 	if DialogueManager.is_active():

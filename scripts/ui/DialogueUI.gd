@@ -27,6 +27,11 @@ func _ready() -> void:
 	if continue_icon:
 		continue_icon.text = "▼"
 
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		if DialogueManager.is_active():
+			DialogueManager.advance()
+
 func _setup_hint_label() -> void:
 	# 대화창 하단에 조작 힌트 레이블 추가
 	if not dialogue_panel:

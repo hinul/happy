@@ -13,6 +13,7 @@ var _collected = false
 var _bob_timer = 0.0
 
 func _ready() -> void:
+	add_to_group("interactable")
 	if GameState.has_item(item_id):
 		queue_free()
 		return
@@ -23,18 +24,23 @@ func _ready() -> void:
 		add_child(s)
 		sprite = s
 	sprite.texture = _create_item_texture()
-	# InteractionArea 없으면 자동 생성
-	if not has_node("InteractionArea"):
-		var area = Area2D.new()
+	# InteractionArea 설정 보장
+	var area = get_node_or_null("InteractionArea") as Area2D
+	if not area:
+		area = Area2D.new()
 		area.name = "InteractionArea"
-		area.collision_layer = 4
-		area.collision_mask = 0
-		var sh = CollisionShape2D.new()
-		var circ = CircleShape2D.new()
-		circ.radius = 10.0
-		sh.shape = circ
-		area.add_child(sh)
 		add_child(area)
+	area.collision_layer = 4
+	area.collision_mask = 0
+	var sh = area.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if not sh:
+		sh = CollisionShape2D.new()
+		sh.name = "CollisionShape2D"
+		area.add_child(sh)
+	if not sh.shape:
+		var circ = CircleShape2D.new()
+		circ.radius = 16.0
+		sh.shape = circ
 	# 지도에 아이템 아이콘 등록
 	if map_cell != Vector2i.ZERO:
 		MapDiscoveryManager.add_icon(map_cell, "item")

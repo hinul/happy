@@ -13,6 +13,7 @@ var _sprite: Sprite2D = null
 var _area: Area2D = null
 
 func _ready() -> void:
+	add_to_group("interactable")
 	if one_time_only and GameState.is_event_done("obj_" + object_id):
 		_interacted = true
 
@@ -29,19 +30,22 @@ func _build_sprite() -> void:
 	_sprite.texture = _create_object_texture()
 
 func _build_interaction_area() -> void:
-	# 이미 InteractionArea 가 있으면 재사용
 	_area = get_node_or_null("InteractionArea")
 	if not _area:
 		_area = Area2D.new()
 		_area.name = "InteractionArea"
-		_area.collision_layer = 4
-		_area.collision_mask = 0
-		var shape_node = CollisionShape2D.new()
-		var shape = CircleShape2D.new()
-		shape.radius = 14.0
-		shape_node.shape = shape
-		_area.add_child(shape_node)
 		add_child(_area)
+	_area.collision_layer = 4
+	_area.collision_mask = 0
+	var shape_node = _area.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if not shape_node:
+		shape_node = CollisionShape2D.new()
+		shape_node.name = "CollisionShape2D"
+		_area.add_child(shape_node)
+	if not shape_node.shape:
+		var shape = CircleShape2D.new()
+		shape.radius = 18.0
+		shape_node.shape = shape
 
 func _process(delta: float) -> void:
 	if _interacted:

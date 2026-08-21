@@ -11,10 +11,28 @@ var _phase: int = 0
 var _is_interacted: bool = false
 
 func _ready() -> void:
+	add_to_group("interactable")
 	if sprite:
 		sprite.sprite_frames = _create_shadow_frames()
 		sprite.play("float")
 	_refresh_from_state()
+
+	var area = get_node_or_null("InteractionArea") as Area2D
+	if not area:
+		area = Area2D.new()
+		area.name = "InteractionArea"
+		add_child(area)
+	area.collision_layer = 4
+	area.collision_mask = 0
+	var sh = area.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if not sh:
+		sh = CollisionShape2D.new()
+		sh.name = "CollisionShape2D"
+		area.add_child(sh)
+	if not sh.shape:
+		var circ = CircleShape2D.new()
+		circ.radius = 18.0
+		sh.shape = circ
 
 func _refresh_from_state() -> void:
 	if is_doubt_boss:

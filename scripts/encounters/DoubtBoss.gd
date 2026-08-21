@@ -16,6 +16,7 @@ var _player_positions: Array[Vector2] = []
 const RECORD_INTERVAL = 0.05
 
 func _ready() -> void:
+	add_to_group("interactable")
 	_phase = GameState.boss_state
 	if sprite:
 		sprite.sprite_frames = _create_shadow_frames()
@@ -25,6 +26,23 @@ func _ready() -> void:
 		# 이미 완료된 보스 — 작은 그림자로 따라다님
 		scale = Vector2(0.3, 0.3)
 		modulate.a = 0.45
+
+	var area = get_node_or_null("InteractionArea") as Area2D
+	if not area:
+		area = Area2D.new()
+		area.name = "InteractionArea"
+		add_child(area)
+	area.collision_layer = 4
+	area.collision_mask = 0
+	var sh = area.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if not sh:
+		sh = CollisionShape2D.new()
+		sh.name = "CollisionShape2D"
+		area.add_child(sh)
+	if not sh.shape:
+		var circ = CircleShape2D.new()
+		circ.radius = 20.0
+		sh.shape = circ
 
 func _process(delta: float) -> void:
 	if not _player_ref:
