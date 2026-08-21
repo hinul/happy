@@ -192,7 +192,7 @@ script = null
 [node name="RegionExits" type="Node2D" parent="."]
 
 [node name="ToVillage" type="Area2D" parent="RegionExits"]
-position = Vector2(620, 200)
+position = Vector2(580, 200)
 script = ExtResource("6_exit")
 target_region = "small_village"
 spawn_point = "from_forest"
