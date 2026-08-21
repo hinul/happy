@@ -72,8 +72,12 @@ func _on_dialogue_done() -> void:
 	if unlocks_score_ui:
 		GameState.score_ui_unlocked = true
 		var ui = get_tree().get_first_node_in_group("score_ui")
-		if ui and ui.has_method("animate_icon"):
-			ui.animate_icon()
+		if ui:
+			if ui.has_method("animate_icon"):
+				ui.animate_icon()
+			ui.show()
+			if ui.has_method("_rebuild"):
+				ui._rebuild()
 
 # ─────────────────────────────────────────────
 # 절차적 텍스처 생성

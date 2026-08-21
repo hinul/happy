@@ -19,9 +19,12 @@ func _ready() -> void:
 	_build_note_slots()
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_just_pressed("open_score"):
-		if not GameState.score_ui_unlocked:
-			return
+	var pressed_score_key = event.is_action_just_pressed("open_score")
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.physical_keycode == KEY_T or event.physical_keycode == KEY_N:
+			pressed_score_key = true
+
+	if pressed_score_key:
 		if visible:
 			hide()
 		elif not GameState.is_dialogue_active:
